@@ -1,0 +1,232 @@
+% =============================================================
+% Informe Final - Proyecto Integrador
+% Sistema Automatizado de Control de Longitud de Onda
+% para LiDAR de Alta Resolucion Espectral (HSRL)
+%
+% Universidad Nacional de Cordoba
+% Facultad de Ciencias Exactas, Fisicas y Naturales
+% Carrera Ingenieria Electronica
+%
+% Documento maestro. Compilar con pdflatex + biber:
+%   pdflatex main.tex
+%   biber main
+%   pdflatex main.tex
+%   pdflatex main.tex
+% =============================================================
+
+\documentclass[a4paper,11pt,twoside]{book}
+
+% ---------- Idioma y codificacion ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{textcomp} % simbolos como \textcelsius
+
+% Nombres de secciones segun el manual de estilo (difieren de los
+% predeterminados por babel-spanish: "Indice general", "Indice de
+% tablas/figuras").
+\addto\captionsspanish{%
+  \renewcommand{\contentsname}{\'Indice}
+  \renewcommand{\listtablename}{Lista de Tablas}
+  \renewcommand{\listfigurename}{Lista de Figuras}
+}
+
+% ---------- Tipografia (Times New Roman 11 segun manual de estilo) ----------
+% Alternativa Arial: comentar mathptmx y descomentar helvet + sfdefault
+\usepackage{mathptmx}
+% \usepackage{helvet}
+% \renewcommand{\familydefault}{\sfdefault}
+
+% ---------- Geometria de pagina (manual de estilo de la Catedra PI) ----------
+% Superior, inferior y derecho: 2,5 cm - Izquierdo (encuadernacion): 3 cm
+\usepackage[a4paper,twoside,left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+% ---------- Interlineado ----------
+\usepackage{setspace}
+\onehalfspacing % 1,5 espacios en el cuerpo del texto
+
+% ---------- Figuras, tablas, graficos ----------
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{rotating} % hojas apaisadas para diagramas grandes
+
+% Figuras y tablas se separan del texto con 3 espacios (manual de
+% estilo); formato de leyenda "Figura N: Descripcion (Fuente: ...)".
+\captionsetup{
+  labelfont=bf,
+  labelsep=colon,
+  font=singlespacing,
+  skip=3\baselineskip,
+  justification=justified
+}
+
+% ---------- Matematica ----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ---------- Codigo fuente (firmware / software) ----------
+\usepackage{listings}
+\usepackage{xcolor}
+
+% ---------- Titulos de capitulo, seccion y subseccion ----------
+% Capitulo: negrita 14 - Seccion: negrita 12 (numero seguido de punto,
+% ej. "1.1.") - Subseccion: normal 12 (ej. "1.1.1"). Despues del titulo
+% de Capitulo o Seccion: 3 espacios (aprox. 3 interlineados).
+\usepackage{titlesec}
+\titleformat{\chapter}[block]
+  {\normalfont\bfseries\fontsize{14}{17}\selectfont}
+  {Cap\'itulo \thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{0pt}{3\baselineskip}
+
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{12}{14}\selectfont}{\thesection.}{1em}{}
+\titlespacing*{\section}{0pt}{1.5\baselineskip}{3\baselineskip}
+
+\titleformat{\subsection}
+  {\normalfont\fontsize{12}{14}\selectfont}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{1\baselineskip}{1.5\baselineskip}
+
+% ---------- Bibliografia y referencias ----------
+% Numeracion continua entre Bibliografia (solo libros con ISBN) y Referencias
+% (todo lo demas: links, hojas de datos, apuntes, IA, etc.)
+\usepackage[
+  backend=biber,
+  style=numeric,
+  sorting=none,
+  defernumbers=true
+]{biblatex}
+\addbibresource{bibliografia.bib}
+% Bibliografia/Referencias: espacio simple dentro de cada entrada y
+% separacion de 1,5 interlineados entre entradas (manual de estilo).
+\AtBeginBibliography{\singlespacing}
+\setlength{\bibitemsep}{1.5\baselineskip}
+\setlength{\bibhang}{0pt}
+
+% Notas al pie y citas textuales en espacio simple (manual de estilo),
+% independientemente del interlineado 1,5 del cuerpo del texto. El
+% paquete setspace tipografia las notas al pie a espacio simple en
+% forma automatica; solo se fuerza el espaciado en citas textuales.
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\singlespacing}
+\AtBeginEnvironment{quotation}{\singlespacing}
+
+% ---------- Encabezados y pies de pagina ----------
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ---------- Hipervinculos ----------
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+% =============================================================
+\begin{document}
+
+% -------------------------------------------------------------
+% PORTADA (no se numera; la numeracion romana visible comienza
+% en la pagina siguiente, con la Hoja de Aprobacion del Tribunal)
+% -------------------------------------------------------------
+\input{portada}
+
+% -------------------------------------------------------------
+% PRELIMINARES (numeracion romana)
+% -------------------------------------------------------------
+\pagenumbering{roman}
+% El manual de estilo pide numeros romanos en minuscula lisa (i, ii,
+% iii...); babel-spanish los tipografia por defecto en versalitas
+% (\es@scroman), por lo que se neutraliza ese formato.
+\makeatletter
+\renewcommand{\es@scroman}[1]{#1}
+\makeatother
+\renewcommand{\thepage}{\roman{page}}
+\input{preliminares/aprobacion_tribunal}
+\input{preliminares/aval_director}
+\input{preliminares/dedicatoria}
+\input{preliminares/agradecimientos}
+\input{preliminares/resumen}
+\input{preliminares/abstract}
+\input{preliminares/resumo}
+
+\cleardoublepage
+\tableofcontents
+
+\cleardoublepage
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+
+\cleardoublepage
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
+
+\cleardoublepage
+\input{preliminares/lista_simbolos}
+
+% -------------------------------------------------------------
+% CUERPO DEL INFORME (numeracion arabiga desde Capitulo 1)
+% -------------------------------------------------------------
+\mainmatter
+
+\input{capitulos/cap01_introduccion}
+
+\part{Marco Te\'orico}
+\input{capitulos/cap02_lidar_hsrl}
+\input{capitulos/cap03_fotodeteccion}
+\input{capitulos/cap04_sistemas_embebidos}
+\input{capitulos/cap05_control_hmi}
+
+\part{Marco Metodol\'ogico}
+\input{capitulos/cap06_deteccion_picos}
+\input{capitulos/cap07_placa_control}
+\input{capitulos/cap08_firmware}
+\input{capitulos/cap09_software_hmi}
+\input{capitulos/cap10_modelo_experimental}
+
+\part{Resultados y Conclusiones}
+\input{resultados}
+\input{conclusiones}
+
+% -------------------------------------------------------------
+% BIBLIOGRAFIA Y REFERENCIAS (numeracion continua)
+% -------------------------------------------------------------
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliograf\'ia}
+\printbibliography[type=book,title={Bibliograf\'ia},heading=none]
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Referencias}
+\printbibliography[nottype=book,title={Referencias},heading=none]
+
+% -------------------------------------------------------------
+% ANEXOS
+% -------------------------------------------------------------
+\appendix
+
+\input{anexos/anexoI_hojas_datos}
+\input{anexos/anexoII_manual_seeder}
+\input{anexos/anexoIII_codigo}
+\input{anexos/anexoIV_ilrc32}
+
+% -------------------------------------------------------------
+% ANEXO DE LA CATEDRA PI (SAT e Informes Mensuales)
+% -------------------------------------------------------------
+\backmatter
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Anexo del Proyecto Integrador}
+\chapter*{Anexo del Proyecto Integrador}
+
+\input{anexos/sat}
+\input{anexos/informes_mensuales}
+
+\end{document}

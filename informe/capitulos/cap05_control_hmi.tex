@@ -1,0 +1,63 @@
+% =============================================================
+% Capitulo 5 - Control automatico e interfaces humano-maquina
+% =============================================================
+\chapter{Control autom\'atico e interfaces humano-m\'aquina}
+\label{cap:control_hmi}
+
+\section{Lazo de control de sintonizaci\'on de longitud de onda}
+\label{sec:lazo_control}
+
+El lazo de control abordado en este proyecto tiene como variable
+controlada la temperatura de cavidad del l\'aser seeder, de la cual
+depende proporcionalmente la longitud de onda sintonizada, y como
+variable medida la diferencia entre las amplitudes de las se\~nales
+$P_+$ y $P_-$ obtenidas de los fotodetectores del sistema (ver
+Secci\'on~\ref{sec:hsrl_pilar}) \cite{sat2026}. El sistema encuentra el
+punto de trabajo correcto cuando dicha diferencia se anula, es decir,
+cuando las se\~nales $P_+$ y $P_-$ se igualan \cite{sat2026}.
+
+\section{Control proporcional aplicado al error de sintonizaci\'on}
+\label{sec:control_proporcional}
+
+La se\~nal de error del lazo se define como
+
+\begin{equation}
+  e(k) = P_+(k) - P_-(k)
+  \label{eq:error_control}
+\end{equation}
+
+\noindent donde $P_+(k)$ y $P_-(k)$ son los valores de pico medidos por
+los detectores en la iteraci\'on $k$ \cite{informeMarzo2026}. Se
+utiliza una ley de control proporcional para actualizar la temperatura
+de consigna del seeder:
+
+\begin{equation}
+  T(k) = T(k-1) - K_p \, e(k)
+  \label{eq:ley_control}
+\end{equation}
+
+\noindent siendo $K_p$ la constante proporcional del controlador
+\cite{informeMarzo2026}. El detalle de la implementaci\'on de esta ley
+de control en el firmware del microcontrolador se presenta en la
+Secci\'on~\ref{sec:algoritmo_control}.
+
+% PLACEHOLDER: justificar teoricamente la eleccion de un controlador
+% proporcional (sin terminos integral/derivativo) y, de corresponder,
+% incorporar el analisis de estabilidad y el criterio de ajuste de
+% Kp una vez determinado experimentalmente.
+
+\section{Principios de dise\~no de interfaces humano-m\'aquina (norma ISA-101)}
+\label{sec:isa101}
+
+El software de interfaz humano-m\'aquina (HMI) del sistema se dise\~na
+tomando como base los lineamientos de la norma ISA-101
+\cite{informeAbril2026}. Dicha interfaz, desarrollada en Python, tiene
+por objetivo permitir la interacci\'on entre el operador y el
+microcontrolador de la placa de control, incluyendo la visualizaci\'on
+del estado de sintonizaci\'on del sistema y la modificaci\'on de
+par\'ametros y funciones de operaci\'on \cite{sat2026,informeAbril2026}.
+
+% PLACEHOLDER: desarrollar los principios generales de la norma ISA-101
+% (jerarquia de pantallas, uso del color, gestion de alarmas) y su
+% aplicacion concreta al diseno del HMI una vez avanzado su desarrollo
+% (ver Capitulo \ref{cap:software_hmi}).

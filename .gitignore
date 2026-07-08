@@ -1,0 +1,30 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Bibliografia (biblatex/biber)
+*-blx.bib
+*.bcf
+
+# Archivos temporales de edicion
+*~
+*.bak
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

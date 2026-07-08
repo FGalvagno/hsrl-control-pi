@@ -1,0 +1,73 @@
+% =============================================================
+% Capitulo 7 - Diseno e implementacion de la placa de control
+% =============================================================
+\chapter{Dise\~no e implementaci\'on de la placa de control}
+\label{cap:placa_control}
+
+\section{Selecci\'on del microcontrolador y arquitectura general}
+\label{sec:arquitectura_general}
+
+La placa de control integra un microcontrolador RP2350, sobre el
+m\'odulo comercial Raspberry Pi Pico, seleccionado seg\'un los criterios
+descritos en la Secci\'on~\ref{sec:rp2350} \cite{informeEneFeb2026,kicad_hsrl}.
+A nivel de arquitectura general, la placa recibe la se\~nal
+acondicionada por el circuito detector de picos (Cap\'itulo~\ref{cap:diseno_deteccion_picos}),
+la digitaliza mediante el ADC integrado del microcontrolador, calcula la
+se\~nal de error y la acci\'on de control correspondiente, y comunica el
+cambio de temperatura resultante al l\'aser seeder a trav\'es de un
+enlace serie \cite{sat2026}. Un conjunto de LEDs y un display indican el
+estado del sistema, mientras que la comunicaci\'on con la PC se realiza
+por USB \cite{sat2026}.
+
+% PLACEHOLDER: incorporar el diagrama en bloques definitivo de la placa
+% (a partir del esquematico de KiCad) y la descripcion de cada bloque
+% funcional una vez validada la version final del hardware.
+
+\section{Circuito de comunicaci\'on con el seeder}
+\label{sec:comunicacion_seeder}
+
+Para la comunicaci\'on entre el microcontrolador y el l\'aser seeder se
+incorpor\'o a la placa un circuito transceptor RS232. Se seleccion\'o el
+circuito integrado MAX3232 por su simplicidad de implementaci\'on y su
+baja cantidad de componentes externos requeridos
+\cite{informeMarzo2026}, conectado a un conector f\'isico DE9
+\cite{kicad_hsrl}. El manual de comunicaci\'on del seeder, que detalla
+los comandos que deben enviarse por puerto serie para operar el sistema
+l\'aser, fue solicitado directamente al fabricante OEM del equipo, NP
+Photonics (Estados Unidos) \cite{informeMarzo2026}, y se incluye en el
+Anexo~\ref{anexo:manual_seeder}. La correcta funcionalidad de esta
+comunicaci\'on fue verificada de acuerdo a lo especificado en dicho
+manual \cite{informeAbril2026}.
+
+\section{Dise\~no esquem\'atico y layout en KiCad}
+\label{sec:esquematico_layout}
+
+El dise\~no esquem\'atico y el layout de la placa se realizaron en
+KiCad~9.0 \cite{informeMarzo2026}, organiz\'andose en hojas
+independientes para la etapa de detecci\'on anal\'ogica y para la etapa
+digital del sistema \cite{kicad_hsrl}. Entre los componentes principales
+incluidos en el dise\~no se encuentran el amplificador AD8004, el
+transistor BC817, el transceptor MAX3232, el m\'odulo Raspberry Pi Pico,
+el conector coaxial de entrada para la se\~nal del fotodetector y el
+conector DE9 para la comunicaci\'on RS232 \cite{kicad_hsrl}.
+
+% PLACEHOLDER: agregar capturas del esquematico y del layout final
+% (PCB), asi como la justificacion de la disposicion de capas y el
+% stack-up utilizado.
+
+\section{Fabricaci\'on, ensamble y puesta a punto}
+\label{sec:fabricacion_ensamble}
+
+La primera revisi\'on de la placa se encarg\'o al fabricante PCBWay,
+con un plazo de fabricaci\'on de 48~horas h\'abiles y un env\'io por DHL
+de aproximadamente dos semanas \cite{informeMarzo2026}. Una revisi\'on
+posterior de la placa se encarg\'o a la empresa JLCPCB
+\cite{informeAbril2026}, obteni\'endose el prototipo utilizado para las
+validaciones descritas en la Secci\'on~\ref{sec:prototipado_validacion}.
+
+PLACEHOLDER: la fabricaci\'on, el ensamble final y la puesta a punto
+integral de la placa de control se encuentran en curso al momento de
+redacci\'on de este informe; esta secci\'on debe completarse con la
+descripci\'on del proceso de ensamble definitivo, las pruebas de
+puesta en marcha y los ajustes realizados sobre la versi\'on final de
+la placa.

@@ -1,0 +1,124 @@
+% =============================================================
+% Capitulo 6 - Diseno del circuito de deteccion de picos
+% =============================================================
+\chapter{Dise\~no del circuito de detecci\'on de picos}
+\label{cap:diseno_deteccion_picos}
+
+\section{Modelado y simulaci\'on del circuito}
+\label{sec:modelado_simulacion}
+
+El circuito detector de picos dise\~nado consta de dos CFA conectados
+como seguidores/amplificadores no inversores y un transistor que
+funciona como elemento de detecci\'on \cite{informeEneFeb2026}. El
+operacional X1 adapta la impedancia de salida del amplificador de
+transimpedancia (modelado como un bloque para simplificar el
+an\'alisis). El transistor T2 se emplea como diodo detector en su
+uni\'on base-emisor, cargando el circuito RC conformado por $R_4$ y
+$C_1$. El operacional X2 act\'ua como buffer de salida, evitando que la
+impedancia de entrada del ADC (modelada mediante $R_7$) descargue el
+capacitor de retenci\'on antes de la digitalizaci\'on
+\cite{informeEneFeb2026}. En la presentaci\'on realizada en el ILRC32 se
+describi\'o adicionalmente la configuraci\'on de ganancia de ambos CFA
+como no inversores, con ganancias $G_1 = 2$ y $G_2 = 1$ respectivamente,
+y el transistor operando en configuraci\'on seguidor de emisor,
+permitiendo \'unicamente la carga del circuito RC
+\cite{galvagno2026ilrc}.
+
+Partiendo de la ecuaci\'on est\'andar de carga de un circuito RC,
+
+\begin{equation}
+  V_C(t) = V_O \left(1 - e^{-t/R_4 C_1}\right)
+  \label{eq:carga_rc}
+\end{equation}
+
+\noindent y considerando que, para $t/R_4C_1 \ll 1$, dicha expresi\'on
+puede aproximarse como
+
+\begin{equation}
+  V_C(t) \approx V_O \, \frac{t}{R_4 C_1}
+  \label{eq:carga_rc_lineal}
+\end{equation}
+
+\noindent se obtiene una relaci\'on lineal entre la tensi\'on retenida
+y la tensi\'on de pico de entrada, sin necesidad de cargar completamente
+el capacitor $C_1$. Esto permite utilizar valores de capacidad que
+otorguen tiempos de descarga suficientemente grandes como para
+digitalizar el valor de pico $V_O$ \cite{informeEneFeb2026}.
+
+El circuito se model\'o utilizando el modelo del amplificador AD8004 y
+se simul\'o en NGSPICE para distintos valores de tensi\'on de entrada
+$V_{in}$ \cite{galvagno2026ilrc}. A partir de 25 barridos con diferentes
+valores de $V_{in}$, se verific\'o la linealidad del circuito a partir
+de $V_i = 0.8$~V, valor determinado por la tensi\'on de salida m\'inima
+alcanzable por los CFA utilizados en un esquema de alimentaci\'on de un
+\'unico riel de +12~V \cite{informeEneFeb2026}. La salida del detector
+se ley\'o 5~\textmu s despu\'es del pulso, instante en el cual un ADC
+que muestrea a 500~ksps puede capturar correctamente el valor retenido
+\cite{galvagno2026ilrc}.
+
+\section{Selecci\'on de componentes}
+\label{sec:seleccion_componentes_deteccion}
+
+El amplificador operacional realimentado por corriente AD8004 fue
+seleccionado por su elevado \emph{slew-rate}, adecuado para la
+aplicaci\'on \cite{informeEneFeb2026}. El circuito integrado utilizado
+en el prototipo fue provisto como muestra gratuita por Analog Devices
+\cite{informeMarzo2026}. Como elemento detector se emple\'o un
+transistor BJT BC817 \cite{kicad_hsrl}.
+
+% PLACEHOLDER: completar la tabla de componentes definitiva (valores de
+% R4, C1, R7 y resistencias/capacitores de la red de realimentacion) una
+% vez cerrado el diseno final de la placa comercial.
+
+\section{Prototipado y validaci\'on experimental}
+\label{sec:prototipado_validacion}
+
+Se ensambl\'o un primer prototipo del circuito mediante la t\'ecnica de
+papel transfer y ataque qu\'imico con cloruro f\'errico, utilizando
+componentes de montaje superficial (SMD) dada la sensibilidad del
+circuito a las capacidades par\'asitas \cite{informeMarzo2026}. Al
+excitar el circuito con un pulso de prueba de 100~ns de ancho y 20~Hz de
+frecuencia, se observaron oscilaciones en los amplificadores
+operacionales atribuibles a las capacidades par\'asitas propias de la
+condici\'on de prototipo de la placa, que reduc\'ian la linealidad
+necesaria del detector \cite{informeMarzo2026}.
+
+Tras la fabricaci\'on industrial de una nueva placa (ver
+Secci\'on~\ref{sec:mitigacion_parasitos}), se repiti\'o el ensayo con un
+pulso de 100~ns, comprob\'andose la resoluci\'on de las oscilaciones
+previamente observadas \cite{informeAbril2026}. Se verific\'o adem\'as
+la linealidad del detector realizando 20 mediciones con saltos
+discretos de amplitud de entrada de 200~mV, entre 1.2~V y 5~V, leyendo
+el valor de salida tras un tiempo de asentamiento de 700~ns, con
+resultados consistentes con los obtenidos en la simulaci\'on
+\cite{informeAbril2026}.
+
+% PLACEHOLDER: agregar comparacion cuantitativa entre los valores
+% simulados y medidos (error relativo, linealidad, ancho de banda
+% efectivo) cuando se disponga del analisis de datos completo.
+
+\section{Dise\~no de PCB y mitigaci\'on de efectos par\'asitos}
+\label{sec:mitigacion_parasitos}
+
+Para reducir el efecto de las capacidades par\'asitas identificadas en
+la etapa de prototipado, se rediseñ\'o la placa aplicando las siguientes
+buenas pr\'acticas de ruteo \cite{informeMarzo2026}:
+
+\begin{itemize}
+  \item Mantenimiento de planos de masa con recortes (\emph{cutouts})
+        debajo de los pines de entrada y de la red de realimentaci\'on.
+  \item Ubicaci\'on de los componentes de la red de realimentaci\'on lo
+        m\'as cerca posible del amplificador, con el resistor $R_f$
+        conectado directamente entre el pin de salida y el pin $-IN$
+        sin v\'ias intermedias.
+  \item Colocaci\'on de capacitores de desacople en los pines de
+        alimentaci\'on con v\'ia directa al plano de masa.
+  \item Separaci\'on de las pistas de entrada respecto de l\'ineas de
+        alta frecuencia o se\~nales ruidosas adyacentes.
+  \item Reducci\'on del encapsulado de las resistencias SMD de 1206 a
+        0603, disminuyendo adem\'as su tolerancia de 5\,\% a 1\,\%.
+\end{itemize}
+
+La placa resultante se dise\~n\'o en KiCad~9.0 \cite{informeMarzo2026,kicad_hsrl}
+y se encarg\'o inicialmente a la empresa PCBWay y, posteriormente, a la
+empresa JLCPCB \cite{informeMarzo2026,informeAbril2026}.

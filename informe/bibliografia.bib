@@ -1,0 +1,132 @@
+% =============================================================
+% Bibliografia y Referencias
+% =============================================================
+% En "Bibliografia" van UNICAMENTE libros en papel o e-book con ISBN
+% (entradas @book). En "Referencias" va todo lo demas: sitios web,
+% hojas de datos, normas, apuntes, informes internos de la Catedra PI,
+% material generado con IA, etc. (entradas @online, @misc, @techreport,
+% @inproceedings, @manual, etc.)
+%
+% La numeracion es continua entre ambos apartados (definida en main.tex
+% mediante la opcion defernumbers=true de biblatex).
+
+% ---------------------------------------------------------------
+% BIBLIOGRAFIA (libros con ISBN)
+% ---------------------------------------------------------------
+
+@book{weitkamp2005,
+  editor    = {Weitkamp, Claus},
+  title     = {Lidar: Range-Resolved Optical Remote Sensing of the Atmosphere},
+  series    = {Springer Series in Optical Sciences},
+  volume    = {102},
+  year      = {2005},
+  publisher = {Springer},
+  isbn      = {0-387-40075-3}
+}
+
+@book{kovalev2015,
+  author    = {Kovalev, Vladimir A.},
+  title     = {Solutions in Lidar Profiling of the Atmosphere},
+  year      = {2015},
+  publisher = {John Wiley \& Sons},
+  isbn      = {978-1-118-96327-2}
+}
+
+% ---------------------------------------------------------------
+% REFERENCIAS (informes internos, hojas de datos, notas de aplicacion,
+% presentaciones y demas material sin ISBN)
+% ---------------------------------------------------------------
+
+@techreport{sat2026,
+  author      = {Galvagno, Facundo Nahuel},
+  title       = {Solicitud de Aprobaci{\'o}n de Tema (SAT) -- Sistema
+                 Automatizado de Control de Longitud de Onda para LiDAR
+                 de Alta Resoluci{\'o}n Espectral},
+  institution = {C{\'a}tedra Proyecto Integrador, FCEFyN, Universidad
+                 Nacional de C{\'o}rdoba},
+  year        = {2026},
+  type        = {Documento interno}
+}
+
+@techreport{pps2025,
+  author      = {Galvagno, Facundo Nahuel},
+  title       = {Pr{\'a}ctica Profesional Supervisada: Optimizaci{\'o}n y
+                 Operaci{\'o}n de LiDAR de Alta Resoluci{\'o}n Espectral},
+  institution = {FCEFyN, Universidad Nacional de C{\'o}rdoba},
+  year        = {2025},
+  type        = {Informe de PPS}
+}
+
+@techreport{informeEneFeb2026,
+  author      = {Galvagno, Facundo Nahuel},
+  title       = {Informe de Avance Mensual -- Enero/Febrero 2026},
+  institution = {C{\'a}tedra Proyecto Integrador, FCEFyN, Universidad
+                 Nacional de C{\'o}rdoba},
+  year        = {2026},
+  type        = {Informe de avance}
+}
+
+@techreport{informeMarzo2026,
+  author      = {Galvagno, Facundo Nahuel},
+  title       = {Informe de Avance Mensual -- Marzo 2026},
+  institution = {C{\'a}tedra Proyecto Integrador, FCEFyN, Universidad
+                 Nacional de C{\'o}rdoba},
+  year        = {2026},
+  type        = {Informe de avance}
+}
+
+@techreport{informeAbril2026,
+  author      = {Galvagno, Facundo Nahuel},
+  title       = {Informe de Avance Mensual -- Abril 2026},
+  institution = {C{\'a}tedra Proyecto Integrador, FCEFyN, Universidad
+                 Nacional de C{\'o}rdoba},
+  year        = {2026},
+  type        = {Informe de avance}
+}
+
+@inproceedings{galvagno2026ilrc,
+  author    = {Galvagno, Facundo and Jin, Yoshitaka and Papandrea,
+               Sebasti{\'a}n and Puig, Lucas M. D. and Pallotta, Juan V.
+               and Verstraeten, Federico and Wolfram, Elian},
+  title     = {Advances on Automation of Wavelength Tuning for High
+               Spectral Resolution Lidar},
+  booktitle = {32nd International Laser Radar Conference (ILRC32)},
+  year      = {2026},
+  address   = {5--10 July 2026}
+}
+
+@techreport{hamamatsu2025,
+  author      = {{Hamamatsu Photonics}},
+  title       = {Si Photodiodes},
+  institution = {Hamamatsu Photonics K.K.},
+  year        = {2025},
+  type        = {Technical note},
+  number      = {KSPD9001E04}
+}
+
+@techreport{microchip2011,
+  author      = {Ducu, Dragos},
+  title       = {Op Amp Rectifiers, Peak Detectors and Clamps},
+  institution = {Microchip Technology Inc.},
+  year        = {2011},
+  type        = {Application Note},
+  number      = {AN1353}
+}
+
+@online{adi_pkd01,
+  author = {{Analog Devices}},
+  title  = {PKD01: Monolithic Peak Detector with Reset-and-Hold Mode},
+  note   = {Hoja de datos de componente}
+}
+
+@online{adi_ltc6244,
+  author = {{Analog Devices}},
+  title  = {Detector de picos de alta velocidad LTC6244},
+  note   = {Art{\'i}culo t{\'e}cnico}
+}
+
+@misc{kicad_hsrl,
+  author = {Galvagno, Facundo Nahuel},
+  title  = {hsrl-control-pi -- Proyecto KiCad de la placa de control},
+  note   = {Repositorio del proyecto}
+}

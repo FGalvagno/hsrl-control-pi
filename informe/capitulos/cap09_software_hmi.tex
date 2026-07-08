@@ -1,0 +1,42 @@
+% =============================================================
+% Capitulo 9 - Desarrollo del software de interfaz (HMI)
+% =============================================================
+\chapter{Desarrollo del software de interfaz (HMI)}
+\label{cap:software_hmi}
+
+\section{Requisitos funcionales y de dise\~no}
+\label{sec:requisitos_hmi}
+
+El software HMI debe permitir la interacci\'on entre el usuario y el
+microcontrolador de la placa de control, incluyendo la visualizaci\'on
+del estado de sintonizaci\'on del sistema, la lectura de par\'ametros
+del lazo de control y la modificaci\'on de funciones y \emph{setpoints}
+de operaci\'on \cite{sat2026}. Su dise\~no toma como base los
+lineamientos de la norma ISA-101 introducidos en la
+Secci\'on~\ref{sec:isa101} \cite{informeAbril2026}.
+
+\section{Arquitectura del software en Python}
+\label{sec:arquitectura_python}
+
+Se implement\'o un primer borrador del HMI en Python, utilizando la
+biblioteca Tkinter para la interfaz gr\'afica y la biblioteca
+\texttt{serial} para la comunicaci\'on por puerto USB con la placa de
+control \cite{informeAbril2026}. El c\'odigo fuente del HMI se
+documenta y versiona en el repositorio del proyecto \cite{kicad_hsrl}.
+
+% PLACEHOLDER: describir la arquitectura definitiva del software (
+% modulos, manejo de hilos/eventos para la comunicacion serie,
+% estructura de pantallas) una vez avanzado su desarrollo.
+
+\section{Comunicaci\'on con la placa de control}
+\label{sec:comunicacion_placa}
+
+Al momento de redacci\'on de este informe, se encuentra funcional
+\'unicamente la comunicaci\'on en sentido placa-PC, permitiendo obtener
+desde el HMI el estado de sintonizaci\'on del sistema y sus par\'ametros
+\cite{informeAbril2026}.
+
+PLACEHOLDER: completar esta secci\'on con la implementaci\'on de la
+comunicaci\'on en sentido PC-placa (env\'io de comandos y
+\emph{setpoints}) y con las capturas de pantalla del HMI en su versi\'on
+final.

@@ -1,0 +1,102 @@
+% =============================================================
+% Capitulo 3 - Fotodeteccion y acondicionamiento de senales pulsadas
+% =============================================================
+\chapter{Fotodetecci\'on y acondicionamiento de se\~nales pulsadas}
+\label{cap:fotodeteccion}
+
+\section{Modelo del fotodiodo y amplificador de transimpedancia}
+\label{sec:modelo_fotodiodo}
+
+Un fotodiodo es un sensor \'optico que genera una corriente o tensi\'on
+al incidir luz sobre la uni\'on PN del semiconductor que lo compone,
+utilizado habitualmente para detectar la presencia, intensidad o color
+de una se\~nal luminosa \cite{hamamatsu2025}. La corriente de salida de
+un fotodiodo puede describirse mediante el modelo de diodo con fuente
+de corriente dependiente de la luz incidente:
+
+\begin{equation}
+  I_O = I_L - I_S \left(\exp\left(\frac{q\,V_D}{k\,T}\right)\right) - I'
+  \label{eq:fotodiodo}
+\end{equation}
+
+\noindent donde $I_L$ es la corriente generada por la luz incidente,
+$I_S$ es la corriente de saturaci\'on inversa del fotodiodo, $I'$ es la
+corriente de fuga a trav\'es de la resistencia shunt, $k$ es la
+constante de Boltzmann y $T$ es la temperatura absoluta del fotodiodo
+\cite{informeEneFeb2026,galvagno2026ilrc}. La corriente de salida del
+fotodiodo se convierte habitualmente en una tensi\'on mediante un
+amplificador de transimpedancia (TIA), cuya salida $V_O$ es la magnitud
+efectivamente medida por el sistema de acondicionamiento
+\cite{informeEneFeb2026}.
+
+Cuando la fuente de luz se apaga ($I_L = 0$), la corriente de salida del
+fotodiodo exhibe un decaimiento exponencial. En el sistema HSRL de
+Pilar, el l\'aser host permanece encendido durante un intervalo muy
+breve (entre 4~ns y 6~ns, propio del l\'aser Surelite~II utilizado
+\cite{galvagno2026ilrc}), por lo que de la se\~nal medida en cada disparo
+\'unicamente resulta relevante el valor de pico, correspondiente al
+instante en que el fotodiodo es efectivamente iluminado
+\cite{informeEneFeb2026}.
+
+% PLACEHOLDER: incorporar el circuito equivalente completo del
+% fotodiodo (capacidad de union, resistencia shunt, resistencia serie)
+% siguiendo \cite{hamamatsu2025} si se requiere mayor detalle teorico.
+
+\section{Detecci\'on del valor pico en se\~nales de corta duraci\'on}
+\label{sec:deteccion_pico}
+
+Dado que el pulso de inter\'es dura solo unos pocos nanosegundos,
+existen en principio dos estrategias para determinar su valor de pico
+\cite{informeEneFeb2026}:
+
+\begin{itemize}
+  \item Utilizar un conversor anal\'ogico-digital (ADC) ultrarr\'apido
+        que muestree la se\~nal completa, detectando el m\'aximo por
+        software.
+  \item Implementar un circuito detector de picos anal\'ogico que
+        retenga el valor de la se\~nal el tiempo suficiente como para
+        ser digitalizado por un ADC de menor velocidad.
+\end{itemize}
+
+La segunda opci\'on resulta m\'as econ\'omica y pr\'actica, por lo que
+fue la adoptada en este proyecto \cite{informeEneFeb2026}. Las
+topolog\'ias cl\'asicas de detector de picos, basadas en un diodo y un
+capacitor de retenci\'on realimentados por un amplificador operacional
+\cite{microchip2011}, o en circuitos integrados dedicados como el PKD01
+\cite{adi_pkd01}, presentan dificultades para esta aplicaci\'on debido a
+que requieren amplificadores operacionales de \emph{slew-rate} muy
+elevado para seguir fielmente flancos de pocos nanosegundos
+\cite{informeEneFeb2026,adi_ltc6244}.
+
+\section{Amplificadores operacionales realimentados por corriente (CFA)}
+\label{sec:cfa}
+
+Los amplificadores operacionales realimentados por corriente
+(\emph{Current Feedback Amplifiers}, CFA) se caracterizan por un
+\emph{slew-rate} sensiblemente mayor que el de los amplificadores
+operacionales de tensi\'on convencionales, lo que los vuelve aptos para
+seguir se\~nales pulsadas de flanco r\'apido como las involucradas en
+este proyecto \cite{informeEneFeb2026,adi_ltc6244}. Esta caracter\'istica
+motiv\'o la selecci\'on de un CFA como elemento activo del circuito
+detector de picos dise\~nado para el sistema, cuyo desarrollo detallado
+se presenta en el Cap\'itulo~\ref{cap:diseno_deteccion_picos}.
+
+\section{Dise\~no de PCB para se\~nales de alta velocidad}
+\label{sec:pcb_alta_velocidad}
+
+El desempe\~no de un CFA es particularmente sensible a las capacidades
+par\'asitas presentes en su red de realimentaci\'on y en sus entradas:
+una capacidad par\'asita de apenas 1 a 2~pF en la entrada inversora
+puede provocar \emph{peaking} o inestabilidad en la respuesta del
+amplificador \cite{informeMarzo2026}. A diferencia de los amplificadores
+de tensi\'on, el ancho de banda de un CFA no puede limitarse
+incorporando un capacitor en la red de realimentaci\'on, por lo que la
+mitigaci\'on de estos efectos debe abordarse mediante t\'ecnicas de
+dise\~no de PCB, tales como el uso de planos de masa con recortes
+(\emph{cutouts}) bajo los pines sensibles, la minimizaci\'on de la
+distancia entre los componentes de la red de realimentaci\'on y el
+amplificador, y la separaci\'on de las pistas de entrada respecto de
+se\~nales ruidosas o de alta frecuencia adyacentes
+\cite{informeMarzo2026}. La aplicaci\'on concreta de estas t\'ecnicas al
+circuito detector de picos del proyecto se describe en la
+Secci\'on~\ref{sec:mitigacion_parasitos}.

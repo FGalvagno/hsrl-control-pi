@@ -1,0 +1,78 @@
+% =============================================================
+% Capitulo 8 - Desarrollo del firmware del microcontrolador
+% =============================================================
+\chapter{Desarrollo del firmware del microcontrolador}
+\label{cap:firmware}
+
+\section{Arquitectura del software embebido}
+\label{sec:arquitectura_firmware}
+
+El firmware del microcontrolador se desarrolla en C++ utilizando el SDK
+oficial de Raspberry Pi Pico \cite{sat2026,informeMarzo2026}. El c\'odigo
+fuente y los avances de desarrollo se documentan y versionan en el
+repositorio del proyecto \cite{kicad_hsrl}.
+
+% PLACEHOLDER: describir la arquitectura de software definitiva
+% (maquina de estados, uso de interrupciones/DMA para el ADC,
+% organizacion de modulos) una vez avanzado el desarrollo del firmware.
+% Referenciar el codigo fuente relevante en el Anexo
+% \ref{anexo:codigo}.
+
+\section{Adquisici\'on y procesamiento de se\~nales}
+\label{sec:adquisicion_procesamiento}
+
+La adquisici\'on de las se\~nales $P_+$ y $P_-$ se realiza digitalizando
+la salida del circuito detector de picos descrito en el
+Cap\'itulo~\ref{cap:diseno_deteccion_picos} mediante el ADC integrado
+del RP2350, siguiendo el criterio de tiempo de conversi\'on presentado
+en la Secci\'on~\ref{sec:adc_pulsadas} \cite{informeEneFeb2026}.
+
+% PLACEHOLDER: detallar la rutina de adquisicion implementada (canales
+% utilizados, promediado de mediciones, filtrado digital si
+% corresponde).
+
+\section{Implementaci\'on del algoritmo de control}
+\label{sec:algoritmo_control}
+
+El firmware implementa la ley de control proporcional presentada en la
+Secci\'on~\ref{sec:control_proporcional} (Ecuaciones~\ref{eq:error_control}
+y~\ref{eq:ley_control}), calculando en cada iteraci\'on la se\~nal de
+error $e(k)$ a partir de los valores de pico adquiridos y actualizando
+la temperatura de consigna del seeder $T(k)$ \cite{informeMarzo2026}.
+
+% PLACEHOLDER: incorporar el valor de Kp utilizado y el detalle de
+% implementacion (frecuencia de ejecucion del lazo, saturacion de la
+% salida, condicion de convergencia) una vez definidos experimentalmente.
+
+\section{Comunicaci\'on con el seeder y con la PC}
+\label{sec:comunicacion_seeder_pc}
+
+La comunicaci\'on con el l\'aser seeder se realiza mediante el enlace
+RS232 descrito en la Secci\'on~\ref{sec:comunicacion_seeder}, utilizando
+los comandos especificados en el manual del fabricante (Anexo~\ref{anexo:manual_seeder}).
+Dicha comunicaci\'on fue verificada de acuerdo a lo especificado en ese
+manual \cite{informeAbril2026}. La comunicaci\'on con la PC se realiza
+por USB \cite{sat2026}; al momento de redacci\'on de este informe, se
+encuentra funcional el env\'io de datos desde la placa hacia la PC
+(estado de sintonizaci\'on, par\'ametros), restando la implementaci\'on
+del env\'io de comandos desde la PC hacia la placa \cite{informeAbril2026}.
+
+\section{Modos de operaci\'on del sistema}
+\label{sec:modos_operacion}
+
+El firmware del microcontrolador contempla tres modos b\'asicos de
+funcionamiento \cite{sat2026}:
+
+\begin{enumerate}
+  \item \textbf{Modo operativo}: mantiene el sistema sintonizado en una
+        longitud de onda deseada, ejecutando el lazo de control descrito
+        en la Secci\'on~\ref{sec:algoritmo_control}.
+  \item \textbf{Modo barrido}: realiza un barrido entre dos temperaturas
+        de cavidad del seeder definidas, con el fin de caracterizar la
+        absorci\'on del filtro rechaza-banda de iodo.
+  \item \textbf{Modo de parada}: detiene el funcionamiento del sistema.
+\end{enumerate}
+
+PLACEHOLDER: documentar el estado de implementaci\'on de cada modo de
+operaci\'on y, cuando corresponda, las m\'aquinas de estado o diagramas
+de transici\'on utilizados en el firmware.
