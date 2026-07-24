@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 % =============================================================
 % Informe Final - Proyecto Integrador
 % Sistema Automatizado de Control de Longitud de Onda
@@ -7,11 +8,6 @@
 % Facultad de Ciencias Exactas, Fisicas y Naturales
 % Carrera Ingenieria Electronica
 %
-% Documento maestro. Compilar con pdflatex + biber:
-%   pdflatex main.tex
-%   biber main
-%   pdflatex main.tex
-%   pdflatex main.tex
 % =============================================================
 
 \documentclass[a4paper,11pt,twoside]{book}
@@ -56,13 +52,18 @@
 
 % Figuras y tablas se separan del texto con 3 espacios (manual de
 % estilo); formato de leyenda "Figura N: Descripcion (Fuente: ...)".
+% Figuras y tablas: leyenda "Figura N: Descripcion (Fuente: ...)" sin negrita,
+% centrada y algo mas angosta que el texto, pegada a la imagen. La separacion
+% de 3 espacios del manual va entre el flotante y el cuerpo del texto.
 \captionsetup{
-  labelfont=bf,
   labelsep=colon,
   font=singlespacing,
-  skip=3\baselineskip,
-  justification=justified
+  justification=centering,
+  width=0.9\textwidth,
+  skip=6pt
 }
+\setlength{\intextsep}{1.5\baselineskip}
+\setlength{\textfloatsep}{1.5\baselineskip}
 
 % ---------- Matematica ----------
 \usepackage{amsmath}
@@ -80,15 +81,15 @@
 \titleformat{\chapter}[block]
   {\normalfont\bfseries\fontsize{14}{17}\selectfont}
   {Cap\'itulo \thechapter}{1em}{}
-\titlespacing*{\chapter}{0pt}{0pt}{3\baselineskip}
+\titlespacing*{\chapter}{0pt}{0pt}{1.5\baselineskip}
 
 \titleformat{\section}
   {\normalfont\bfseries\fontsize{12}{14}\selectfont}{\thesection.}{1em}{}
-\titlespacing*{\section}{0pt}{1.5\baselineskip}{3\baselineskip}
+\titlespacing*{\section}{0pt}{1.3\baselineskip}{0.7\baselineskip}
 
 \titleformat{\subsection}
   {\normalfont\fontsize{12}{14}\selectfont}{\thesubsection}{1em}{}
-\titlespacing*{\subsection}{0pt}{1\baselineskip}{1.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{1\baselineskip}{0.5\baselineskip}
 
 % ---------- Bibliografia y referencias ----------
 % Numeracion continua entre Bibliografia (solo libros con ISBN) y Referencias
@@ -177,13 +178,13 @@
 
 \input{capitulos/cap01_introduccion}
 
-\part{Marco Te\'orico}
+\part{Marco Teórico}
 \input{capitulos/cap02_lidar_hsrl}
 \input{capitulos/cap03_fotodeteccion}
 \input{capitulos/cap04_sistemas_embebidos}
 \input{capitulos/cap05_control_hmi}
 
-\part{Marco Metodol\'ogico}
+\part{Marco Metodológico}
 \input{capitulos/cap06_deteccion_picos}
 \input{capitulos/cap07_placa_control}
 \input{capitulos/cap08_firmware}
@@ -199,8 +200,8 @@
 % -------------------------------------------------------------
 \cleardoublepage
 \phantomsection
-\addcontentsline{toc}{chapter}{Bibliograf\'ia}
-\printbibliography[type=book,title={Bibliograf\'ia},heading=none]
+\addcontentsline{toc}{chapter}{Bibliografía}
+\printbibliography[type=book,title={Bibliografía},heading=none]
 
 \cleardoublepage
 \phantomsection
@@ -218,7 +219,7 @@
 \input{anexos/anexoIV_ilrc32}
 
 % -------------------------------------------------------------
-% ANEXO DE LA CATEDRA PI (SAT e Informes Mensuales)
+% ANEXO DE LA CATEDRA PI 
 % -------------------------------------------------------------
 \backmatter
 \cleardoublepage

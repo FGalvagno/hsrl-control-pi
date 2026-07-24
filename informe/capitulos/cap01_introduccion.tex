@@ -1,178 +1,104 @@
 % =============================================================
 % Capitulo 1 - Introduccion
 % =============================================================
-\chapter{Introducci\'on}
+\chapter{Introducción}
 \label{cap:introduccion}
 
 \section{Antecedentes del problema}
 \label{sec:antecedentes}
 
-En 2013 se dio inicio al proyecto transnacional entre Argentina, Chile
-y Jap\'on para el monitoreo y estudio de la atm\'osfera en el cono sur
-de Sudam\'erica, en cuyo marco se establecieron siete nodos de
-observaci\'on en el territorio argentino, dotados de instrumental
-espec\'ifico para el monitoreo de par\'ametros atmosf\'ericos
-\cite{sat2026}. En 2017 se puso en marcha el nodo de observaci\'on del
-Observatorio Geof\'isico y Meteorol\'ogico de Pilar, C\'ordoba, del
-Servicio Meteorol\'ogico Nacional (SMN), sitio caracterizado por las
-frecuentes irrupciones de aerosoles provenientes de la quema de biomasa
-en el norte argentino, Bolivia, Paraguay y el sur de Brasil
-\cite{sat2026}. Dada esta particularidad geogr\'afica, el nodo fue
-dotado de un LiDAR de Alta Resoluci\'on Espectral (HSRL, por sus siglas
-en ingl\'es), puesto en funcionamiento durante la pr\'actica
-profesional supervisada (PPS) realizada por el autor en 2023
-\cite{pps2025}.
+La red de observación de variables convencionales y no convencionales denominada SAVERNET surgió de la fusión de dos proyectos de investigación: ``Implementación de cinco estaciones instrumentales para el monitoreo de cenizas volcánicas en el territorio argentino'' y ``Desarrollo del sistema de gestión de riesgos medioambientales atmosféricos en Sudamérica'', establecidos en los períodos 2011--2015 y 2013--2018, respectivamente. El primero fue financiado como proyecto especial del Ministerio de Defensa, mientras que el segundo, bajo la modalidad SATREPS (\textit{Science and Technology Research Partnership for Sustainable Development}), fue financiado conjuntamente por JICA (\textit{Japan International Cooperation Agency}) y JST (\textit{Japan Science and Technology Agency}). \cite{notasmn202070}.
 
-Si bien el instrumento alcanz\'o un funcionamiento \'optimo al
-finalizar la PPS, la naturaleza experimental de su dise\~no gener\'o
-inestabilidades para la operaci\'on a largo plazo: el software
-principal no posee capacidad de resoluci\'on de fallos, la PC en la que
-corre el sistema tiene capacidades de c\'omputo limitadas, la
-implementaci\'on actual disminuye la vida \'util de la l\'ampara flash
-del l\'aser debido al elevado n\'umero de disparos requeridos, y el
-sistema depende de un costoso osciloscopio Tektronix de cuatro canales
-con software desactualizado \cite{sat2026}.
+Los nodos de observación generados por ambos proyectos tienen como objetivo monitorear diversos parámetros atmosféricos, entre los que se destacan la concentración de material particulado en superficie, la radiación solar, el índice UV, la telemetría de capa límite, la base y el tope de nube, las propiedades de los aerosoles, el espesor óptico atmosférico, la columna total de ozono, la cobertura nubosa y la concentración de gases traza. Estos parámetros no convencionales se complementan con variables convencionales como la temperatura, la humedad, la presión, el viento y la precipitación.
 
-% PLACEHOLDER: ampliar con el detalle especifico de fallas u operacion
-% reportadas durante el uso del sistema heredado de la PPS, si se cuenta
-% con registros adicionales.
+Originalmente, la red estuvo constituida por diez nodos de observación: uno en Punta Arenas (Chile) y los nueve restantes en distintos puntos de la Argentina, ubicados en las localidades de Río Gallegos (aeropuerto), Comodoro Rivadavia (aeropuerto), San Carlos de Bariloche (aeropuerto), Neuquén (aeropuerto), Buenos Aires (sede Dorrego del SMN), Villa Martelli, provincia de Buenos Aires (perteneciente al Instituto de Investigaciones Científicas y Técnicas para la Defensa, CITEDEF), Pilar, provincia de Córdoba (Observatorio Geofísico y Meteorológico de Pilar) y Tucumán (Observatorio Meteorológico de Tucumán), los cuales se observan en la figura \ref{fig:nodos_savernet}. En la actualidad, la red ha crecido de manera significativa con la incorporación de varias estaciones en territorio chileno y una estación en suelo argentino, incorporaciones vinculadas a mediciones de radiación solar, más precisamente al índice ultravioleta (IUV).
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=0.7\textwidth]{figuras/1_nodossavernetsmn.jpg}
+      \caption{Nodos de observación de la red SAVERNET. (Fuente: elaboración propia a partir de \cite{notasmn202070}.)}
+      \label{fig:nodos_savernet}
+\end{figure}
+
+El nodo de observación del Observatorio Geofísico y Meteorológico de Pilar (Córdoba), puesto en marcha en 2017 y perteneciente al Servicio Meteorológico Nacional (SMN), fue dotado de un lidar de alta resolución espectral (HSRL, por sus siglas en inglés). Este instrumento fue puesto en funcionamiento durante la práctica profesional supervisada (PPS) realizada por el autor en 2023, con la colaboración de personal del NIES y del SMN.
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=0.7\textwidth]{figuras/1_sistemalidarpilar.png}
+      \caption{Lidar de alta resolución espectral ubicado en Pilar, Córdoba. (Fuente: elaboración propia).}
+      \label{fig:lidar_pilar}
+\end{figure}
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=0.7\textwidth]{figuras/1_puestaapuntopps.png}
+      \caption{Puesta a punto del sistema de alta resolución espectral (HSR). Durante la práctica profesional supervisada (PPS) realizada por el autor en 2023, con la colaboración de personal del NIES y del SMN. (Fuente: elaboración propia).}
+      \label{fig:pps}
+\end{figure}
 
 \section{Relevancia del trabajo}
 \label{sec:relevancia}
 
-El HSRL de Pilar constituye uno de los instrumentos de mayor complejidad
-de la red SAVER-Net, integrada por ocho nodos de observaci\'on en
-Argentina y uno en Chile \cite{galvagno2026ilrc}, cuya operaci\'on
-responde a compromisos internacionales asumidos en el marco del
-programa SATREPS, financiado por la Agencia de Cooperaci\'on
-Internacional del Jap\'on (JICA) y la Agencia de Ciencia y Tecnolog\'ia
-de Jap\'on (JST) \cite{galvagno2026ilrc}. La informaci\'on generada por
-el canal de alta resoluci\'on espectral resulta relevante a nivel
-nacional e internacional para el estudio de aerosoles atmosf\'ericos, lo
-que fue reconocido en la Solicitud de Aprobaci\'on de Tema del presente
-proyecto como de impacto ambiental directo \cite{sat2026}.
+Dentro de la red SAVERNET, el nodo de Pilar reviste una especial importancia debido a su ubicación geográfica, ya que se encuentra expuesto de manera recurrente a la irrupción de aerosoles provenientes de la quema de biomasa en el norte argentino, Bolivia, Paraguay y el sur de Brasil, fenómeno de interés tanto para la investigación atmosférica como para la gestión de riesgos ambientales en América del Sur y en el mundo.
 
-Avances preliminares de este trabajo fueron presentados en la 32.\textsuperscript{a}
-Conferencia Internacional de Radar L\'aser (ILRC32) \cite{galvagno2026ilrc},
-lo que da cuenta del inter\'es de la comunidad cient\'ifica internacional
-en la automatizaci\'on del lazo de sintonizaci\'on del HSRL.
+El lidar de alta resolución espectral instalado en dicho nodo es el instrumento encargado de caracterizar los aerosoles mencionados. No obstante, su operación sostenida se ve condicionada por un lazo de sintonización que depende de un osciloscopio y de una PC de escritorio, configuración que introduce puntos de falla, eleva los costos de mantenimiento e impide la operación remota y desatendida del equipo. La sustitución de este conjunto por una solución electrónica embebida mejoraría la robustez del instrumento y habilitaría la adquisición ininterrumpida de datos a largo plazo, condición necesaria para los estudios climáticos y ambientales que sustentan a la red.
 
-\section{Motivaci\'on para la elecci\'on del tema}
+La relevancia de esta línea de trabajo quedó reflejada en la presentación de avances preliminares del proyecto en la 32.\textsuperscript{a} Conferencia Internacional de Radar Láser (ILRC32) \cite{galvagno2026ilrc}, instancia que respalda la necesidad de automatizar el lazo de sintonización del HSRL.
+
+\section{Motivación para la elección del tema}
 \label{sec:motivacion}
 
-La motivaci\'on del proyecto surge directamente de las limitaciones
-identificadas en el sistema de control utilizado durante la PPS
-\cite{pps2025}. La dependencia de un osciloscopio y una PC de
-escritorio para realizar el lazo de control de sintonizaci\'on
-introduce un punto de falla poco robusto, encarece el mantenimiento del
-sistema y limita la posibilidad de operaci\'on remota y desatendida del
-instrumento. Reemplazar este conjunto por una placa electr\'onica
-dedicada, basada en un microcontrolador, permitir\'ia dotar al sistema
-de mayor robustez y funcionalidad \cite{sat2026}.
+Si bien el instrumento alcanzó un funcionamiento óptimo al finalizar la práctica profesional supervisada (PPS), su naturaleza experimental reveló serias inestabilidades para la operación a largo plazo. Las principales limitaciones de la arquitectura actual incluyen la falta de capacidad de resolución de fallos en el software principal, la limitada capacidad de cómputo de la PC de soporte y de almacenamiento de datos, y un elevado número de disparos del láser, que reduce prematuramente la vida útil de su lámpara flash. A ello se suma la dependencia crítica de un osciloscopio Tektronix de cuatro canales, un equipo de alto costo cuyo software de gestión se encuentra desactualizado y sin soporte o mantenimiento.
 
-% PLACEHOLDER: agregar motivacion personal/profesional del autor
-% vinculada a su rol como responsable tecnico del nodo SaverNet-Cordoba.
+Ante este escenario, la motivación de este proyecto radica en rediseñar el sistema de control para eliminar estos puntos de falla. Como solución, se propone el reemplazo de estos componentes por una placa electrónica dedicada basada en un microcontrolador. Este cambio de paradigma dotará al sistema de la autonomía necesaria para garantizar la continuidad y estabilidad de las mediciones a largo plazo, junto con la capacidad de operar de manera remota y desatendida, lo que permitirá un monitoreo más eficiente y confiable de los aerosoles en la región.
 
-\section{Formulaci\'on del problema}
+\section{Formulación del problema}
 \label{sec:formulacion_problema}
 
-El problema a resolver consiste en dise\~nar y construir un sistema
-electr\'onico capaz de reemplazar al conjunto osciloscopio-PC-software
-actualmente utilizado en el lazo de control de sintonizaci\'on del
-canal HSR, de modo de automatizar la medici\'on de las se\~nales
-provenientes de los fotodetectores y la toma de decisiones para
-modificar la longitud de onda del l\'aser seeder \cite{sat2026}. El
-sistema debe acondicionar y digitalizar se\~nales pulsadas de corta
-duraci\'on (del orden de los nanosegundos), ejecutar un algoritmo de
-control que permita igualar las se\~nales $P_+$ y $P_-$ del lazo,
-comunicarse con el l\'aser seeder mediante el protocolo definido por su
-fabricante, e informar su estado a un operador a trav\'es de una
-interfaz de usuario \cite{sat2026}.
+El problema a resolver consiste en diseñar y construir un sistema electrónico capaz de reemplazar al conjunto osciloscopio-PC-software actualmente utilizado en el lazo de control de sintonización del canal HSR, con el fin de automatizar la medición de las señales provenientes de los fotodetectores y la toma de decisiones para modificar la longitud de onda del láser seeder. El sistema debe acondicionar y digitalizar señales pulsadas de corta duración (del orden de los nanosegundos), ejecutar un algoritmo de control que permita igualar las señales de referencia del lazo, comunicarse con el láser seeder mediante el protocolo definido por su fabricante e informar su estado a un operador a través de una interfaz de usuario ejecutada en la PC. Además, el sistema debe ser capaz de operar de manera remota y desatendida, con la posibilidad de registrar los datos medidos y los eventos ocurridos durante su operación.
+
+En este contexto, el presente trabajo se centra en el diseño, la implementación y la validación de una solución electrónica embebida que reemplace el esquema actual de adquisición y control. La propuesta busca mejorar la robustez operativa del sistema, reducir la dependencia de equipos de alto costo y mantenimiento complejo, y habilitar una operación continua y remota, con capacidad de registro de datos y diagnóstico de fallas.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{figuras/1_osciloscopio.png}
+  \caption{Osciloscopio actualmente utilizado en el lazo de control de sintonización del canal HSR. (Fuente: elaboración propia).}
+  \label{fig:osciloscopio_pc}
+\end{figure}
 
 \section{Objetivo general}
 \label{sec:objetivo_general}
 
-Desarrollar y ensamblar un sistema electr\'onico comandado por PC que
-permita controlar y automatizar los procesos de sintonizaci\'on de
-longitud de onda del LiDAR de alta resoluci\'on espectral (HSRL)
-presente en el Observatorio Geof\'isico y Meteorol\'ogico Pilar del
-Servicio Meteorol\'ogico Nacional, en reemplazo del conjunto compuesto
-por osciloscopio, software y PC actualmente utilizado, brindando mayor
-robustez y funcionalidad al sistema \cite{sat2026}.
+Desarrollar y ensamblar un sistema electrónico comandado por PC que permita controlar y automatizar los procesos de sintonización de longitud de onda del lidar de alta resolución espectral (HSRL) presente en el Observatorio Geofísico y Meteorológico Pilar del Servicio Meteorológico Nacional, en reemplazo del conjunto compuesto por osciloscopio, software y PC actualmente utilizado.
 
-\section{Objetivos espec\'ificos}
+\section{Metodología utilizada para lograr los objetivos propuestos}
+\label{sec:metodologia}
+
+Para alcanzar los objetivos planteados se adoptó una metodología de trabajo estructurada en tres etapas sucesivas: una etapa de estudio y relevamiento teórico, una etapa de diseño e implementación, y una etapa de integración y validación experimental.
+
+En la primera etapa se relevaron los fundamentos de la tecnología lidar y del método HSRL, las características de la fotodetección de señales pulsadas de corta duración y los principios de control automático aplicables al problema de sintonización, con el fin de definir los requerimientos técnicos del sistema a desarrollar. Esta etapa se corresponde con el Marco Teórico del presente informe (Capítulos 2 a 5).
+
+En la segunda etapa se diseñó el circuito de acondicionamiento y detección de las señales pulsadas provenientes de los fotodetectores, se seleccionaron los conversores analógico/digital y el microcontrolador de acuerdo con los requerimientos de velocidad y resolución del sistema, y se desarrollaron el firmware del microcontrolador y el software de interfaz máquina-humano (HMI). Cada uno de estos componentes fue implementado y validado de manera individual antes de su integración, mediante ensayos de laboratorio con instrumental de referencia (osciloscopio y generador de señales).
+
+En la tercera etapa se integraron los subsistemas desarrollados en un modelo experimental único, el cual fue puesto a prueba en conjunto con el sistema HSRL del Observatorio de Pilar. La validación final se realizó comparando las mediciones obtenidas mediante la solución embebida con las obtenidas por el esquema osciloscopio-PC actualmente en uso, a fin de verificar que el nuevo sistema reproduce correctamente el comportamiento del lazo de sintonización. Este proceso de diseño, implementación y validación se desarrolla en detalle en el Marco Metodológico (Capítulos 6 a 10) y sus resultados se presentan en la Parte III del informe.
+
+\section{Objetivos específicos}
 \label{sec:objetivos_especificos}
 
-De acuerdo a lo establecido en la Solicitud de Aprobaci\'on de Tema
-\cite{sat2026}, los objetivos espec\'ificos del proyecto son:
+Los objetivos específicos del proyecto a lograr son:
 
 \begin{itemize}
-  \item Dise\~nar un circuito capaz de detectar se\~nales pulsadas de
-        alta velocidad y acondicionarlas para su posterior
-        digitalizaci\'on.
-  \item Implementar y validar el circuito de detecci\'on de acuerdo a
-        las se\~nales medidas por el bucle de control.
-  \item Seleccionar los conversores anal\'ogico/digital y el
-        microcontrolador adecuados para la digitalizaci\'on y el
-        procesamiento de las se\~nales pulsadas.
-  \item Programar el microcontrolador para efectuar la digitalizaci\'on
-        de la se\~nal previamente acondicionada mediante los
-        conversores seleccionados.
-  \item Implementar y validar la comunicaci\'on entre el l\'aser seeder
-        y el microcontrolador del sistema para efectuar la selecci\'on
-        de longitud de onda.
-  \item Desarrollar un software para el microcontrolador que tome
-        decisiones a partir de los datos medidos.
-  \item Programar una interfaz m\'aquina-humano (HMI) en Python para
-        permitir la interacci\'on entre el PC y el microcontrolador.
-  \item Validar el correcto funcionamiento del sistema de alta
-        resoluci\'on espectral (HSR) a partir de las mediciones
-        obtenidas con el sistema LiDAR.
+  \item Diseñar un circuito capaz de detectar señales pulsadas de alta velocidad y acondicionarlas para su posterior digitalización.
+  \item Implementar y validar el circuito de detección de acuerdo con las señales medidas por el bucle de control.
+  \item Seleccionar los conversores analógico/digital y el microcontrolador adecuados para la digitalización y el procesamiento de las señales pulsadas.
+  \item Programar el microcontrolador para efectuar la digitalización de la señal previamente acondicionada mediante los conversores seleccionados.
+  \item Implementar y validar la comunicación entre el láser seeder y el microcontrolador del sistema para efectuar la selección de longitud de onda.
+  \item Desarrollar un software para el microcontrolador que tome decisiones a partir de los datos medidos.
+  \item Programar una interfaz máquina-humano (HMI) en Python para permitir la interacción entre el PC y el microcontrolador.
+  \item Validar el correcto funcionamiento del sistema de alta resolución espectral (HSR) a partir de las mediciones obtenidas con el sistema lidar.
 \end{itemize}
 
-\section{Metodolog\'ia utilizada para lograr los objetivos propuestos}
-\label{sec:metodologia_intro}
-
-El desarrollo del proyecto se organiz\'o en las siguientes etapas
-\cite{sat2026}:
-
-\begin{enumerate}
-  \item Investigaci\'on y revisi\'on bibliogr\'afica de los conceptos
-        te\'oricos involucrados.
-  \item Dise\~no, implementaci\'on y validaci\'on del circuito de
-        detecci\'on de se\~nales.
-  \item Selecci\'on y ensamble del conjunto ADC/microcontrolador.
-  \item Desarrollo del firmware del microcontrolador.
-  \item Desarrollo del software HMI para la comunicaci\'on entre la PC
-        y el microcontrolador.
-  \item Validaci\'on del funcionamiento del sistema completo a partir
-        de mediciones reales sobre el instrumento LiDAR.
-\end{enumerate}
-
-Al cierre del presente informe, las etapas 1 a 3 se encuentran
-finalizadas y las etapas 4 y 5 se encuentran en desarrollo, restando la
-etapa de validaci\'on integral del sistema (ver
-Cap\'itulo~\ref{cap:modelo_experimental} y apartado de
-Resultados)\footnote{Estado de avance seg\'un los Informes de Avance
-Mensual correspondientes a enero-febrero, marzo y abril de 2026
-\cite{informeEneFeb2026,informeMarzo2026,informeAbril2026}.}.
-
-\section{Organizaci\'on del informe}
+\section{Organización del informe}
 \label{sec:organizacion_informe}
 
-El presente informe se organiza en tres partes. La Parte~I (Marco
-Te\'orico, Cap\'itulos~\ref{cap:lidar_hsrl} a \ref{cap:control_hmi})
-desarrolla los fundamentos te\'oricos de la tecnolog\'ia LiDAR, del
-HSRL, de la fotodetecci\'on de se\~nales pulsadas, de los sistemas
-embebidos utilizados y del control autom\'atico aplicado al problema
-de sintonizaci\'on. La Parte~II (Marco Metodol\'ogico,
-Cap\'itulos~\ref{cap:diseno_deteccion_picos} a
-\ref{cap:modelo_experimental}) describe el dise\~no, la
-implementaci\'on y la validaci\'on del circuito de detecci\'on, de la
-placa de control, del firmware del microcontrolador y del software de
-interfaz, as\'i como el modelo experimental resultante. Finalmente, la
-Parte~III presenta los resultados obtenidos y las conclusiones del
-trabajo. Los Anexos re\'unen las hojas de datos de componentes, el
-manual de comunicaci\'on del seeder, el c\'odigo fuente relevante y la
-documentaci\'on presentada ante la C\'atedra Proyecto Integrador
-(Solicitud de Aprobaci\'on de Tema e Informes de Avance Mensual).
+El presente informe se organiza en tres partes. La Parte~I (Marco teórico, Capítulos~\ref{cap:lidar_hsrl} a \ref{cap:control_hmi}) desarrolla los fundamentos teóricos de la tecnología lidar, del HSRL, de la fotodetección de señales pulsadas y del control automático aplicado al problema de sintonización. La Parte~II (Marco metodológico, Capítulos~\ref{cap:diseno_deteccion_picos} a \ref{cap:modelo_experimental}) describe el diseño, la implementación y la validación del circuito de detección, de la placa de control, del firmware del microcontrolador y del software de interfaz, así como el modelo experimental resultante. Finalmente, la Parte~III presenta los resultados obtenidos y las conclusiones del trabajo. Los anexos reúnen las hojas de datos de componentes, el manual de comunicación del seeder, el código fuente relevante y la documentación presentada ante la Cátedra Proyecto Integrador (Solicitud de Aprobación de Tema e Informes de Avance Mensual).

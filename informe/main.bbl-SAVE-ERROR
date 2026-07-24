@@ -1,0 +1,428 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{notasmn202070}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=e7b821f4299e9785459067a0034dc02e}{%
+           family={Papandrea},
+           familyi={P\bibinitperiod},
+           given={Sebastían},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Servicio Meteorológico Nacional}%
+      }
+      \strng{namehash}{e7b821f4299e9785459067a0034dc02e}
+      \strng{fullhash}{e7b821f4299e9785459067a0034dc02e}
+      \strng{fullhashraw}{e7b821f4299e9785459067a0034dc02e}
+      \strng{bibnamehash}{e7b821f4299e9785459067a0034dc02e}
+      \strng{authorbibnamehash}{e7b821f4299e9785459067a0034dc02e}
+      \strng{authornamehash}{e7b821f4299e9785459067a0034dc02e}
+      \strng{authorfullhash}{e7b821f4299e9785459067a0034dc02e}
+      \strng{authorfullhashraw}{e7b821f4299e9785459067a0034dc02e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{SMN 2020-70}
+      \field{title}{Red SAVERNET. Descripción general, instrumental involucrado y productos generados.}
+      \field{type}{Nota Técnica}
+      \field{year}{2020}
+    \endentry
+    \entry{galvagno2026ilrc}{inproceedings}{}{}
+      \name{author}{7}{}{%
+        {{hash=dc90897081184d8dfcaa14f4979e2287}{%
+           family={Galvagno},
+           familyi={G\bibinitperiod},
+           given={Facundo},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0c154f9c8257dbf52aaefb6a30474f7f}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Yoshitaka},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=221e128d66cbc05fe23917d8e914ffde}{%
+           family={Papandrea},
+           familyi={P\bibinitperiod},
+           given={Sebastián},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e2c1f1e34baea09804965515893516cd}{%
+           family={Puig},
+           familyi={P\bibinitperiod},
+           given={Lucas\bibnamedelimb M.\bibnamedelimi D.},
+           giveni={L\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=5af5fc9e2a053e9446d7d62216118a90}{%
+           family={Pallotta},
+           familyi={P\bibinitperiod},
+           given={Juan\bibnamedelima V.},
+           giveni={J\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=145a30af71fb104da2c265f994859f05}{%
+           family={Verstraeten},
+           familyi={V\bibinitperiod},
+           given={Federico},
+           giveni={F\bibinitperiod}}}%
+        {{hash=f894ffedf2bde88509ca0cce9993e4a3}{%
+           family={Wolfram},
+           familyi={W\bibinitperiod},
+           given={Elian},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {5--10 July 2026}%
+      }
+      \strng{namehash}{d27b2318c2a40b0041dc77df454778bb}
+      \strng{fullhash}{360e8db820ded93e7fb7f2bb20f3751e}
+      \strng{fullhashraw}{360e8db820ded93e7fb7f2bb20f3751e}
+      \strng{bibnamehash}{d27b2318c2a40b0041dc77df454778bb}
+      \strng{authorbibnamehash}{d27b2318c2a40b0041dc77df454778bb}
+      \strng{authornamehash}{d27b2318c2a40b0041dc77df454778bb}
+      \strng{authorfullhash}{360e8db820ded93e7fb7f2bb20f3751e}
+      \strng{authorfullhashraw}{360e8db820ded93e7fb7f2bb20f3751e}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{32nd International Laser Radar Conference (ILRC32)}
+      \field{title}{Advances on Automation of Wavelength Tuning for High Spectral Resolution Lidar}
+      \field{year}{2026}
+    \endentry
+    \entry{weitkamp2005}{book}{}{}
+      \name{editor}{1}{}{%
+        {{hash=9c2cd97b8c3f3e1f5883dbc903f0e1c6}{%
+           family={Weitkamp},
+           familyi={W\bibinitperiod},
+           given={Claus},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \strng{fullhash}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \strng{fullhashraw}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \strng{bibnamehash}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \strng{editorbibnamehash}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \strng{editornamehash}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \strng{editorfullhash}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \strng{editorfullhashraw}{9c2cd97b8c3f3e1f5883dbc903f0e1c6}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{editor}
+      \field{labeltitlesource}{title}
+      \field{isbn}{0-387-40075-3}
+      \field{series}{Springer Series in Optical Sciences}
+      \field{title}{Lidar: Range-Resolved Optical Remote Sensing of the Atmosphere}
+      \field{volume}{102}
+      \field{year}{2005}
+    \endentry
+    \entry{kovalev2015}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=cf96b2e7eb66dc8a025680c5467a1d0b}{%
+           family={Kovalev},
+           familyi={K\bibinitperiod},
+           given={Vladimir\bibnamedelima A.},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons}%
+      }
+      \strng{namehash}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \strng{fullhash}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \strng{fullhashraw}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \strng{bibnamehash}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \strng{authorbibnamehash}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \strng{authornamehash}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \strng{authorfullhash}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \strng{authorfullhashraw}{cf96b2e7eb66dc8a025680c5467a1d0b}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-1-118-96327-2}
+      \field{title}{Solutions in Lidar Profiling of the Atmosphere}
+      \field{year}{2015}
+    \endentry
+    \entry{sat2026}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=02556d301e4123bc8e66179939dcebb5}{%
+           family={Galvagno},
+           familyi={G\bibinitperiod},
+           given={Facundo\bibnamedelima Nahuel},
+           giveni={F\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Cátedra Proyecto Integrador, FCEFyN, Universidad Nacional de Córdoba}%
+      }
+      \strng{namehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \strng{bibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorbibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authornamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Solicitud de Aprobación de Tema (SAT) -- Sistema Automatizado de Control de Longitud de Onda para LiDAR de Alta Resolución Espectral}
+      \field{type}{Documento interno}
+      \field{year}{2026}
+    \endentry
+    \entry{pps2025}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=02556d301e4123bc8e66179939dcebb5}{%
+           family={Galvagno},
+           familyi={G\bibinitperiod},
+           given={Facundo\bibnamedelima Nahuel},
+           giveni={F\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {FCEFyN, Universidad Nacional de Córdoba}%
+      }
+      \strng{namehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \strng{bibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorbibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authornamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Práctica Profesional Supervisada: Optimización y Operación de LiDAR de Alta Resolución Espectral}
+      \field{type}{Informe de PPS}
+      \field{year}{2025}
+    \endentry
+    \entry{hamamatsu2025}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=5a9a5a9aa10ce40652e16a734558da1f}{%
+           family={{Hamamatsu Photonics}},
+           familyi={H\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Hamamatsu Photonics K.K.}%
+      }
+      \strng{namehash}{5a9a5a9aa10ce40652e16a734558da1f}
+      \strng{fullhash}{5a9a5a9aa10ce40652e16a734558da1f}
+      \strng{fullhashraw}{5a9a5a9aa10ce40652e16a734558da1f}
+      \strng{bibnamehash}{5a9a5a9aa10ce40652e16a734558da1f}
+      \strng{authorbibnamehash}{5a9a5a9aa10ce40652e16a734558da1f}
+      \strng{authornamehash}{5a9a5a9aa10ce40652e16a734558da1f}
+      \strng{authorfullhash}{5a9a5a9aa10ce40652e16a734558da1f}
+      \strng{authorfullhashraw}{5a9a5a9aa10ce40652e16a734558da1f}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{KSPD9001E04}
+      \field{title}{Si Photodiodes}
+      \field{type}{Technical note}
+      \field{year}{2025}
+    \endentry
+    \entry{informeEneFeb2026}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=02556d301e4123bc8e66179939dcebb5}{%
+           family={Galvagno},
+           familyi={G\bibinitperiod},
+           given={Facundo\bibnamedelima Nahuel},
+           giveni={F\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Cátedra Proyecto Integrador, FCEFyN, Universidad Nacional de Córdoba}%
+      }
+      \strng{namehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \strng{bibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorbibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authornamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \field{extraname}{3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Informe de Avance Mensual -- Enero/Febrero 2026}
+      \field{type}{Informe de avance}
+      \field{year}{2026}
+    \endentry
+    \entry{microchip2011}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=07245343d1ba023366de3803853be1ef}{%
+           family={Ducu},
+           familyi={D\bibinitperiod},
+           given={Dragos},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Microchip Technology Inc.}%
+      }
+      \strng{namehash}{07245343d1ba023366de3803853be1ef}
+      \strng{fullhash}{07245343d1ba023366de3803853be1ef}
+      \strng{fullhashraw}{07245343d1ba023366de3803853be1ef}
+      \strng{bibnamehash}{07245343d1ba023366de3803853be1ef}
+      \strng{authorbibnamehash}{07245343d1ba023366de3803853be1ef}
+      \strng{authornamehash}{07245343d1ba023366de3803853be1ef}
+      \strng{authorfullhash}{07245343d1ba023366de3803853be1ef}
+      \strng{authorfullhashraw}{07245343d1ba023366de3803853be1ef}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{AN1353}
+      \field{title}{Op Amp Rectifiers, Peak Detectors and Clamps}
+      \field{type}{Application Note}
+      \field{year}{2011}
+    \endentry
+    \entry{adi_pkd01}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
+           family={{Analog Devices}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Hoja de datos de componente}
+      \field{title}{PKD01: Monolithic Peak Detector with Reset-and-Hold Mode}
+    \endentry
+    \entry{adi_ltc6244}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=a12ff886a2379a9ee6efaa9acfb54df4}{%
+           family={{Analog Devices}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{fullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{bibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorbibnamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authornamehash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhash}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \strng{authorfullhashraw}{a12ff886a2379a9ee6efaa9acfb54df4}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Artículo técnico}
+      \field{title}{Detector de picos de alta velocidad LTC6244}
+    \endentry
+    \entry{informeMarzo2026}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=02556d301e4123bc8e66179939dcebb5}{%
+           family={Galvagno},
+           familyi={G\bibinitperiod},
+           given={Facundo\bibnamedelima Nahuel},
+           giveni={F\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Cátedra Proyecto Integrador, FCEFyN, Universidad Nacional de Córdoba}%
+      }
+      \strng{namehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \strng{bibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorbibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authornamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \field{extraname}{4}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Informe de Avance Mensual -- Marzo 2026}
+      \field{type}{Informe de avance}
+      \field{year}{2026}
+    \endentry
+    \entry{kicad_hsrl}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=02556d301e4123bc8e66179939dcebb5}{%
+           family={Galvagno},
+           familyi={G\bibinitperiod},
+           given={Facundo\bibnamedelima Nahuel},
+           giveni={F\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \strng{namehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \strng{bibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorbibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authornamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \field{extraname}{5}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Repositorio del proyecto}
+      \field{title}{hsrl-control-pi -- Proyecto KiCad de la placa de control}
+    \endentry
+    \entry{informeAbril2026}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=02556d301e4123bc8e66179939dcebb5}{%
+           family={Galvagno},
+           familyi={G\bibinitperiod},
+           given={Facundo\bibnamedelima Nahuel},
+           giveni={F\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Cátedra Proyecto Integrador, FCEFyN, Universidad Nacional de Córdoba}%
+      }
+      \strng{namehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{fullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \strng{bibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorbibnamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authornamehash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhash}{02556d301e4123bc8e66179939dcebb5}
+      \strng{authorfullhashraw}{02556d301e4123bc8e66179939dcebb5}
+      \field{extraname}{6}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Informe de Avance Mensual -- Abril 2026}
+      \field{type}{Informe de avance}
+      \field{year}{2026}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

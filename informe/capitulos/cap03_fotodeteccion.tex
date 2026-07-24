@@ -1,102 +1,56 @@
 % =============================================================
 % Capitulo 3 - Fotodeteccion y acondicionamiento de senales pulsadas
 % =============================================================
-\chapter{Fotodetecci\'on y acondicionamiento de se\~nales pulsadas}
+\chapter{Fotodetección del láser}
 \label{cap:fotodeteccion}
 
 \section{Modelo del fotodiodo y amplificador de transimpedancia}
 \label{sec:modelo_fotodiodo}
 
-Un fotodiodo es un sensor \'optico que genera una corriente o tensi\'on
-al incidir luz sobre la uni\'on PN del semiconductor que lo compone,
-utilizado habitualmente para detectar la presencia, intensidad o color
-de una se\~nal luminosa \cite{hamamatsu2025}. La corriente de salida de
-un fotodiodo puede describirse mediante el modelo de diodo con fuente
-de corriente dependiente de la luz incidente:
+Un fotodiodo es un sensor óptico que genera una corriente o una tensión cuando la luz incide sobre la unión PN del semiconductor que lo compone, y se emplea habitualmente para detectar la presencia, la intensidad o el color de una señal luminosa \cite{hamamatsu2025}. Su comportamiento eléctrico se describe mediante el circuito equivalente de la Figura~\ref{fig:modelo_fotodiodo}, en el que la fotocorriente se representa como una fuente de corriente $I_L$ proporcional a la potencia luminosa incidente, en paralelo con un diodo ideal, la capacidad de juntura $C_j$ y la resistencia de derivación (\emph{shunt}) $R_{sh}$, y en serie con una resistencia $R_s$ \cite{hamamatsu2025}.
+
+A partir de este circuito, la corriente de salida $I_O$ del fotodiodo resulta
 
 \begin{equation}
-  I_O = I_L - I_S \left(\exp\left(\frac{q\,V_D}{k\,T}\right)\right) - I'
+  I_O = I_L - I_D - I' = I_L - I_S\left[\exp\!\left(\frac{q\,V_D}{k\,T}\right) - 1\right] - I'
   \label{eq:fotodiodo}
 \end{equation}
 
-\noindent donde $I_L$ es la corriente generada por la luz incidente,
-$I_S$ es la corriente de saturaci\'on inversa del fotodiodo, $I'$ es la
-corriente de fuga a trav\'es de la resistencia shunt, $k$ es la
-constante de Boltzmann y $T$ es la temperatura absoluta del fotodiodo
-\cite{informeEneFeb2026,galvagno2026ilrc}. La corriente de salida del
-fotodiodo se convierte habitualmente en una tensi\'on mediante un
-amplificador de transimpedancia (TIA), cuya salida $V_O$ es la magnitud
-efectivamente medida por el sistema de acondicionamiento
-\cite{informeEneFeb2026}.
+\noindent donde $I_L$ es la corriente fotogenerada, $I_D$ la corriente del diodo, $I_S$ la corriente de saturación inversa, $I'$ la corriente que circula por $R_{sh}$, $V_D$ la tensión sobre el diodo, $q$ la carga del electrón, $k$ la constante de Boltzmann y $T$ la temperatura absoluta del fotodiodo \cite{hamamatsu2025}.
 
-Cuando la fuente de luz se apaga ($I_L = 0$), la corriente de salida del
-fotodiodo exhibe un decaimiento exponencial. En el sistema HSRL de
-Pilar, el l\'aser host permanece encendido durante un intervalo muy
-breve (entre 4~ns y 6~ns, propio del l\'aser Surelite~II utilizado
-\cite{galvagno2026ilrc}), por lo que de la se\~nal medida en cada disparo
-\'unicamente resulta relevante el valor de pico, correspondiente al
-instante en que el fotodiodo es efectivamente iluminado
-\cite{informeEneFeb2026}.
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figuras/3_circuitoequivalente.png}
+  \caption{Circuito equivalente del fotodiodo con fuente de corriente. (Fuente: Hamamatsu \cite{hamamatsu2025}).}
+  \label{fig:modelo_fotodiodo}
+\end{figure}
 
-% PLACEHOLDER: incorporar el circuito equivalente completo del
-% fotodiodo (capacidad de union, resistencia shunt, resistencia serie)
-% siguiendo \cite{hamamatsu2025} si se requiere mayor detalle teorico.
+\subsection{Respuesta temporal y detección del pico}
+\label{subsec:respuesta_temporal}
 
-\section{Detecci\'on del valor pico en se\~nales de corta duraci\'on}
-\label{sec:deteccion_pico}
+Dado que en el sistema HSRL de Pilar el láser host emite pulsos de muy corta duración (entre 4~ns y 6~ns, propios del láser Surelite~II utilizado \cite{sureliteii}), la señal de cada disparo es un transitorio rápido cuyo tratamiento exige atender a la velocidad de respuesta del fotodiodo. Ésta se cuantifica mediante el tiempo de subida $t_r$ (intervalo en que la salida pasa del 10\% al 90\% de su valor de pico), determinado por tres factores: la constante de tiempo $t_1$ asociada a la capacidad de terminal $C_t$ y la resistencia de carga $R_L$, el tiempo de difusión $t_2$ de los portadores generados fuera de la zona de deplexión, y el tiempo de tránsito $t_3$ de los portadores dentro de ella \cite{hamamatsu2025}:
 
-Dado que el pulso de inter\'es dura solo unos pocos nanosegundos,
-existen en principio dos estrategias para determinar su valor de pico
-\cite{informeEneFeb2026}:
+\begin{equation}
+  t_1 = 2{,}2\,C_t\,R_L, \qquad
+  t_3 \approx \frac{d^2}{\mu\,V_R}, \qquad
+  t_r = \sqrt{t_1^{2} + t_2^{2} + t_3^{2}},
+  \label{eq:tiempo_subida}
+\end{equation}
 
-\begin{itemize}
-  \item Utilizar un conversor anal\'ogico-digital (ADC) ultrarr\'apido
-        que muestree la se\~nal completa, detectando el m\'aximo por
-        software.
-  \item Implementar un circuito detector de picos anal\'ogico que
-        retenga el valor de la se\~nal el tiempo suficiente como para
-        ser digitalizado por un ADC de menor velocidad.
-\end{itemize}
+\noindent con $d$ el ancho de la zona de deplexión, $\mu$ la movilidad de los portadores y $V_R$ la tensión inversa aplicada. El ancho de banda efectivo del detector se relaciona con el tiempo de subida mediante
 
-La segunda opci\'on resulta m\'as econ\'omica y pr\'actica, por lo que
-fue la adoptada en este proyecto \cite{informeEneFeb2026}. Las
-topolog\'ias cl\'asicas de detector de picos, basadas en un diodo y un
-capacitor de retenci\'on realimentados por un amplificador operacional
-\cite{microchip2011}, o en circuitos integrados dedicados como el PKD01
-\cite{adi_pkd01}, presentan dificultades para esta aplicaci\'on debido a
-que requieren amplificadores operacionales de \emph{slew-rate} muy
-elevado para seguir fielmente flancos de pocos nanosegundos
-\cite{informeEneFeb2026,adi_ltc6244}.
+\begin{equation}
+  f_c = \frac{0{,}35}{t_r}.
+  \label{eq:ancho_banda}
+\end{equation}
 
-\section{Amplificadores operacionales realimentados por corriente (CFA)}
-\label{sec:cfa}
+Estas expresiones indican que, para seguir fielmente un pulso de pocos nanosegundos, el conjunto fotodiodo--TIA debe presentar un tiempo de subida menor que la duración del pulso, esto es, un ancho de banda del orden de decenas a cientos de MHz. Aun cumpliendo esa condición, dada la brevedad del pulso, la información relevante de cada disparo no es la forma completa de la señal sino su valor de pico, correspondiente al instante de máxima iluminación del fotodiodo. Cuando la fuente de luz se apaga ($I_L = 0$), la corriente de salida decae exponencialmente hacia la corriente oscura. Este comportamiento se observa en la Figura~\ref{fig:senal_pico}, que muestra la respuesta de los cuatro fotodiodos del circuito de sintonización al pulso de luz de corta duración.
 
-Los amplificadores operacionales realimentados por corriente
-(\emph{Current Feedback Amplifiers}, CFA) se caracterizan por un
-\emph{slew-rate} sensiblemente mayor que el de los amplificadores
-operacionales de tensi\'on convencionales, lo que los vuelve aptos para
-seguir se\~nales pulsadas de flanco r\'apido como las involucradas en
-este proyecto \cite{informeEneFeb2026,adi_ltc6244}. Esta caracter\'istica
-motiv\'o la selecci\'on de un CFA como elemento activo del circuito
-detector de picos dise\~nado para el sistema, cuyo desarrollo detallado
-se presenta en el Cap\'itulo~\ref{cap:diseno_deteccion_picos}.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figuras/3_señalesfotodiodos.png}
+  \caption{Señal de salida de los cuatro fotodiodos del circuito de sintonización. (Fuente: elaboración propia).}
+  \label{fig:senal_pico}
+\end{figure}
 
-\section{Dise\~no de PCB para se\~nales de alta velocidad}
-\label{sec:pcb_alta_velocidad}
-
-El desempe\~no de un CFA es particularmente sensible a las capacidades
-par\'asitas presentes en su red de realimentaci\'on y en sus entradas:
-una capacidad par\'asita de apenas 1 a 2~pF en la entrada inversora
-puede provocar \emph{peaking} o inestabilidad en la respuesta del
-amplificador \cite{informeMarzo2026}. A diferencia de los amplificadores
-de tensi\'on, el ancho de banda de un CFA no puede limitarse
-incorporando un capacitor en la red de realimentaci\'on, por lo que la
-mitigaci\'on de estos efectos debe abordarse mediante t\'ecnicas de
-dise\~no de PCB, tales como el uso de planos de masa con recortes
-(\emph{cutouts}) bajo los pines sensibles, la minimizaci\'on de la
-distancia entre los componentes de la red de realimentaci\'on y el
-amplificador, y la separaci\'on de las pistas de entrada respecto de
-se\~nales ruidosas o de alta frecuencia adyacentes
-\cite{informeMarzo2026}. La aplicaci\'on concreta de estas t\'ecnicas al
-circuito detector de picos del proyecto se describe en la
-Secci\'on~\ref{sec:mitigacion_parasitos}.
+Por lo tanto, la información relevante de la señal de salida de cada fotodiodo es su valor de pico, magnitud que debe ser detectada y digitalizada para permitir el control de sintonización.
