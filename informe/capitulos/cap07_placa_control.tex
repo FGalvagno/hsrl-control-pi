@@ -1,6 +1,82 @@
 % =============================================================
-% Capitulo 7 - Diseno e implementacion de la placa de control
+% Capitulo 7 - Seleccion del microcontrolador y arquitectura general
 % =============================================================
+
+\chapter{Selección del microcontrolador y arquitectura general}
+
+\section{Requisitos de diseño}
+
+Como base para el software de control, se partió del programa previamente desarrollado por el NIES, descrito en el anexo PLACEHOLDER. Este software, pese a tener problemas de estabilidad y de compatibilidad con los sistemas operativos actuales, sirvio como referencia para definir la potencia de computo necesaria que debería de tener el microcontrolador a seleccionar. 
+
+Además, se tomó como requisitos de periféricos para el mismo:
+
+\begin{itemize}
+    \item Un puerto USB para la comunicación con la PC.
+    \item Un puerto UART para la comunicación con el seeder.
+    \item Un ADC de al menos 10 bits de resolución para la digitalización de la señal de error proveniente del circuito detector de picos.
+    \item GPIO de uso general para detectar el flanco 
+\end{itemize}
+
+Suponiendo que la impedancia de entrada del OPAMP es muy alta, el capacitor de retencion se descarga a través de la resistencia de 10k$\Omega$ que se encuentra en paralelo con el capacitor. Por lo tanto, el tiempo de descarga del capacitor es aproximadamente de PLACEHOLDER. Esto implica que la digitalización debe lograrse correctamente antes de PLACEHOLDER tiempo. Para esto, se seleccionó un microcontrolador con un ADC integrado que tenga un tiempo de conversión menor a PLACEHOLDER. 
+
+% PLACEHOLDER: completar con el detalle de la configuracion del ADC
+% integrado (resolucion, tiempo de muestreo, canales utilizados) una
+% vez finalizada la etapa de implementacion del firmware.
+
+\section{Microcontroladores de la familia RP2350}
+\label{sec:rp2350}
+
+Se seleccionó un RP2350 (presente en la placa de desarrollo Raspberry Pi Pico~2) como microcontrolador del sistema, debido a que el tiempo de conversión de su ADC integrado resulta lo suficientemente corto como para evitar la descarga significativa del circuito detector de picos antes de completar la digitalización, y a que el dispositivo cuenta con documentación técnica completa y accesible. Además, al tener dos interfaces UART, USB nativo y 26 pines GPIO no tan solo permite la comunicación con el seeder y la PC, sino que también permite la expansión del sistema en caso de ser necesario. Para el prototipo de la placa de control se utilizó el módulo comercial Raspberry Pi Pico como referencia de diseño.
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.9\textwidth}{>{\bfseries}l X}
+\toprule
+Característica & \textbf{Especificación (Microcontrolador RP2350)} \\
+\midrule
+Arquitectura & Doble núcleo ARM Cortex-M33 / Doble núcleo Hazard3 RISC-V \\
+Frecuencia de reloj & 150 MHz \\
+Memoria SRAM & 520 KB integrada \\
+Pines GPIO (RP2350A) & 30 en total (26 expuestos en la placa Pico 2) \\
+Periféricos estándar & 2 $\times$ UART, 2 $\times$ SPI, 2 $\times$ I2C \\
+Canales PWM & 24 canales \\
+Convertidor A/D (ADC) & 4 canales de 12 bits \\
+E/S Programable (PIO) & 3 bloques PIO (12 máquinas de estado en total) \\
+Periféricos adicionales & 1 $\times$ interfaz de transmisión de alta velocidad (HSTX) \\
+Seguridad & ARM TrustZone, Secure Boot, SRAM con Anti-tamper, 8 KB OTP \\
+\bottomrule
+\end{tabularx}
+\vspace{0.2cm}
+\caption{Especificaciones destacadas del RP2350 (usado en la Raspberry Pi Pico 2)}
+\label{tab:rp2350}
+\end{table}
+% PLACEHOLDER: ampliar con arquitectura interna del RP2350 (nucleos,
+% perifericos utilizados, velocidad de reloj) en base a su hoja de
+% datos, a incorporar en el Anexo I.
+
+
+\section {Conversion analógico-digital del detector de picos}
+\label{sec:conversion_adc}
+
+Como se mencionó antes, la conversión analógico-digital de la señal proveniente del circuito detector de picos se realizará mediante el ADC integrado del microcontrolador RP2350. Este ADC se encuentra configurado de la siguiente manera,
+
+\section{Comunicaci\'on serie RS232/UART}
+\label{sec:rs232_uart}
+
+La comunicaci\'on entre la placa de control y el l\'aser seeder se
+realiza mediante el protocolo RS232 especificado por el fabricante del
+equipo \cite{informeMarzo2026}. Dado que los niveles de tensi\'on RS232
+no son compatibles con los niveles l\'ogicos del microcontrolador, es
+necesario un circuito integrado transceptor que adapte ambos est\'andares
+\cite{sat2026}. La selecci\'on de dicho componente y su integraci\'on en
+la placa de control se describen en la
+Secci\'on~\ref{sec:comunicacion_seeder}.
+
+
+
+
+
 \chapter{Dise\~no e implementaci\'on de la placa de control}
 \label{cap:placa_control}
 
