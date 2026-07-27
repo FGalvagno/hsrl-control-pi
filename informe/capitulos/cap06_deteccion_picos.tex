@@ -1,124 +1,191 @@
 % =============================================================
-% Capitulo 6 - Diseno del circuito de deteccion de picos
+% Capitulo 4 - Diseno del circuito de deteccion de picos
 % =============================================================
-\chapter{Dise\~no del circuito de detecci\'on de picos}
+\chapter{Diseño del circuito de detección de picos}
 \label{cap:diseno_deteccion_picos}
 
-\section{Modelado y simulaci\'on del circuito}
+\section{Modelado del circuito de detección}
 \label{sec:modelado_simulacion}
 
-El circuito detector de picos dise\~nado consta de dos CFA conectados
-como seguidores/amplificadores no inversores y un transistor que
-funciona como elemento de detecci\'on \cite{informeEneFeb2026}. El
-operacional X1 adapta la impedancia de salida del amplificador de
-transimpedancia (modelado como un bloque para simplificar el
-an\'alisis). El transistor T2 se emplea como diodo detector en su
-uni\'on base-emisor, cargando el circuito RC conformado por $R_4$ y
-$C_1$. El operacional X2 act\'ua como buffer de salida, evitando que la
-impedancia de entrada del ADC (modelada mediante $R_7$) descargue el
-capacitor de retenci\'on antes de la digitalizaci\'on
-\cite{informeEneFeb2026}. En la presentaci\'on realizada en el ILRC32 se
-describi\'o adicionalmente la configuraci\'on de ganancia de ambos CFA
-como no inversores, con ganancias $G_1 = 2$ y $G_2 = 1$ respectivamente,
-y el transistor operando en configuraci\'on seguidor de emisor,
-permitiendo \'unicamente la carga del circuito RC
-\cite{galvagno2026ilrc}.
+Para determinar el valor máximo de la señal de salida del fotodiodo se plantearon dos alternativas:
 
-Partiendo de la ecuaci\'on est\'andar de carga de un circuito RC,
+\begin{itemize}
+  \item digitalizar la señal completa mediante un ADC rápido y
+        procesarla posteriormente para localizar el valor máximo, o
+  \item retener el valor máximo de la señal analógica con un circuito
+        detector de picos y digitalizar ese valor con un ADC de menor
+        velocidad.
+\end{itemize}
+
+Por razones de costo se adoptó la segunda alternativa, dado que admite un ADC más lento y económico y reduce el volumen de datos a procesar.
+
+El circuito detector de picos diseñado consta de dos amplificadores realimentados por corriente (CFA), conectados como amplificadores no inversores, y un transistor bipolar que opera como elemento de detección. El amplificador X1 adapta la impedancia de salida del amplificador de transimpedancia de los fotodiodos. El transistor T2 se emplea como diodo detector en su unión base-emisor y carga el circuito RC conformado por $R_4$ y $C_1$. El amplificador X2 actúa como buffer de salida, evitando que la impedancia de entrada del ADC, representada mediante $R_7$, descargue el capacitor de retención antes de la digitalización. El empleo de CFA en lugar de los amplificadores realimentados por tensión (VFA) tradicionales permite alcanzar un mayor \emph{slew rate}, característica determinante paraseguir la rápida variación de la señal de salida del fotodiodo.
+
+PLACEHOLDER PONER IMAGEN DE CIRCUITO DETECTOR DE PICOS
+
+El amplificador X1 se configuró con una ganancia de 2 para aumentar el rango dinámico del circuito detector, puesto que con niveles bajos de tension caemos en la alinealidad del transisotr, dado por el diodo base-emisor.
+
+Partiendo de la ecuación estándar de carga de un circuito RC,
 
 \begin{equation}
   V_C(t) = V_O \left(1 - e^{-t/R_4 C_1}\right)
   \label{eq:carga_rc}
 \end{equation}
 
-\noindent y considerando que, para $t/R_4C_1 \ll 1$, dicha expresi\'on
+\noindent y considerando que, para $t/R_4C_1 \ll 1$, dicha expresión
 puede aproximarse como
 
 \begin{equation}
-  V_C(t) \approx V_O \, \frac{t}{R_4 C_1}
+  V_C(t) \approx V_O \, \frac{t}{R_4 C_1},
   \label{eq:carga_rc_lineal}
 \end{equation}
 
-\noindent se obtiene una relaci\'on lineal entre la tensi\'on retenida
-y la tensi\'on de pico de entrada, sin necesidad de cargar completamente
-el capacitor $C_1$. Esto permite utilizar valores de capacidad que
-otorguen tiempos de descarga suficientemente grandes como para
-digitalizar el valor de pico $V_O$ \cite{informeEneFeb2026}.
+\noindent se obtiene una relación lineal entre la tensión retenida y la tensión de pico de entrada sin necesidad de cargar por completo el capacitor $C_1$. Esto permite seleccionar valores de capacidad que otorguen tiempos de descarga suficientemente grandes para digitalizar el valor de pico $V_O$ con un conversor analógico-digital de velocidad moderada y bajo costo. El amplificador X2 se configuró con ganancia unitaria para evitar que la impedancia de entrada del ADC descargue el capacitor de retención antes de la digitalización.
 
-El circuito se model\'o utilizando el modelo del amplificador AD8004 y
-se simul\'o en NGSPICE para distintos valores de tensi\'on de entrada
-$V_{in}$ \cite{galvagno2026ilrc}. A partir de 25 barridos con diferentes
-valores de $V_{in}$, se verific\'o la linealidad del circuito a partir
-de $V_i = 0.8$~V, valor determinado por la tensi\'on de salida m\'inima
-alcanzable por los CFA utilizados en un esquema de alimentaci\'on de un
-\'unico riel de +12~V \cite{informeEneFeb2026}. La salida del detector
-se ley\'o 5~\textmu s despu\'es del pulso, instante en el cual un ADC
-que muestrea a 500~ksps puede capturar correctamente el valor retenido
-\cite{galvagno2026ilrc}.
 
-\section{Selecci\'on de componentes}
+\title{Selección de componentes del detector de picos}
+
+El amplificador realimentado por corriente AD8004 se seleccionó por su elevado \emph{slew rate} y bajo costo, adecuado para la aplicación. El circuito integrado empleado en el prototipo fue provisto como muestra gratuita por Analog Devices. 
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Parámetro} & \textbf{Valor} & \textbf{Condiciones} \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Desempeño dinámico}} \\
+    Ancho de banda ($-3$~dB)            & 250~MHz            & $G = +1$          \\
+    Ancho de banda (planitud 0.1~dB)    & 30~MHz             & $G = +2$          \\
+    Slew rate                           & 3000~V/\textmu s   & $V_S = \pm5$~V    \\
+    Slew rate                           & 1100~V/\textmu s   & $V_S = +5$~V      \\
+    Tiempo de establecimiento (0.1\,\%) & 21~ns              &                   \\
+    Tiempo de subida (escalón de 2~V)   & 1.8~ns             &                   \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Ruido y distorsión}} \\
+    Distorsión armónica total (THD)     & $-78$~dBc                    & $f = 5$~MHz  \\
+    Ruido de tensión de entrada         & 1.5~nV/$\sqrt{\text{Hz}}$    & $f = 10$~kHz \\
+    Ruido de corriente de entrada       & 38~pA/$\sqrt{\text{Hz}}$     & $f = 10$~kHz \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Desempeño DC y características de entrada}} \\
+    Tensión de \emph{offset} de entrada     & 1.0~mV (típ.); 3.5~mV (máx.) &                \\
+    Corriente de polarización de entrada    & $\pm40$~\textmu A (típ.)      &                \\
+    Transresistencia en lazo abierto        & 290~k$\Omega$                & $V_O = \pm2.5$~V \\
+    Resistencia de entrada (no inversora)   & 2~M$\Omega$                  &                \\
+    Rango de tensión de entrada (modo común)& 3.2~V                        &                \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Salida y alimentación}} \\
+    Corriente de salida                     & 50~mA               &                        \\
+    Corriente de alimentación por amplificador & 3.5~mA (35~mW)   &                        \\
+    Rango de alimentación (simple)          & +4 a +12~V          &                        \\
+    Rango de alimentación (dual)            & $\pm2$ a $\pm6$~V   &                        \\
+    Tensión de alimentación máxima          & 12.6~V              & Valor máximo absoluto  \\
+    Rango de temperatura de operación       & $-40$ a $+85$~$^{\circ}$C & Grado A          \\
+    Encapsulado                             & SOIC de 14 pines    &                        \\
+    \bottomrule
+  \end{tabular}
+  \caption{Características principales del amplificador realimentado por
+  corriente AD8004.}
+  \label{tab:caracteristicas_ad8004}
+\end{table}
+
+Como elemento detector se utilizó un transistor bipolar BC817 debido a contar con alta corriente de colector, necesaria para cargar rápidamente el capacitor de emisor y además de poseer un ancho de banda lo suficientemente alto como para detectar los picos de la señal.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Parámetro} & \textbf{Valor} & \textbf{Condiciones} \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Valores máximos absolutos}} \\
+    Tensión colector-base ($V_{CBO}$)   & 50~V             & $I_E = 0$        \\
+    Tensión colector-emisor ($V_{CEO}$) & 45~V             & $I_B = 0$        \\
+    Tensión emisor-base ($V_{EBO}$)     & 5~V              & $I_C = 0$        \\
+    Corriente de colector ($I_C$)       & 500~mA           & Continua         \\
+    Potencia de disipación ($P_D$)      & 300~mW           & $T_A = 25$~$^{\circ}$C \\
+    Temperatura de unión ($T_J$)        & 150~$^{\circ}$C  & Máxima           \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Características eléctricas}} \\
+    Ganancia de corriente DC ($h_{FE}$)      & 160 a 400            & $V_{CE}=1$~V, $I_C=100$~mA \\
+    Tensión de saturación C-E ($V_{CE(sat)}$)& 0.7~V (máx.)         & $I_C=500$~mA, $I_B=50$~mA  \\
+    Tensión de saturación B-E ($V_{BE(sat)}$)& 1.2~V (máx.)         & $I_C=500$~mA, $I_B=50$~mA  \\
+    Frecuencia de transición ($f_T$)         & 100~MHz (mín.)       & $V_{CE}=5$~V, $I_C=10$~mA  \\
+    Corriente de fuga de colector ($I_{CBO}$)& 0.1~\textmu A (máx.) & $V_{CB}=45$~V             \\
+    Corriente de fuga de emisor ($I_{EBO}$)  & 0.1~\textmu A (máx.) & $V_{EB}=4$~V              \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Datos generales}} \\
+    Tipo        & NPN de silicio, propósito general & \\
+    Encapsulado & SOT-23                            & \\
+    \bottomrule
+  \end{tabular}
+  \caption{Características principales del transistor bipolar NPN BC817.}
+  \label{tab:caracteristicas_bc817}
+\end{table}
+
+Para la selección de los valores de los componentes pasivos se consideraron los siguientes criterios:
+\begin{itemize}
+      \item El valor de $R_2$ debe ser lo suficientemente grande para que el tiempo de carga del capacitor $C_1$ se mayor .
+      \item Los valores de resistencias de realimentacion para los amplificadores U1A y U1B se seleccionaron para obtener una ganancia de 2 y 1 utilizando los valores recomendados en la hoja de datos del AD8004, que son los que proporcionan mayor estabilidad.
+\end{itemize}
+
+
+
+\section{Selección de componentes}
 \label{sec:seleccion_componentes_deteccion}
 
-El amplificador operacional realimentado por corriente AD8004 fue
-seleccionado por su elevado \emph{slew-rate}, adecuado para la
-aplicaci\'on \cite{informeEneFeb2026}. El circuito integrado utilizado
-en el prototipo fue provisto como muestra gratuita por Analog Devices
-\cite{informeMarzo2026}. Como elemento detector se emple\'o un
-transistor BJT BC817 \cite{kicad_hsrl}.
 
 % PLACEHOLDER: completar la tabla de componentes definitiva (valores de
 % R4, C1, R7 y resistencias/capacitores de la red de realimentacion) una
 % vez cerrado el diseno final de la placa comercial.
 
-\section{Prototipado y validaci\'on experimental}
+\section{Prototipado y validación experimental}
 \label{sec:prototipado_validacion}
 
-Se ensambl\'o un primer prototipo del circuito mediante la t\'ecnica de
-papel transfer y ataque qu\'imico con cloruro f\'errico, utilizando
-componentes de montaje superficial (SMD) dada la sensibilidad del
-circuito a las capacidades par\'asitas \cite{informeMarzo2026}. Al
-excitar el circuito con un pulso de prueba de 100~ns de ancho y 20~Hz de
-frecuencia, se observaron oscilaciones en los amplificadores
-operacionales atribuibles a las capacidades par\'asitas propias de la
-condici\'on de prototipo de la placa, que reduc\'ian la linealidad
-necesaria del detector \cite{informeMarzo2026}.
 
-Tras la fabricaci\'on industrial de una nueva placa (ver
-Secci\'on~\ref{sec:mitigacion_parasitos}), se repiti\'o el ensayo con un
-pulso de 100~ns, comprob\'andose la resoluci\'on de las oscilaciones
-previamente observadas \cite{informeAbril2026}. Se verific\'o adem\'as
-la linealidad del detector realizando 20 mediciones con saltos
-discretos de amplitud de entrada de 200~mV, entre 1.2~V y 5~V, leyendo
-el valor de salida tras un tiempo de asentamiento de 700~ns, con
-resultados consistentes con los obtenidos en la simulaci\'on
-\cite{informeAbril2026}.
+El circuito se modeló utilizando el modelo del amplificador AD8004 y se simuló en NGSPICE para distintos valores de tensión de entrada $V_{in}$. A partir de 25 barridos con diferentes valores de $V_{in}$ se verificó la linealidad del circuito a partir de $V_i = 0.8$~V, umbral fijado por la tensión de salida mínima que alcanzan los CFA en un esquema de alimentación de riel único de +12~V. La salida del detector se leyó 5~\textmu s después del pulso, instante en el que un ADC que muestrea a aproximadamente 500~ksps captura correctamente el valor retenido \cite{galvagno2026ilrc}.
+
+Se ensambló un primer prototipo del circuito mediante la técnica de papel transfer y ataque químico con cloruro férrico, empleando
+componentes de montaje superficial (SMD) dada la sensibilidad del circuito a las capacidades parásitas \cite{informeMarzo2026}. Al excitar
+el circuito con un pulso de prueba de 100~ns de ancho y 20~Hz de frecuencia se observaron oscilaciones en los amplificadores
+operacionales, atribuibles a las capacidades parásitas propias de la
+condición de prototipo de la placa, que degradaban la linealidad
+requerida del detector \cite{informeMarzo2026}.
+
+Tras la fabricación industrial de una nueva placa (véase la
+Sección~\ref{sec:mitigacion_parasitos}) se repitió el ensayo con un
+pulso de 100~ns y se comprobó la eliminación de las oscilaciones
+observadas previamente \cite{informeAbril2026}. La linealidad del
+detector se verificó mediante 20 mediciones con saltos discretos de
+amplitud de entrada de 200~mV, entre 1.2~V y 5~V, leyendo el valor de
+salida tras un tiempo de asentamiento de 700~ns; los resultados fueron
+consistentes con los obtenidos en la simulación \cite{informeAbril2026}.
 
 % PLACEHOLDER: agregar comparacion cuantitativa entre los valores
 % simulados y medidos (error relativo, linealidad, ancho de banda
 % efectivo) cuando se disponga del analisis de datos completo.
 
-\section{Dise\~no de PCB y mitigaci\'on de efectos par\'asitos}
+\section{Diseño de PCB y mitigación de efectos parásitos}
 \label{sec:mitigacion_parasitos}
 
-Para reducir el efecto de las capacidades par\'asitas identificadas en
-la etapa de prototipado, se rediseñ\'o la placa aplicando las siguientes
-buenas pr\'acticas de ruteo \cite{informeMarzo2026}:
+Para reducir el efecto de las capacidades parásitas identificadas en la
+etapa de prototipado, se rediseñó la placa aplicando las siguientes
+buenas prácticas de ruteo \cite{informeMarzo2026}:
 
 \begin{itemize}
   \item Mantenimiento de planos de masa con recortes (\emph{cutouts})
-        debajo de los pines de entrada y de la red de realimentaci\'on.
-  \item Ubicaci\'on de los componentes de la red de realimentaci\'on lo
-        m\'as cerca posible del amplificador, con el resistor $R_f$
-        conectado directamente entre el pin de salida y el pin $-IN$
-        sin v\'ias intermedias.
-  \item Colocaci\'on de capacitores de desacople en los pines de
-        alimentaci\'on con v\'ia directa al plano de masa.
-  \item Separaci\'on de las pistas de entrada respecto de l\'ineas de
-        alta frecuencia o se\~nales ruidosas adyacentes.
-  \item Reducci\'on del encapsulado de las resistencias SMD de 1206 a
-        0603, disminuyendo adem\'as su tolerancia de 5\,\% a 1\,\%.
+        debajo de los pines de entrada y de la red de realimentación.
+  \item Ubicación de los componentes de la red de realimentación lo más
+        cerca posible del amplificador, con el resistor $R_f$ conectado
+        directamente entre el pin de salida y el pin $-IN$ sin vías
+        intermedias.
+  \item Colocación de capacitores de desacople en los pines de
+        alimentación, con vía directa al plano de masa.
+  \item Separación de las pistas de entrada respecto de líneas de alta
+        frecuencia o señales ruidosas adyacentes.
+  \item Reducción del encapsulado de las resistencias SMD de 1206 a
+        0603, disminuyendo además su tolerancia de 5\,\% a 1\,\%.
 \end{itemize}
 
-La placa resultante se dise\~n\'o en KiCad~9.0 \cite{informeMarzo2026,kicad_hsrl}
-y se encarg\'o inicialmente a la empresa PCBWay y, posteriormente, a la
-empresa JLCPCB \cite{informeMarzo2026,informeAbril2026}.
+La placa resultante se diseñó en KiCad~9.0
+\cite{informeMarzo2026,kicad_hsrl} y se encargó inicialmente a la empresa
+PCBWay y, posteriormente, a la empresa JLCPCB
+\cite{informeMarzo2026,informeAbril2026}.
