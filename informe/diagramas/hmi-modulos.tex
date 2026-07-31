@@ -1,0 +1,35 @@
+% Figura: hmi-modulos -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\node[bloque,text width=62mm] (hmi) at (2.0,3.2)
+  {\texttt{hmi.py}\\[1pt]\scriptsize \texttt{HmiApplication}: construcción de la pantalla,
+   \texttt{\_poll\_serial()} cada 100\,ms, secuencia de sintonización automática};
+
+\node[bloque,text width=34mm] (ser) at (-5.4,0.5)
+  {\texttt{serie.py}\\[1pt]\scriptsize \texttt{SerialLink}: hilo lector,\\cola de líneas, \texttt{SerialLinkError}};
+\node[bloque,text width=36mm] (tel) at (-0.4,0.5)
+  {\texttt{telemetria.py}\\[1pt]\scriptsize \texttt{ProcessData} + \texttt{parse\_line()}\\(no importa Tkinter)};
+\node[bloque,text width=32mm] (reg) at (4.4,0.5)
+  {\texttt{registro.py}\\[1pt]\scriptsize \texttt{session\_log()} y\\\texttt{CycleCsvWriter}};
+\node[bloque,text width=36mm] (wid) at (9.4,0.5)
+  {\texttt{widgets.py}\\[1pt]\scriptsize \texttt{StatusIndicator}, \texttt{StatusLabel},\\\texttt{group\_box()}, \texttt{value\_row()}};
+
+\node[bloqueg,text width=32mm] (py)  at (-5.4,-2.2) {\texttt{pyserial}\\[1pt]\scriptsize puerto USB-CDC};
+\node[bloquea,text width=42mm] (fw)  at (1.4,-2.2)
+  {\texttt{firmware.py}\\[1pt]\scriptsize constantes espejo de \texttt{config.h} y \texttt{LOG\_COLUMNS}};
+\node[bloquea,text width=36mm] (est) at (7.8,-2.2)
+  {\texttt{estilo.py}\\[1pt]\scriptsize paleta ISA-101 y tipografía};
+
+\draw[flecha] (hmi) -- (ser);
+\draw[flecha] (hmi) -- (tel);
+\draw[flecha] (hmi) -- (reg);
+\draw[flecha] (hmi) -- (wid);
+\draw[flechag] (tel) -- (fw);
+\draw[flechag] (reg.south) -- ++(0,-0.9) -| (fw.30);
+\draw[flechag] (wid) -- (est);
+\draw[flechag] (ser) -- (py);
+
+\node[et,anchor=north west,align=left] at (-7.4,-3.4)
+  {\scriptsize $\longrightarrow$ dependencia de importación};
+
+\end{tikzpicture}

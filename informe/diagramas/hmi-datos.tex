@@ -1,0 +1,75 @@
+% Figura: hmi-datos -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm,
+  paso/.style={bloque,text width=54mm},
+  dec/.style={decision,text width=30mm},
+  canal/.style={draw=cborde!80!black,thick},
+  banda/.style={draw=cgrisb,dashed,rounded corners=3pt,fill=cgris!45}]
+
+% ---------------- bandas ----------------
+\begin{scope}[on background layer]
+  \fill[banda] (-9.6,-9.4) rectangle (11.0,2.3);
+  \fill[banda] (-9.6,-33.4) rectangle (11.0,-12.4);
+\end{scope}
+\node[tit,anchor=north west] at (-9.5,2.2)   {hilo lector \textemdash\ \texttt{serie.py}, continuo};
+\node[tit,anchor=north west] at (-9.5,-12.5) {hilo principal de Tk \textemdash\ \texttt{hmi.py}};
+
+% ---------------- hilo lector ----------------
+\node[dec]  (a1) at (0,0)    {¿hay bytes\\en el puerto?};
+\node[paso] (a2) at (0,-2.4) {Leer, decodificar y acumular en el buffer};
+\node[dec]  (a3) at (0,-4.8) {¿el buffer tiene\\una línea completa?};
+\node[paso] (a4) at (0,-7.4) {Cortar la línea y ponerla en la cola};
+
+\node[bloqueg,text width=30mm] (aw) at (6.4,0)  {Esperar 5\,ms};
+\node[bloquer,text width=34mm] (ae) at (-6.6,-2.4)
+  {Falla del puerto:\\[1pt]\scriptsize levantar \texttt{connection\_lost} y terminar el hilo};
+
+\draw[flecha] (a1) -- node[et,right]{sí} (a2);
+\draw[flecha] (a2) -- (a3);
+\draw[flecha] (a3) -- node[et,right]{sí} (a4);
+\draw[flecha] (a1.east) -- node[et,above]{no} (aw.west);
+\draw[canal] (aw.north) -- (6.4,0.9) -- (0,0.9);
+\draw[canal] (a3.west) -- node[et,above,pos=0.25]{no} (-9.1,-4.8) -- (-9.1,0.9) -- (0,0.9);
+\draw[flecha] (0,0.9) -- (a1.north);
+\draw[flecha] (a4.east) -- (9.6,-7.4) -- (9.6,-4.8) -- (a3.east);
+\draw[flechag] (a2.west) -- node[et,above]{excepción} (ae.east);
+
+% ---------------- la cola ----------------
+\node[bloquea,text width=58mm,draw=cacentob,dashed] (q) at (0,-10.9)
+  {\texttt{queue.Queue}\\[1pt]\scriptsize frontera entre los dos hilos};
+\draw[flecha] (a4.south) -- (q.north);
+\draw[flecha] (q.south) -- (0,-13.05);
+
+% ---------------- hilo principal de Tk ----------------
+\node[bloquea,text width=54mm] (b0) at (0,-13.8)
+  {\texttt{\_poll\_serial()}\\[1pt]\scriptsize \texttt{root.after} cada 100\,ms};
+\node[paso] (b1) at (0,-16.2) {Tomar de la cola hasta 50 líneas};
+\node[dec]  (b2) at (0,-18.6) {¿queda alguna\\línea del lote?};
+\node[paso] (b3) at (0,-21.2) {Eco en el monitor y \texttt{parse\_line()}\\[1pt]\scriptsize actualiza \texttt{ProcessData}};
+\node[dec]  (b4) at (0,-23.8) {¿la línea\\cerró un ciclo?};
+\node[paso,text width=58mm] (b5) at (0,-26.4)
+  {\texttt{track\_minima()}, punto al gráfico, fila al CSV y paso de la sintonización automática};
+\node[dec]  (b6) at (0,-29.0) {¿\texttt{connection}\\\texttt{\_lost}?};
+\node[dec]  (b7) at (0,-31.2) {¿hubo\\novedades?};
+
+\node[bloquer,text width=34mm] (bd) at (6.6,-29.0) {Avisar y cerrar el puerto};
+\node[bloque,text width=34mm]  (br) at (6.6,-31.2) {\texttt{\_refresh\_display()}};
+
+\draw[flecha] (b0) -- (b1);
+\draw[flecha] (b1) -- (b2);
+\draw[flecha] (b2) -- node[et,right]{sí} (b3);
+\draw[flecha] (b3) -- (b4);
+\draw[flecha] (b4) -- node[et,right]{sí} (b5);
+\draw[canal] (b4.east) -- node[et,above,pos=0.35]{no} (9.6,-23.8);
+\draw[canal] (b5.east) -- (9.6,-26.4);
+\draw[canal] (9.6,-26.4) -- (9.6,-18.6);
+\draw[flecha] (9.6,-18.6) -- (b2.east);
+\draw[flecha] (b2.west) -- node[et,above,pos=0.22]{no} (-9.1,-18.6) -- (-9.1,-29.0) -- (b6.west);
+\draw[flecha] (b6) -- node[et,left]{no} (b7);
+\draw[flecha] (b6.east) -- node[et,above]{sí} (bd.west);
+\draw[flecha] (b7.east) -- node[et,above]{sí} (br.west);
+\draw[flechag] (bd.south) -- (6.6,-30.1) -- (0,-30.1);
+\draw[flechag] (br.south) -- (6.6,-32.5) -- (0,-32.5);
+\draw[flecha] (b7.south) -- node[et,left,pos=0.4]{no} (0,-32.5) -- (10.3,-32.5)
+      -- node[et,pos=0.55,right,rotate=90]{\texttt{root.after(100\,ms)}} (10.3,-13.8) -- (b0.east);
+
+\end{tikzpicture}

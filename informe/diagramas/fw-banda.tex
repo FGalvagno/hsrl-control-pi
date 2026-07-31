@@ -1,0 +1,28 @@
+% Figura: fw-banda -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\fill[cacento] (-1.9,-0.28) rectangle (1.9,0.28);
+\draw[cacentob] (-1.9,-0.28) rectangle (1.9,0.28);
+
+\draw[-{Stealth[length=2.4mm]},thick] (-6.4,0) -- (6.6,0) node[right,font=\footnotesize]{$\mathit{prt}$};
+
+\foreach \x/\l in {-1.9/{$\mathit{prt}_{\mathrm{ref}}/\mathrm{coe}$}, 0/{$\mathit{prt}_{\mathrm{ref}}$}, 1.9/{$\mathit{prt}_{\mathrm{ref}}\cdot\mathrm{coe}$}}{
+  \draw[thick] (\x,-0.32) -- (\x,0.32);
+  \node[font=\scriptsize,below=4pt] at (\x,-0.32) {\l};
+}
+
+\node[bloque,text width=34mm] (izq) at (-4.2,1.5)
+  {$\Delta_{\text{heater}}=+\,\text{paso fino}$\\[1pt]\scriptsize Subir la temperatura};
+\node[bloquea,text width=34mm] (cen) at (0,1.9)
+  {$\Delta_{\text{heater}}=0$\\[1pt]\scriptsize banda muerta};
+\node[bloque,text width=34mm] (der) at (4.2,1.5)
+  {$\Delta_{\text{heater}}=-\,\text{paso fino}$\\[1pt]\scriptsize Bajar la temperatura};
+
+\draw[flecha] (izq) -- (-4.2,0.15);
+\draw[flecha] (cen) -- (0,0.35);
+\draw[flecha] (der) -- (4.2,0.15);
+
+\node[font=\scriptsize,anchor=north] at (0,-1.15)
+  {$\mathrm{coe}=1{,}23$ \; (\texttt{LOCK\_COE}), \quad Paso fino $=0{,}0044375\,^{\circ}$C \; (\texttt{HEATER\_PASO\_FINO})};
+
+\end{tikzpicture}

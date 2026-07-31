@@ -1,0 +1,28 @@
+% Figura: fw-estados -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm,
+  doble/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]},draw=cborde!80!black,thick}]
+
+\node[bloquea,text width=30mm] (stop) at (0,0)     {\textbf{STOP} \texttt{(s)}\\[1pt]\scriptsize detenido, $\Delta_{h}=0$};
+\node[bloque,text width=34mm]  (fwd)  at (5.4,2.3)  {\textbf{FORWARD} \texttt{(f)}\\[1pt]\scriptsize $\Delta_{h}=+$\,paso grueso};
+\node[bloque,text width=34mm]  (bwd)  at (5.4,-2.3) {\textbf{BACKWARD} \texttt{(b)}\\[1pt]\scriptsize $\Delta_{h}=-$\,paso grueso};
+\node[bloque,text width=34mm]  (lock) at (11.0,0)   {\textbf{LOCK} \texttt{(g)}\\[1pt]\scriptsize banda muerta sobre $\mathit{prt}$};
+\node[bloquer,text width=26mm] (end)  at (0,-3.6)   {\textbf{END} \texttt{(e)}};
+
+\fill (-2.6,0) circle (2pt);
+\draw[flecha] (-2.6,0) -- (stop);
+
+\draw[doble] (stop.55)  -- node[et,pos=0.20]{\texttt{f}} node[et,pos=0.80]{\texttt{s}} (fwd.west);
+\draw[doble] (stop.-55) -- node[et,pos=0.20]{\texttt{b}} node[et,pos=0.80]{\texttt{s}} (bwd.west);
+\draw[doble] (fwd.south) -- node[et,pos=0.22]{\texttt{b}} node[et,pos=0.78]{\texttt{f}} (bwd.north);
+\draw[doble] (fwd.east) -- node[et,pos=0.22]{\texttt{g}} node[et,pos=0.80]{\texttt{f}} (lock.100);
+\draw[doble] (bwd.east) -- node[et,pos=0.22]{\texttt{g}} node[et,pos=0.80]{\texttt{b}} (lock.-100);
+\draw[doble] (stop.north) to[out=90,in=90,looseness=0.9]
+      node[et,pos=0.18]{\texttt{g}} node[et,pos=0.84]{\texttt{s}} (lock.north);
+\draw[flecha] (stop) -- node[et,pos=0.5]{\texttt{e}} (end);
+
+\draw[flechag,dashed] (lock.150) to[out=150,in=-20,looseness=0.8]
+   node[et,pos=0.5]{$sp<h_{\min}$} (fwd.-20);
+\draw[flechag,dashed] (lock.-150) to[out=-150,in=20,looseness=0.8]
+   node[et,pos=0.5]{$sp>h_{\max}$} (bwd.20);
+
+\end{tikzpicture}

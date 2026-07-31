@@ -1,0 +1,79 @@
+% Figura: hmi-auto -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm,
+  conector/.style={draw=cborde,fill=cbloque,circle,minimum size=7mm,
+                   inner sep=0pt,font=\footnotesize\bfseries}]
+
+% ---------------- columna A: validación y puesta en el punto medio ----------------
+\node[bloquea,text width=44mm] (a1) at (0,0)
+  {\textbf{SINTONIZAR AUTO}\\[1pt]\scriptsize el operador presiona el botón};
+\node[decision,text width=24mm] (a2) at (0,-1.8) {¿puerto\\abierto?};
+\node[bloque,text width=48mm]  (a3) at (0,-3.6)
+  {$t \leftarrow \dfrac{t_{\min p^{+}} + t_{\min p^{-}}}{2}$};
+\node[decision,text width=26mm] (a4) at (0,-5.5) {¿hay mínimos\\registrados?};
+\node[decision,text width=26mm] (a5) at (0,-7.5) {$t\in[h_{\min},h_{\max}]$?};
+\node[bloque,text width=48mm]  (a6) at (0,-9.4)
+  {Enviar \texttt{s}\\[1pt]\scriptsize el heater deja de barrer};
+\node[bloque,text width=48mm]  (a7) at (0,-10.9)
+  {Enviar \texttt{T<t>} y \texttt{w}\\[1pt]\scriptsize el setpoint entra sin esperar al ciclo en curso};
+\node[bloque,text width=48mm]  (a8) at (0,-12.5)
+  {Esperar \texttt{AUTO\_SETTLE\_TIME\_S} $=20$\,s\\[1pt]\scriptsize estabilización térmica};
+\node[conector] (ca) at (0,-14.0) {A};
+
+% salidas por rechazo
+\node[bloquer,text width=40mm] (f1) at (-7.2,-1.8)
+  {\scriptsize Mensaje \emph{No conectado} en el monitor serie};
+\node[bloquer,text width=40mm] (f2) at (-7.2,-5.5)
+  {\scriptsize Estado \textbf{SIN MÍNIMOS}: barrer con AVANZAR o RETROCEDER primero};
+\node[bloquer,text width=40mm] (f3) at (-7.2,-7.5)
+  {\scriptsize Estado \textbf{FUERA DE RANGO}: la temperatura media cae fuera de los límites};
+
+\draw[flecha] (a1) -- (a2);
+\draw[flecha] (a2) -- node[et,right]{sí} (a3);
+\draw[flecha] (a3) -- (a4);
+\draw[flecha] (a4) -- node[et,right]{sí} (a5);
+\draw[flecha] (a5) -- node[et,right]{sí} (a6);
+\draw[flecha] (a6) -- (a7);
+\draw[flecha] (a7) -- (a8);
+\draw[flecha] (a8) -- (ca);
+\draw[flecha] (a2) -- node[et,above]{no} (f1);
+\draw[flecha] (a4) -- node[et,above]{no} (f2);
+\draw[flecha] (a5) -- node[et,above]{no} (f3);
+
+% ---------------- columna B: medición y enganche ----------------
+\node[conector] (cb) at (9.2,-0.7) {A};
+\node[bloque,text width=48mm] (b1) at (9.2,-2.2)
+  {\texttt{auto\_cycles\_left} $\leftarrow$ \texttt{AUTO\_MEASURE\_CYCLES} $=4$};
+\node[bloque,text width=48mm] (b2) at (9.2,-4.0)
+  {Esperar el cierre de un ciclo\\[1pt]\scriptsize línea \texttt{[log]} del firmware};
+\node[bloque,text width=48mm] (b3) at (9.2,-5.6)
+  {\texttt{auto\_cycles\_left} $\leftarrow$ \texttt{auto\_cycles\_left} $-\,1$};
+\node[decision,text width=24mm] (b4) at (9.2,-7.5) {\texttt{auto\_cycles}\\\texttt{\_left} $>0$?};
+\node[bloque,text width=54mm] (b5) at (9.2,-9.6)
+  {Enviar \texttt{g}\\[1pt]\scriptsize el lock toma como referencia el $\mathit{prt}$ de dos ciclos atrás, ya estabilizado};
+\node[bloquea,text width=44mm] (b6) at (9.2,-11.5)
+  {\textbf{ENGANCHADO}};
+
+\draw[flecha] (cb) -- (b1);
+\draw[flecha] (b1) -- (b2);
+\draw[flecha] (b2) -- (b3);
+\draw[flecha] (b3) -- (b4);
+\draw[flecha] (b4) -- node[et,right]{no} (b5);
+\draw[flecha] (b5) -- (b6);
+\draw[flecha] (b4.east) -- node[et,pos=0.28,above]{sí} (13.4,-7.5) -- (13.4,-4.0) -- (b2.east);
+
+% ---------------- notas ----------------
+\node[nota,text width=58mm,anchor=north west] at (-9.7,2.5)
+ {\textbf{Precondición.} Durante el barrido con \texttt{f} o \texttt{b} el HMI sigue
+  ciclo a ciclo los mínimos de $p^{+}$ y $p^{-}$ y la temperatura a la que ocurren.
+  DETENER (\texttt{s}) los borra.};
+
+\node[nota,text width=62mm,anchor=north west] at (3.6,-12.6)
+ {\textbf{Cancelación.} En cualquier punto, un comando de \texttt{INTERRUPTING\_COMMANDS}
+  (\texttt{s}, \texttt{f}, \texttt{b}, \texttt{g}, \texttt{e}, \texttt{T}), un botón de
+  modo o la caída del puerto cancelan la secuencia. No se revierte lo ya enviado:
+  el Pico queda en el último modo que recibió.};
+
+\node[et,anchor=north west,align=left] at (-9.7,-9.2)
+ {\scriptsize En las tres salidas de rechazo\\no se envía ningún comando al firmware.};
+
+\end{tikzpicture}

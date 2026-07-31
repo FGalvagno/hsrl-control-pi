@@ -37,6 +37,12 @@
 % Superior, inferior y derecho: 2,5 cm - Izquierdo (encuadernacion): 3 cm
 \usepackage[a4paper,twoside,left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 
+%----------- Inclusión de anexos ---------
+\usepackage{pdfpages}
+
+%----------- Estilo de Tikz -----------
+\input{diagramas/estilos-diagramas}
+
 % ---------- Interlineado ----------
 \usepackage{setspace}
 \onehalfspacing % 1,5 espacios en el cuerpo del texto
@@ -49,7 +55,7 @@
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{rotating} % hojas apaisadas para diagramas grandes
-
+\usepackage{tabularx}
 % Figuras y tablas se separan del texto con 3 espacios (manual de
 % estilo); formato de leyenda "Figura N: Descripcion (Fuente: ...)".
 % Figuras y tablas: leyenda "Figura N: Descripcion (Fuente: ...)" sin negrita,
@@ -123,8 +129,11 @@
 \fancyhead[LE,RO]{\thepage}
 \fancyhead[RE]{\nouppercase{\leftmark}}
 \fancyhead[LO]{\nouppercase{\rightmark}}
-\renewcommand{\headrulewidth}{0.4pt}
-
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{} % Limpia el pie de página
+  \renewcommand{\headrulewidth}{0pt} % Quita la regla superior en estas páginas
+}
 % ---------- Hipervinculos ----------
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
@@ -160,11 +169,9 @@
 \cleardoublepage
 \tableofcontents
 
-\cleardoublepage
 \listoftables
 \addcontentsline{toc}{chapter}{\listtablename}
 
-\cleardoublepage
 \listoffigures
 \addcontentsline{toc}{chapter}{\listfigurename}
 
@@ -181,15 +188,15 @@
 \part{Marco Teórico}
 \input{capitulos/cap02_lidar_hsrl}
 \input{capitulos/cap03_fotodeteccion}
-\input{capitulos/cap04_sistemas_embebidos}
-\input{capitulos/cap05_control_hmi}
+
 
 \part{Marco Metodológico}
-\input{capitulos/cap06_deteccion_picos}
-\input{capitulos/cap07_placa_control}
-\input{capitulos/cap08_firmware}
-\input{capitulos/cap09_software_hmi}
-\input{capitulos/cap10_modelo_experimental}
+\input{capitulos/cap04_deteccion_picos}
+\input{capitulos/cap05_microcontrolador}
+\input{capitulos/cap06_placa_control}
+\input{capitulos/cap07_firmware}
+\input{capitulos/cap08_software_hmi}
+
 
 \part{Resultados y Conclusiones}
 \input{resultados}

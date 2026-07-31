@@ -1,0 +1,20 @@
+%% Arquitectura de hardware del sistema de control de longitud de onda
+flowchart LR
+    GEN["Generador de ondas<br/>(trigger del lidar)"]
+    DET["Detector HSRL<br/>canales p+ / p-"]
+    ACO["Acondicionamiento<br/>0 - 3,3 V"]
+    subgraph PICO["Raspberry Pi Pico 2 (RP2350)"]
+        C0["core0<br/>lazo de medicion y control"]
+        C1["core1<br/>consola de comandos"]
+    end
+    LVL["Conversor<br/>TTL / RS-232"]
+    SEED["Seeder Continuum<br/>heater + piezo"]
+    PC["PC del operador<br/>HMI / terminal serie"]
+
+    GEN -- "GPIO13 (digital)" --> PICO
+    DET --> ACO
+    ACO -- "GPIO26 = ADC0 (p+)<br/>GPIO27 = ADC1 (p-)" --> PICO
+    PICO -- "UART0 GPIO0/1<br/>57600 8N1" --> LVL
+    LVL -- "RS-232 SCPI" --> SEED
+    SEED -- "temperatura de cavidad" --> DET
+    PICO -- "USB-CDC (stdio)" --> PC

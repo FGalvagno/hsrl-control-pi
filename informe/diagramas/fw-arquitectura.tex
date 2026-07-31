@@ -1,0 +1,39 @@
+% Figura: fw-arquitectura -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\node[bloqueg,text width=25mm] (gen) at (0,3.2) {Generador\\de ondas};
+\node[bloqueg,text width=25mm] (det) at (0,1.0) {Detector HSRL\\canales $p^{+}$ / $p^{-}$};
+\node[bloqueg,text width=25mm] (aco) at (0,-0.6) {Acondicionamiento\\$0$--$3{,}3$\,V};
+
+\node[bloque,text width=28mm] (c0) at (5.6,2.7) {\textbf{core0}\\lazo de medición\\y control};
+\node[bloque,text width=28mm] (c1) at (5.6,0.3) {\textbf{core1}\\consola de comandos};
+
+\begin{scope}[on background layer]
+\node[grupo,fit=(c0)(c1),label={[tit]above:Raspberry Pi Pico 2 (RP2350)}] (pico) {};
+\end{scope}
+
+\node[bloquea,text width=26mm] (pc)   at (11.0,3.9) {PC del operador\\HMI};
+\node[bloquea,text width=26mm] (seed) at (11.0,2.0) {Seeder Continuum\\heater + piezo};
+\node[bloqueg,text width=26mm] (lvl)  at (11.0,0.3) {Conversor\\TTL\,/\,RS-232};
+
+% trigger
+\draw[flecha] (gen.east) -- ++(0.7,0) |- (c0.163)
+      node[et,pos=0.28,above]{\texttt{GPIO13}\\trigger};
+% cadena de deteccion
+\draw[flecha] (det) -- (aco);
+\draw[flecha] (aco.east) -- ++(1.5,0) |- (c0.197)
+      node[et,pos=0.30,above]{\texttt{GPIO26/27}\\ADC0 / ADC1};
+% uart hacia el seeder
+\draw[flecha] (c1.east) -- (lvl.west)
+      node[et,midway,above=1pt]{UART0 \texttt{GPIO0/1}\\$57\,600$ 8N1};
+\draw[flecha] (lvl) -- (seed) node[et,midway,right]{RS-232\\SCPI};
+% consola usb
+\draw[flecha] (c0.east) -- ++(0.8,0) |- (pc.west)
+      node[et,pos=0.72,above]{USB-CDC};
+% realimentacion fisica: bordea el diagrama por la derecha y por abajo,
+% fuera de todos los rectangulos
+\draw[flechag] (seed.east) -- (13.6,2.0) -- (13.6,-2.4)
+      -- node[et,midway,above]{temperatura de la cavidad $\Rightarrow$ $\lambda$ del láser}
+         (-2.6,-2.4) -- (-2.6,1.0) -- (det.west);
+
+\end{tikzpicture}

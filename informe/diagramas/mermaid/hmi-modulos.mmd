@@ -1,0 +1,20 @@
+%% Arquitectura de modulos del HMI
+flowchart TD
+    HMI["hmi.py<br/>construccion de pantalla, _poll(),<br/>secuencia de sintonizacion automatica"]
+    TEL["telemetria.py<br/>ProcData + parse_line()<br/>(sin dependencia de Tkinter)"]
+    SER["serie.py<br/>hilo lector, cola de lineas,<br/>SerieError"]
+    REG["registro.py<br/>log de sesion y CSV de ciclos"]
+    WID["widgets.py<br/>Indicador, EtiquetaEstado,<br/>grupo(), fila_valor()"]
+    EST["estilo.py<br/>paleta ISA-101 y tipografia"]
+    FW["firmware.py<br/>constantes espejo de config.h"]
+
+    HMI --> TEL
+    HMI --> SER
+    HMI --> REG
+    HMI --> WID
+    HMI --> EST
+    HMI --> FW
+    TEL --> FW
+    REG --> FW
+    WID --> EST
+    SER -->|pyserial| PY(("puerto USB-CDC"))

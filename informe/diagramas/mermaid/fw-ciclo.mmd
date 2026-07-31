@@ -1,0 +1,16 @@
+%% Ciclo de medicion y control ejecutado por core0
+flowchart TD
+    A["Inicio de ciclo n"] --> B["Copiar n_prom y espera_ms<br/>bajo seccion critica"]
+    B --> C{"espera_ms > 0 ?"}
+    C -- si --> D["Pausa de estabilizacion termica"]
+    C -- no --> E
+    D --> E["Capturar 2 x n_prom pulsos de trigger<br/>alternando p+ / p-"]
+    E --> F["Promediar picos y convertir a volts"]
+    F --> G["control_actualizar():<br/>rotar historial, prt = p+/p-,<br/>proteccion de rango, calcular d_heater"]
+    G --> H["Escribir setpoints al seeder<br/>(:syst:pdr:volt, :syst:tcon2:spo)"]
+    H --> I["Leer valores reales<br/>(:syst:pdr:volt?, :syst:tmon2:temp?)"]
+    I --> J["Consultar flags de second mode<br/>(:syst:smod:flag?)"]
+    J --> K["Imprimir linea [log]<br/>CSV posicional del ciclo"]
+    K --> L{"modo = END ?"}
+    L -- no --> A
+    L -- si --> M["Fin del programa"]

@@ -1,0 +1,43 @@
+% Figura: fw-ciclo -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm,node distance=4mm]
+
+\node[bloquea,text width=46mm] (ini) at (0,0) {\textbf{Inicio del ciclo $n$}};
+\node[proceso,text width=52mm,below=5mm of ini] (cp)
+  {Copiar \texttt{n\_prom} y \texttt{espera\_ms}\\bajo sección crítica};
+\node[decision,below=5mm of cp,text width=22mm] (dec) {\texttt{espera\_ms}\\$>0$?};
+\node[proceso,text width=52mm,below=5mm of dec] (esp)
+  {Pausa de estabilización térmica};
+\node[proceso,text width=52mm,below=5mm of esp] (cap)
+  {Capturar $2n$ pulsos de trigger\\alternando $P_+$ y $P_-$};
+\node[proceso,text width=52mm,below=4mm of cap] (prom)
+  {Promediar picos y convertir a volts};
+\node[proceso,text width=52mm,below=4mm of prom] (ctl)
+  {\texttt{control\_actualizar()}: rotar historial,\\
+   $\mathit{prt}=P_+/P_-$, protección de rango,\\calcular $\Delta_{\text{heater}}$};
+\node[proceso,text width=52mm,below=4mm of ctl] (wr)
+  {Escribir setpoints al seeder\\\texttt{:syst:pdr:volt} \quad \texttt{:syst:tcon2:spo}};
+\node[proceso,text width=52mm,below=4mm of wr] (rd)
+  {Leer valores reales\\\texttt{:syst:pdr:volt?} \quad \texttt{:syst:tmon2:temp?}};
+\node[proceso,text width=52mm,below=4mm of rd] (sm)
+  {Consultar \emph{second mode}\\\texttt{:syst:smod:flag?}};
+\node[bloquea,text width=52mm,below=4mm of sm] (log)
+  {Emitir la línea \texttt{[log]}\\\scriptsize CSV con el estado del ultimo ciclo};
+\node[decision,below=5mm of log,text width=20mm] (fin) {modo\\$=$ \texttt{e}?};
+\node[bloquer,text width=30mm,below=5mm of fin] (end) {Fin del programa};
+
+\draw[flecha] (ini) -- (cp);
+\draw[flecha] (cp) -- (dec);
+\draw[flecha] (dec) -- node[et,left]{sí} (esp);
+\draw[flecha] (esp) -- (cap);
+\draw[flecha] (dec.east) -- ++(2.6,0) |- node[et,pos=0.25,above]{no} (cap.east);
+\draw[flecha] (cap) -- (prom);
+\draw[flecha] (prom) -- (ctl);
+\draw[flecha] (ctl) -- (wr);
+\draw[flecha] (wr) -- (rd);
+\draw[flecha] (rd) -- (sm);
+\draw[flecha] (sm) -- (log);
+\draw[flecha] (log) -- (fin);
+\draw[flecha] (fin) -- node[et,left]{sí} (end);
+\draw[flecha] (fin.west) -- ++(-3.4,0) |- node[et,pos=0.08,above]{no} (ini.west);
+
+\end{tikzpicture}

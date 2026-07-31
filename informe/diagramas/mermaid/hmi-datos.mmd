@@ -1,0 +1,20 @@
+%% Camino de un ciclo de telemetria desde el puerto hasta la pantalla
+sequenceDiagram
+    participant PICO as Pico 2
+    participant TH as Hilo lector (serie.py)
+    participant Q as queue.Queue
+    participant POLL as _poll() (hilo Tk, 100 ms)
+    participant D as ProcData
+    participant UI as Pantalla / CSV / grafico
+
+    PICO->>TH: bytes por USB-CDC
+    TH->>TH: acumular buffer, cortar por \n
+    TH->>Q: put(linea)
+    POLL->>Q: get_nowait() (hasta 50 por turno)
+    POLL->>UI: eco en el monitor serie
+    POLL->>D: parse_line(linea, data)
+    D-->>POLL: new_point = True
+    POLL->>D: seguir_minimos()
+    POLL->>UI: _add_point() al grafico
+    POLL->>UI: csv.anotar(log_row, log_cols)
+    POLL->>UI: _refresh_display()

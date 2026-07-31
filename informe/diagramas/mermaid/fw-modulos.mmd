@@ -1,0 +1,19 @@
+%% Descomposicion en modulos del firmware
+flowchart TD
+    MAIN["hsrl-control.c<br/>main(), lazo de ciclo,<br/>parser de comandos, linea [log]"]
+    ADC["adc_capture.c/.h<br/>captura de picos sincronizada"]
+    CTRL["control.c/.h<br/>maquina de estados y deltas"]
+    SEED["seeder_comm.c/.h<br/>protocolo SCPI sobre UART"]
+    CFG["config.h<br/>pines, defaults y limites"]
+    SDK["Pico SDK<br/>hardware_adc, hardware_uart,<br/>hardware_sync, pico_multicore"]
+
+    MAIN --> ADC
+    MAIN --> CTRL
+    MAIN --> SEED
+    ADC --> CFG
+    CTRL --> CFG
+    SEED --> CFG
+    MAIN --> CFG
+    ADC --> SDK
+    SEED --> SDK
+    MAIN --> SDK

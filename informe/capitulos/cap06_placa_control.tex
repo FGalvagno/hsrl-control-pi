@@ -1,0 +1,35 @@
+\chapter{Diseño y validación de PCB}
+\label{cap:placacontrol}
+
+El diseño del PCB fue necesario para llegar terminar de validar el detección de picos y comunicación con el seeder, puesto que la mayoría de los componentes utilizados son circuitos integrados de montaje superficial. Para el diseño del mismo, siguiendo la línea del presente PI de utilizar software libre, KiCad V9.0.
+
+\section{Circuito esquemático}
+\label{sec:esquematico}
+
+El circuito esquemático final integra los circuitos discutidos en el Capítulo \ref{cap:diseno_deteccion_picos} y \ref{cap:micro}. El esquemático desarrollado se divide en dos partes, el circuito analógico de detección y el circuito digital de comunicación y detección de trigger. Se omitió incluir en la placa elementos como reguladores de tensión, indicadores LED o pulsadores, debido a que para un primer prototipo se buscaba la simplificación y la validación de la sección analógica y de comunciación con el seeder. Una versión completa del circuito esquemático se encuentra en el Anexo \ref{anexo:esquematico}.
+
+\section{Criterios de Diseño del PCB}
+
+La placa se desarrolló tomando en cuenta buenas prácticas de ruteo y diseño electrónico, tales como
+
+
+\begin{itemize}
+  \item Mantenimiento de planos de masa con recortes (\emph{cutouts}) debajo de los pines de entrada y de la red de realimentación.
+  \item Ubicación de los componentes de la red de realimentación lo más cerca posible del amplificador, las resistencias de realimentación $R_f$ conectadas directamente entre el pin de salida y el pin $-IN$ sin vías intermedias.
+  \item Colocación de capacitores de desacople en los pines de alimentación, con vía directa al plano de masa. Particularmente capacitores de tantalio, según hoja de datos \cite{ad8004_ds}
+  \item Separación de las pistas de entrada respecto de líneas de alta frecuencia o señales ruidosas adyacentes.
+  \item Reducción del encapsulado de las resistencias SMD de 1206 a 0603, disminuyendo además su tolerancia de 5\,\% a 1\,\%.
+  \item Interconexión de plano de masa de capa superior e inferior mediante vias, para evitar caminos de retorno largos.
+\end{itemize}
+
+
+
+Ante esta problemática, previo a continuar con los ensayos en laboratorio, se decidió diseñar un nuevo circuito impreso (PCB) multicapa optimizado para aplicaciones de alta frecuencia. En esta fase integradora se incorporaron también el microcontrolador de control del sistema (desarrollado en la Sección \ref{sec:rp2350}) y los transceptores para la interfaz de comunicación serie con el sistema \emph{seeder} (Sección \ref{sec:rs232_uart}).
+
+\subsection{Mitigación de efectos parásitos}
+\label{sec:mitigacion_parasitos}
+
+Para erradicar la inestabilidad observada, el rediseño de la placa de circuito impreso incorporó buenas prácticas de ruteo de señales de alta velocidad:
+
+
+

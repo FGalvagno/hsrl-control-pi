@@ -1,0 +1,78 @@
+% Figura: hmi-layout -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm,
+  reg/.style={draw=cborde,fill=cbloque,rounded corners=1pt},
+  regg/.style={draw=cgrisb,fill=cgris,rounded corners=1pt},
+  rega/.style={draw=calarmab,fill=calarma,rounded corners=1pt},
+  titr/.style={font=\scriptsize\bfseries,align=center},
+  sub/.style={font=\tiny,align=center,text=black!65}]
+
+\draw[draw=cgrisb!70,fill=white,rounded corners=2pt] (-0.25,-0.25) rectangle (14.25,10.55);
+
+% encabezado
+\node[regg,minimum width=14cm,minimum height=0.9cm] (hdr) at (7,10.0) {};
+\node[titr] at (7,10.0) {CONTROL DE LONGITUD DE ONDA HSRL};
+\node[sub,anchor=west] at (0.1,10.0) {logo\\FCEFyN};
+\node[sub,anchor=east] at (13.9,10.0) {logo\\SMN};
+
+% barra de conexion
+\node[reg,minimum width=14cm,minimum height=0.8cm] (con) at (7,8.95) {};
+\node[sub,anchor=west] at (0.15,8.95)
+ {PUERTO \fbox{COM3} $\circlearrowright$ \; BAUDIOS \fbox{115200} \; \fbox{Conectar}};
+\node[sub,anchor=east] at (13.85,8.95)
+ {$\bullet$ USB \; $\bullet$ SEEDER OK \; $\bullet$ ESCRITURAS OK \; MODO ÚNICO OK};
+
+% banda de alarmas
+\node[rega,minimum width=14cm,minimum height=0.65cm] (alm) at (7,8.0) {};
+\node[sub,anchor=west,text=black] at (0.15,8.0)
+ {$\triangle$ ALTA — TEMPERATURA FUERA DE LÍMITES (63,1400 °C, rango 62,50–63,10)};
+\node[sub,anchor=east,text=black] at (13.85,8.0) {+1 más};
+
+% panel izquierdo
+\node[reg,minimum width=3.75cm,minimum height=7.5cm,anchor=north west] (pan) at (0.1,7.55) {};
+\foreach \i/\t in {0/ESTADO DE CONTROL,1/TEMPERATURA HEATER,2/SINTONIZACIÓN AUTO,
+                   3/VOLTAJE PIEZOELÉCTRICO,4/DETECTOR,5/SINTONIZACIÓN,6/CICLO}{
+  \node[regg,minimum width=3.5cm,minimum height=0.95cm,anchor=north west]
+        at (0.22,{7.42-\i*1.05}) {};
+  \node[sub,anchor=north west] at (0.32,{7.36-\i*1.05}) {\t};
+}
+
+% grafico
+\node[reg,minimum width=9.85cm,minimum height=3.9cm,anchor=north west] (plot) at (4.05,7.55) {};
+\node[sub,anchor=north west] at (4.2,7.45) {AMPLITUD vs TEMPERATURA};
+\draw[cgrisb] (4.85,4.0) -- (13.6,4.0);
+\draw[cgrisb] (4.85,4.0) -- (4.85,6.9);
+\foreach \x/\y in {5.2/4.9, 5.9/4.5, 6.6/4.3, 7.3/4.6, 8.0/5.4, 8.7/6.2, 9.4/6.6, 10.1/6.4}
+  {\fill[cborde] (\x,\y) circle (1.3pt);}
+\foreach \x/\y in {5.2/6.3, 5.9/6.6, 6.6/6.4, 7.3/5.6, 8.0/4.7, 8.7/4.3, 9.4/4.5, 10.1/5.2}
+  {\fill[calarmab] (\x,\y) circle (1.3pt);}
+\draw[cacentob,dashed] (7.65,4.05) -- (7.65,6.9);
+\node[sub,anchor=south] at (7.65,6.9) {T. media};
+\node[sub,anchor=south east] at (13.5,4.05) {Temperatura (°C) [PV]};
+% ejes fijos: el vertical es todo el rango del ADC, el horizontal el rango del heater
+\node[sub,anchor=east] at (4.78,4.0) {0};
+\node[sub,anchor=east] at (4.78,6.9) {3,3 V};
+\node[sub,anchor=north] at (4.85,3.95) {62,50};
+\node[sub,anchor=north] at (13.6,3.95) {63,10};
+\draw[cgrisb] (13.6,4.0) -- (13.6,4.12);
+
+% controles
+\node[reg,minimum width=9.85cm,minimum height=2.2cm,anchor=north west] (ctl) at (4.05,3.45) {};
+\node[sub,anchor=north west] at (4.2,3.35) {CONTROLES};
+\node[sub,anchor=north west,align=left] at (4.2,3.00)
+ {\fbox{DETENER} \; \fbox{AVANZAR} \; \fbox{RETROCEDER} \; \fbox{SINTONIZAR} \; \fbox{SINTONIZAR AUTO}\\[1.5pt]
+  Temp. SP \fbox{\;\;\;\;} \; Voltaje P. \fbox{\;\;\;\;} \; Promediado N \fbox{\;\;} \; Espera \fbox{\;\;} s\\[1.5pt]
+  SEEDER \; \fbox{Consultar (!)} \fbox{Diagn. (d)} \fbox{Escribir SP (w)} \fbox{Desbloq. (u)} \fbox{Bloq. (l)}};
+
+% monitor serie
+\node[draw=cgrisb,fill=black!85,rounded corners=1pt,
+      minimum width=9.85cm,minimum height=1.35cm,anchor=north west] (mon) at (4.05,1.15) {};
+\node[sub,anchor=north west,text=white] at (4.2,1.05)
+ {MONITOR SERIE\\[1pt]\ttfamily $\rightarrow$ g\\\ttfamily [ok] modo lock automatico activado\\\ttfamily [log] 27,g,62.8500,62.8471,\dots};
+
+\node[nota,text width=82mm,anchor=north west] at (0,-0.9)
+ {La banda de alarmas sólo se dibuja en condición anormal; en operación normal el
+  cuerpo sube y ocupa su lugar. Los dos ejes del gráfico son fijos: el vertical cubre
+  todo el rango del conversor ($0$--$3{,}3$\,V) y el horizontal el rango de seguridad
+  del calefactor que declara el firmware.};
+
+\end{tikzpicture}

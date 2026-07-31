@@ -1,0 +1,14 @@
+% =====================================================================
+%  Envoltorio para previsualizar un diagrama suelto, sin compilar toda
+%  la tesis. Desde esta misma carpeta:
+%
+%      pdflatex -jobname=fw-estados "\def\diag{fw-estados}\input{vista}"
+%
+%  Genera fw-estados.pdf con el diagrama recortado a su contenido.
+% =====================================================================
+
+\documentclass[border=3pt]{standalone}
+\input{estilos-diagramas}
+\begin{document}
+\input{\diag}
+\end{document}

@@ -1,0 +1,27 @@
+%% Concurrencia entre nucleos y arbitraje de recursos compartidos
+sequenceDiagram
+    participant OP as Operador (USB-CDC)
+    participant C1 as core1
+    participant CS as g_cs (seccion critica)
+    participant C0 as core0
+    participant MX as g_uart_mtx
+    participant SD as Seeder
+
+    C0->>C0: espera de estabilizacion
+    OP->>C1: "A5\n"
+    C1->>CS: enter
+    CS-->>C1: g_params.n_prom = 5
+    C1->>CS: exit
+    C1->>OP: "[ok] muestras a promediar = 5"
+    C0->>CS: enter (leer n_prom, espera_ms)
+    C0->>CS: exit
+    C0->>C0: capturar 2n pulsos de trigger
+    OP->>C1: "!"
+    C1->>MX: enter
+    C1->>SD: :syst:tmon2:temp?
+    SD-->>C1: respuesta
+    C1->>MX: exit
+    C0->>MX: enter
+    C0->>SD: :syst:tcon2:spo <sp>
+    C0->>MX: exit
+    C0->>OP: "[log] ..."

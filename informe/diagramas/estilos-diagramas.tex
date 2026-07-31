@@ -1,0 +1,50 @@
+% =====================================================================
+%  Estilos compartidos por los diagramas TikZ de los capitulos.
+%  Va en el PREAMBULO del documento principal:
+%      \input{diagramas/estilos-diagramas}
+% =====================================================================
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,shapes.misc,calc,fit,backgrounds,decorations.pathreplacing}
+
+\definecolor{cbloque}{HTML}{E8EEF4}
+\definecolor{cborde}{HTML}{4A6D8C}
+\definecolor{cacento}{HTML}{D9E6D5}
+\definecolor{cacentob}{HTML}{5A7A4A}
+\definecolor{cgris}{HTML}{EDEDED}
+\definecolor{cgrisb}{HTML}{888888}
+\definecolor{calarma}{HTML}{F6DEDE}
+\definecolor{calarmab}{HTML}{A03030}
+
+\tikzset{
+  bloque/.style={draw=cborde,fill=cbloque,rounded corners=2pt,align=center,
+                 inner sep=5pt,font=\footnotesize,minimum height=9mm},
+  bloqueg/.style={bloque,draw=cgrisb,fill=cgris},
+  bloquea/.style={bloque,draw=cacentob,fill=cacento},
+  bloquer/.style={bloque,draw=calarmab,fill=calarma},
+  proceso/.style={bloque,minimum width=52mm},
+  decision/.style={draw=cborde,fill=cbloque,align=center,font=\scriptsize,
+                   diamond,aspect=2.2,inner sep=1pt},
+  flecha/.style={-{Stealth[length=2mm]},draw=cborde!80!black,thick},
+  flechag/.style={flecha,draw=cgrisb},
+  et/.style={font=\scriptsize,inner sep=1.5pt,fill=white,align=center},
+  etl/.style={et,midway},
+  grupo/.style={draw=cgrisb,dashed,rounded corners=3pt,inner sep=4mm},
+  tit/.style={font=\scriptsize\bfseries,text=cgrisb!60!black},
+}
+
+% --- utilidades para diagramas de secuencia ---
+\tikzset{
+  vida/.style={draw=cgrisb,dash pattern=on 2pt off 2pt},
+  cab/.style={bloque,minimum width=26mm,font=\scriptsize\bfseries},
+  nota/.style={draw=cacentob,fill=cacento,font=\scriptsize,align=center,
+               rounded corners=1pt,inner sep=3pt},
+}
+\newcommand{\msg}[4]{\draw[flecha] (#1,#3) -- (#2,#3) node[et,midway,above=0pt]{#4};}
+\newcommand{\msgr}[4]{\draw[flecha,dashed] (#1,#3) -- (#2,#3) node[et,midway,above=0pt]{#4};}
+\newcommand{\auto}[3]{%
+  \draw[flecha] (#1,#2) -- ++(0.55,0) -- ++(0,-0.42) -- (#1,{#2-0.42});
+  \node[et,anchor=west] at ({#1+0.7},{#2-0.21}) {#3};}
+

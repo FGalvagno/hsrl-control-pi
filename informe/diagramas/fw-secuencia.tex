@@ -1,0 +1,25 @@
+% Figura: fw-secuencia -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\def\yb{-9.2}
+\node[cab] (op) at (0,0)    {Operador\\\scriptsize(USB-CDC)};
+\node[cab] (c1) at (4.0,0)  {\texttt{core1}\\\scriptsize consola};
+\node[cab] (c0) at (8.4,0)  {\texttt{core0}\\\scriptsize lazo de control};
+\node[cab] (sd) at (12.8,0) {Seeder\\\scriptsize (UART0)};
+
+\foreach \x in {0,4.0,8.4,12.8}{\draw[vida] (\x,-0.55) -- (\x,\yb);}
+
+\auto{8.4}{-1.1}{\texttt{core0} en pausa de estabilización}
+\msg{0}{4.0}{-2.1}{\texttt{"A5\textbackslash n"}}
+\auto{4.0}{-2.6}{\texttt{\texttt{n\_prom = 5} }}
+\msg{4.0}{0}{-3.5}{\texttt{[ok] muestras a promediar = 5}}
+\auto{8.4}{-4.1}{\texttt{enter(g\_cs)} $\to$ lee \texttt{n\_prom}, \texttt{espera\_ms} $\to$ \texttt{exit(g\_cs)}}
+\auto{8.4}{-4.9}{captura de $2n$ pulsos de trigger (bloqueante)}
+\msg{0}{4.0}{-5.8}{\texttt{"!"}}
+\msg{4.0}{12.8}{-6.4}{\texttt{:syst:tmon2:temp?} \; \emph{(toma \texttt{g\_uart\_mtx})}}
+\msgr{12.8}{4.0}{-7.0}{respuesta \; \emph{(libera \texttt{g\_uart\_mtx})}}
+\msg{8.4}{12.8}{-7.7}{\texttt{:syst:tcon2:spo} \; \emph{(espera \texttt{g\_uart\_mtx})}}
+\msg{8.4}{0}{-8.5}{\texttt{[log] 27,f,62.8500,\dots}}
+
+
+\end{tikzpicture}

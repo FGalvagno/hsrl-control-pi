@@ -1,0 +1,31 @@
+% Figura: fw-modulos -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\node[bloque,text width=52mm] (main) at (0,3.2)
+  {\texttt{hsrl-control.c}\\[1pt]\scriptsize \texttt{main()}, lazo de ciclo, parser de
+   comandos en \texttt{core1}, línea \texttt{[log]}};
+
+\node[bloque,text width=32mm] (adc)  at (-4.2,1.0) {\texttt{adc\_capture.c/.h}\\[1pt]\scriptsize captura de picos\\sincronizada al trigger};
+\node[bloque,text width=32mm] (ctrl) at (0,1.0)    {\texttt{control.c/.h}\\[1pt]\scriptsize máquina de estados\\y cálculo de deltas};
+\node[bloque,text width=32mm] (seed) at (4.2,1.0)  {\texttt{seeder\_comm.c/.h}\\[1pt]\scriptsize protocolo SCPI\\sobre UART};
+
+\node[bloquea,text width=44mm] (cfg) at (-2.4,-1.2)
+  {\texttt{config.h}\\[1pt]\scriptsize pines, parámetros por defecto y límites};
+\node[bloqueg,text width=44mm] (sdk) at (3.2,-1.2)
+  {\textbf{Pico SDK 2.3.0}\\[1pt]\scriptsize \texttt{hardware\_adc}, \texttt{hardware\_uart},\\
+   \texttt{hardware\_sync}, \texttt{pico\_multicore}};
+
+\draw[flecha] (main) -- (adc);
+\draw[flecha] (main) -- (ctrl);
+\draw[flecha] (main) -- (seed);
+\draw[flechag] (adc)  -- (cfg);
+\draw[flechag] (ctrl) -- (cfg);
+\draw[flechag] (seed.south) -- (sdk.north);
+\draw[flechag] (adc.south) -- ++(0,-0.55) -| (sdk.150);
+% rodea el diagrama por la izquierda: pasaba por dentro de adc y de config.h
+\draw[flechag] (main.west) -- (-6.9,3.2) -- (-6.9,-1.2) -- (cfg.west);
+
+\node[et,align=left,anchor=north west] at (-6.4,-2.3)
+  {\scriptsize $\longrightarrow$ dependencia de compilación (\texttt{\#include})};
+
+\end{tikzpicture}

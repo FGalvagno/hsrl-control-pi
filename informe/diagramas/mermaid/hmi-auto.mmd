@@ -1,0 +1,28 @@
+%% Secuencia de sintonizacion automatica (la arma el HMI, no el firmware)
+sequenceDiagram
+    participant OP as Operador
+    participant HMI as HMI
+    participant PICO as Firmware
+    participant SD as Seeder
+
+    OP->>HMI: AVANZAR / RETROCEDER
+    loop cada ciclo cerrado
+        PICO-->>HMI: [log] con pp, pm, heater_sp, d_heater
+        HMI->>HMI: seguir_minimos(): min_pp, min_pm, t_min_pp, t_min_pm
+    end
+    OP->>HMI: SINTONIZAR AUTO
+    HMI->>HMI: t = (t_min_pp + t_min_pm) / 2
+    alt sin minimos o t fuera de [heater_min, heater_max]
+        HMI->>OP: motivo en el monitor serie, no se envia nada
+    else
+        HMI->>PICO: s
+        HMI->>PICO: T<t>
+        HMI->>PICO: w
+        PICO->>SD: :syst:tcon2:spo <t>
+        HMI->>HMI: esperar AUTO_ESPERA_S = 20 s
+        loop AUTO_CICLOS = 4 ciclos
+            PICO-->>HMI: [log]
+        end
+        HMI->>PICO: g
+        HMI->>OP: "enganchado"
+    end

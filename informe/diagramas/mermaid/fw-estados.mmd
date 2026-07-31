@@ -1,0 +1,21 @@
+%% Maquina de estados de los modos de operacion
+stateDiagram-v2
+    [*] --> STOP
+    STOP --> FORWARD : f
+    STOP --> BACKWARD : b
+    STOP --> LOCK : g
+    FORWARD --> BACKWARD : b
+    FORWARD --> STOP : s
+    FORWARD --> LOCK : g
+    FORWARD --> BACKWARD : heater_sp > heater_max
+    BACKWARD --> FORWARD : f
+    BACKWARD --> STOP : s
+    BACKWARD --> LOCK : g
+    BACKWARD --> FORWARD : heater_sp < heater_min
+    LOCK --> STOP : s
+    LOCK --> FORWARD : f / heater_sp < heater_min
+    LOCK --> BACKWARD : b / heater_sp > heater_max
+    STOP --> [*] : e
+    FORWARD --> [*] : e
+    BACKWARD --> [*] : e
+    LOCK --> [*] : e

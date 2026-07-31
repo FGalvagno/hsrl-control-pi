@@ -1,0 +1,17 @@
+%% Seleccion de la alarma mostrada en la banda (ISA-18.2)
+flowchart TD
+    A["Estado del proceso"] --> B["Evaluar las cinco condiciones candidatas"]
+    B --> C1["Segundo modo detectado<br/>PRIORIDAD ALTA"]
+    B --> C2["PV fuera de [heater_min, heater_max]<br/>PRIORIDAD ALTA"]
+    B --> C3["PV en el 5 % final del rango<br/>PRIORIDAD MEDIA"]
+    B --> C4["Escrituras protegidas (cen:stat = 0)<br/>PRIORIDAD MEDIA"]
+    B --> C5["Seeder sin respuesta<br/>PRIORIDAD MEDIA"]
+    C1 --> D["Filtrar las activas y ordenar por prioridad"]
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    C5 --> D
+    D --> E{"lista vacia ?"}
+    E -- si --> F["Ocultar la banda"]
+    E -- no --> G["Mostrar la de mayor prioridad:<br/>prioridad + que pasa + que hacer"]
+    G --> H["Contador '+n mas' con las restantes"]

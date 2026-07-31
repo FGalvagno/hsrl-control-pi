@@ -43,7 +43,7 @@ La Ecuación~\ref{eq:lidar_equation} vincula una única magnitud medida, $P(r)$,
   \label{eq:alpha_decomp}
 \end{align}
 
-\noindent se obtienen seis incógnitas para una sola ecuación de señal, lo que vuelve imposible la inversión directa de la misma \cite{weitkamp2005}. El número de incógnitas se reduce apelando al conocimiento de la atmósfera: la componente molecular $\beta_{mol}$ se obtiene de la teoría de dispersión de Rayleigh, para la cual $\beta_{mol}$ es proporcional a la densidad del aire y queda determinada a partir de un perfil de temperatura y presión (obtenido a partir de una radiosonda o modelo matemático) \cite{weitkamp2005}. Por su parte,
+\noindent se obtienen seis incógnitas para una sola ecuación de señal, lo que vuelve imposible la inversión directa de la misma \cite{weitkamp2005}. El número de incógnitas se reduce apelando al conocimiento de la atmósfera: la componente molecular $\beta_{mol}$ se obtiene de la teoría de dispersión de Rayleigh, para la cual $\beta_{mol}$ es proporcional a la densidad del aire y queda determinada a partir de un perfil de temperatura y presión (obtenido a partir de una radiosonda o modelo matemático) \cite{weitkamp2005}. Además se tiene,
 
 \begin{equation}
   \alpha_{mol,sca} = \beta_{mol}(r)\,\tfrac{8}{3}\pi\,\mathrm{sr},
@@ -51,10 +51,10 @@ La Ecuación~\ref{eq:lidar_equation} vincula una única magnitud medida, $P(r)$,
   \label{eq:alpha_mol_sca}
 \end{equation}
 
-\noindent y las contribuciones de aerosol se agrupan en una única extinción $\alpha_{aer} = \alpha_{aer,sca} + \alpha_{aer,abs}$. Aun así, persisten dos incógnitas ($\beta_{aer}$ y $\alpha_{aer}$) para una ecuación. El método de Klett resuelve esta indeterminación suponiendo una dependencia funcional fija entre $\alpha_{aer}$ y $\beta_{aer}$, lo que reduce el problema a una sola incógnita; sin embargo, la gran variabilidad de los aerosoles hace que esa proporcionalidad no se
+\noindent entonces las contribuciones de aerosol se agrupan en una única extinción $\alpha_{aer} = \alpha_{aer,sca} + \alpha_{aer,abs}$. Aun así, persisten dos incógnitas ($\beta_{aer}$ y $\alpha_{aer}$) para una ecuación. El método de Klett resuelve esta indeterminación suponiendo una dependencia funcional fija entre $\alpha_{aer}$ y $\beta_{aer}$, lo que reduce el problema a una sola incógnita; sin embargo, la gran variabilidad de los aerosoles hace que esa proporcionalidad no se
 cumpla, introduciendo error en la inversión \cite{weitkamp2005,kovalev2015}.
 
-La separación entre ambas contribuciones es posible gracias al ensanchamiento Doppler que experimenta la luz retrodispersada. Las moléculas del aire, animadas por un movimiento térmico aleatorio descrito por una distribución maxwelliana de velocidades, producen un corrimiento Doppler del orden de 1~GHz en la luz que dispersan. Los aerosoles y partículas, en cambio, son mucho más pesados y su movimiento está determinado por el viento y la turbulencia, por lo que introducen corrimientos considerablemente menores (del orden de decenas de MHz). Como consecuencia, el espectro de la señal retrodispersada resulta de la superposición de un pico angosto, asociado a la dispersión de partículas, sobre una distribución mucho más ancha producida por la dispersión molecular, tal como se observa en la Figura~\ref{fig:espectro_hsrl} \cite{weitkamp2005,kovalev2015}.
+La separación entre ambas contribuciones es posible gracias al ensanchamiento Doppler que experimenta la luz retrodispersada. Las moléculas del aire, animadas por un movimiento térmico aleatorio descrito por una distribución Maxwell-Boltzmann de velocidades, producen un corrimiento Doppler del orden de 1~GHz en la luz que dispersan. Los aerosoles y partículas, en cambio, son mucho más pesados y su movimiento está determinado por el viento y la turbulencia, por lo que introducen corrimientos considerablemente menores (del orden de decenas de MHz). Como consecuencia, el espectro de la señal retrodispersada resulta de la superposición de un pico angosto, asociado a la dispersión de partículas, sobre una distribución mucho más ancha producida por la dispersión molecular, tal como se observa en la Figura~\ref{fig:espectro_hsrl} \cite{weitkamp2005,kovalev2015}.
 
 \begin{figure}[!htbp]
   \centering
@@ -84,14 +84,14 @@ propia ecuación de lidar \cite{weitkamp2005,liu1999hsrl},
   \label{eq:backscatter_ratio}
 \end{equation}
 
-Aquí es donde reside la ventaja del HSRL: la Ecuación~\ref{eq:backscatter_ratio} entrega $\beta_{aer}$ sin ninguna suposición sobre la relación entre extinción y retrodispersión de aerosoles, a diferencia del método de Klett. Dado que $\beta_{mol}$ se conoce de la teoría de Rayleigh, se
+Aquí es donde reside la ventaja del HSRL, la Ecuación~\ref{eq:backscatter_ratio} entrega $\beta_{aer}$ sin ninguna suposición sobre la relación entre extinción y retrodispersión de aerosoles, a diferencia del método de Klett. Dado que $\beta_{mol}$ se conoce de la teoría de Rayleigh, se
 recupera además $\alpha_{aer}$ de forma independiente, de modo que el HSRL mide por separado la extinción y la retrodispersión, con la razón lidar medida en lugar de supuesta \cite{nishizawa2008algorithm,tatarov2008dust}. Como contrapartida, el método exige que la frecuencia del láser transmisor permanezca sintonizada al centro del filtro, con un ancho de espectro menor al de éste \cite{weitkamp2005}.
 
 \begin{figure}[h]
       \centering
       \includegraphics[width=0.9\textwidth]{figuras/2_principiocanales.png}
       \caption{Principio de medición de lidar mediante un canal HSR y un canal elástico. (Fuente: NIES).}
-      \label{principio_canales}
+      \label{fig:principio_canales}
 \end{figure}
 
 La Figura~\ref{fig:principio_canales} sintetiza el principio de medición del HSRL mediante la comparación de dos canales de recepción. El haz láser se emite hacia la atmósfera, donde es dispersado tanto por las moléculas del aire como por las partículas —nubes o aerosoles—; el telescopio colecta la luz retrodispersada, que contiene la contribución conjunta de ambos tipos de dispersores. El canal elástico Mie+Rayleigh (centro) registra la señal total, suma de la dispersión de partículas y de moléculas: en la capa donde hay partículas, la señal se incrementa respecto del perfil molecular de fondo. El canal Rayleigh (derecha), en cambio, incorpora un filtro de absorción que suprime la componente de partículas y deja pasar esencialmente la señal molecular.
@@ -109,7 +109,7 @@ Entre las implementaciones de HSRL existentes, el uso de filtros de absorción c
       \caption{Espectro de absorción del iodo molecular en el rango de 532~nm. (Fuente: adaptado de \cite{gerstenkorn1978})}
 \end{figure}
 
-Una celda de iodo cumple la funcion de filtro rechaza-banda óptico sintonizado naturalmente a una frecuencia determinada. La absorción de iodo molecular es altamente selectiva, con líneas de absorción muy estrechas (del orden de 1~GHz) y separadas por varios GHz, lo que permite seleccionar una línea de absorción específica para el filtro del HSRL \cite{gerstenkorn1978}. Debido a los límites sintonizables de los láseres seeder Nd:YAG típicamente utilizados, se utilizan lineas en torno a las 1109~1112 (correspondientes a 532.26~nm, 532.24~nm y 532.23~nm, respectivamente) \cite{gerstenkorn1978}. La Tabla~\ref{tab:lineas_iodo} resume las características de estas líneas de absorción.
+Una celda de iodo cumple la funcion de filtro rechaza-banda óptico sintonizado naturalmente a una frecuencia determinada. La absorción de iodo molecular es altamente selectiva, con líneas de absorción muy estrechas (del orden de 1~GHz) y separadas por varios GHz, lo que permite seleccionar una línea de absorción específica para el filtro del HSRL \cite{gerstenkorn1978}. Debido a los límites sintonizables de los láseres seeder Nd:YAG típicamente utilizados, se utilizan lineas entre las 1109-1112 (correspondientes a 532.26~nm, 532.24~nm y 532.23~nm, respectivamente) \cite{gerstenkorn1978}. La Tabla~\ref{tab:lineas_iodo} resume las características de estas líneas de absorción dentro del rango sintonizable del láser utilizado en Pilar, Córdoba.
 
 \begin{table}[h]
   \centering
@@ -141,7 +141,7 @@ La sintonización de la longitud de onda del láser a una línea de absorción d
       \label{fig:señalpphsrl}
 \end{figure}
 
-El sistema instalado en Pilar sintoniza en longitud de onda un láser de granate de itrio y aluminio dopado con neodimio (Nd:YAG), denominado ``host'', mediante un láser ``seeder'' de menor potencia acoplado por fibra óptica. La longitud de onda sintonizada depende proporcionalmente de la temperatura de cavidad del seeder. En el lazo de control, un separador de haz toma una muestra del láser host, que luego se divide en dos haces idénticos ($P_0$) mediante otro separador. Estos dos haces son modulados en amplitud por los moduladores optoacusticos, generando las señales $P_+$ y $P_-$ que atraviesan la celda de iodo. El sistema encuentra el punto de trabajo correcto cuando la temperatura del seeder es tal que la amplitud de la señal $P_0$ resulta mínima, es decir, cuando las señales $P_+$ y $P_-$ se igualan, como se muestra en la Figura~\ref{fig:señalpphsrl}. Todo este esquema de medición se resume en el diagrama presentado en la Figura~\ref{fig:diagrama_hsrl} y se logra visualizar en la Figura~\ref{fig:real_hsrl}.
+El sistema instalado en Pilar sintoniza en longitud de onda un láser de granate de itrio y aluminio dopado con neodimio (Nd:YAG), denominado \textit{host}, mediante un láser \textit{seeder} de menor potencia acoplado por fibra óptica. La longitud de onda sintonizada depende proporcionalmente de la temperatura de cavidad de laser del \textit{seeder}. En el lazo de control, un separador de haz toma una muestra del láser \textit{host}, que luego se divide en dos haces idénticos ($P_0$) mediante otro separador. Estos dos haces son modulados en amplitud por los moduladores optoacusticos, generando las señales $P_+$ y $P_-$ que atraviesan la celda de iodo, desfazadas en $+260MHz$ y $-260MHz$ respectivamente. El sistema encuentra el punto de trabajo correcto cuando la temperatura del seeder es tal que la amplitud de la señal $P_0$ resulta mínima, es decir, cuando las señales $P_+$ y $P_-$ se igualan, como se muestra en la Figura~\ref{fig:señalpphsrl}. Todo este esquema de medición se resume en el diagrama presentado en la Figura~\ref{fig:diagrama_hsrl} y se logra visualizar en la Figura~\ref{fig:real_hsrl}.
 
 
 \begin{figure}[h]
@@ -162,23 +162,12 @@ El sistema instalado en Pilar sintoniza en longitud de onda un láser de granate
 El sistema previamente descrito funciona bajo los siguientes principios de operación:
 
 \begin{itemize}
-  \item La temperatura de la celda se mantiene entre 30\textcelsius\
-        y 50\textcelsius\ para mantener el iodo en fase gaseosa.
-  \item Temperaturas más elevadas incrementan la concentración de
-        iodo activo, lo que resulta en líneas de absorción más
-        intensas.
-  \item Dos moduladores acustoópticos (AOM) generan los haces $P_+$ y
-        $P_-$, desplazados en frecuencia $\pm$260~MHz respecto del haz
-        principal $P_0$.
-  \item Un láser seeder sintoniza la longitud de onda del láser
-        host a una de las líneas de absorción de iodo más
-        intensas.
-  \item En el pico de absorción, los haces $P_+$ y $P_-$ presentan
-        intensidades iguales, produciendo amplitudes idénticas en los
-        fotodetectores.
+      \item La temperatura de la celda se mantiene entre 30\textcelsius\ y 50\textcelsius\ para mantener el iodo en fase gaseosa.
+      \item Temperaturas más elevadas incrementan la concentración de iodo activo, lo que resulta en líneas de absorción más intensas.
+      \item En el pico de absorción, los haces $P_+$ y $P_-$ presentan intensidades iguales, produciendo amplitudes idénticas en los fotodetectores.
 \end{itemize}
 
-Al poseer el laser sintonizado a la linea de absorcion de iodo mediante el lazo de control, el sistema HSRL puede discriminar la señal molecular de la señal de aerosol mediante el filtro de iodo apareado en el receptor del telescopio, esquematizado en la Figura~\ref{fig:diagrama_receptor}.
+Al poseer el laser sintonizado a la linea de mayor absorcion de iodo mediante el lazo de control, el sistema HSRL puede discriminar la señal molecular de la señal de aerosol mediante el filtro de iodo apareado en el receptor del telescopio, esquematizado en la Figura~\ref{fig:diagrama_receptor}.
 
 \begin{figure}[h]
       \centering

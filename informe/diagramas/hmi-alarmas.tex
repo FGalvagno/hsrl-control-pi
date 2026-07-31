@@ -1,0 +1,35 @@
+% Figura: hmi-alarmas -- requiere \input{diagramas/estilos-diagramas} en el preambulo
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\node[bloque,text width=44mm] (est) at (0,0) {Estado del proceso\\\scriptsize (\texttt{ProcessData} tras cada ciclo)};
+
+\node[bloquer,text width=60mm] (a1) at (7.8,2.6)
+  {\textbf{ALTA} — Segundo modo detectado\\[1pt]\scriptsize \texttt{second\_mode\_alarm}: la medición no es confiable};
+\node[bloquer,text width=60mm] (a2) at (7.8,1.0)
+  {\textbf{ALTA} — Temperatura fuera de límites\\[1pt]\scriptsize \texttt{heater\_alarm\_priority()} $=$ \texttt{ALARM\_HIGH}};
+\node[bloque,text width=60mm] (a3) at (7.8,-0.6)
+  {\textbf{MEDIA} — Temperatura cerca del límite\\[1pt]\scriptsize 5\,\% final del rango};
+\node[bloque,text width=60mm] (a4) at (7.8,-2.2)
+  {\textbf{MEDIA} — Escrituras protegidas\\[1pt]\scriptsize \texttt{writes\_enabled is False}: usar Desbloquear (\texttt{u})};
+\node[bloque,text width=60mm] (a5) at (7.8,-3.8)
+  {\textbf{MEDIA} — Seeder sin respuesta\\[1pt]\scriptsize \texttt{seeder\_responding is False}};
+
+\node[bloque,text width=40mm] (ord) at (15.8,-0.6)
+  {Filtrar las activas\\y ordenar por prioridad\\[1pt]\scriptsize \texttt{ALARM\_HIGH} $=0$, \texttt{ALARM\_MEDIUM} $=1$};
+\node[decision,text width=22mm] (vac) at (15.8,-3.6) {¿lista\\vacía?};
+\node[bloqueg,text width=34mm] (oc) at (11.8,-5.9) {Ocultar la banda};
+\node[bloquea,text width=48mm] (mo) at (18.4,-5.9)
+  {Mostrar la de mayor prioridad:\\[1pt]\scriptsize prioridad + qué pasa + qué hacer,\\ con el contador ``$+n$ más''};
+
+\foreach \n in {a1,a2,a3,a4,a5}{\draw[flechag] (est) -- (\n.west);}
+\foreach \n in {a1,a2,a3,a4,a5}{\draw[flechag] (\n.east) -- (ord.west);}
+\draw[flecha] (ord) -- (vac);
+\draw[flecha] (vac) -| node[et,pos=0.25,above]{sí} (oc);
+\draw[flecha] (vac) -| node[et,pos=0.25,above]{no} (mo);
+
+\node[nota,text width=82mm,anchor=north west] at (0,-7.2)
+ {\texttt{heater\_alarm\_priority()} es una función pura y la única fuente del criterio de temperatura:
+  la usan tanto el indicador del panel como la banda de alarmas, de modo que no pueden
+  discrepar. El color es redundante con el texto, nunca la única pista (ISA-18.2).};
+
+\end{tikzpicture}
