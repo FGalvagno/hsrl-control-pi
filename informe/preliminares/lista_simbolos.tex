@@ -1,18 +1,146 @@
 % =============================================================
-% Lista de Simbolos y Convenciones
+% Lista de Simbolos
 % =============================================================
-\chapter*{Lista de S\'imbolos y Convenciones}
+\chapter*{Lista de Símbolos}
 \phantomsection
-\addcontentsline{toc}{chapter}{Lista de S\'imbolos y Convenciones}
+\addcontentsline{toc}{chapter}{Lista de Símbolos}
 
-\begin{center}
-\begin{tabular}{ll}
+\renewcommand{\arraystretch}{1.1}
+\singlespacing
+
+\section*{Símbolos latinos}
+
+\begin{longtable}{@{}p{0.15\textwidth}p{0.63\textwidth}p{0.14\textwidth}@{}}
 \toprule
-S\'imbolo & Descripci\'on \\
+\textbf{Símbolo} & \textbf{Descripción} & \textbf{Unidad} \\
 \midrule
- & \\
+\endfirsthead
+\toprule
+\textbf{Símbolo} & \textbf{Descripción} & \textbf{Unidad} \\
+\midrule
+\endhead
 \bottomrule
-\end{tabular}
-\end{center}
+\endlastfoot
+$A$ & Área efectiva del receptor del telescopio & m$^2$ \\
+$c$ & Velocidad de la luz en el vacío & m/s \\
+$\mathrm{coe}$ & Coeficiente de banda muerta multiplicativa del lazo & --- \\
+$e(k)$ & Señal de error del lazo en el ciclo $k$ & --- \\
+$f_c$ & Ancho de banda del fotodetector & Hz \\
+$G(R)$ & Factor geométrico de la medición lidar & --- \\
+$h_{\min},\ h_{\max}$ & Límites del rango de seguridad del calefactor & $^{\circ}$C \\
+$I_L$ & Corriente fotogenerada & A \\
+$I_O$ & Corriente de salida del fotodiodo & A \\
+$k$ & Constante de Boltzmann & J/K \\
+$k$ & Número de onda de la línea de absorción del iodo & cm$^{-1}$ \\
+$k$ & Índice de ciclo de control & --- \\
+$K$ & Constante de desempeño del sistema lidar & --- \\
+$K_{mol},\ K_{aer}$ & Factores independientes del rango de los canales molecular y de aerosol & --- \\
+$n$ & Número de picos promediados por canal & --- \\
+$O(r)$ & Función de solapamiento & --- \\
+$P(r)$ & Potencia óptica retrodispersada recibida & W \\
+$P_0$ & Potencia media transmitida durante el pulso & W \\
+$P_0$ & Haces centrales del lazo de sintonización & --- \\
+$P_+,\ P_-$ & Haces desplazados $+260$~MHz y $-260$~MHz por los moduladores optoacústicos & --- \\
+$p^{+},\ p^{-}$ & Amplitudes de pico digitalizadas de los canales $P_+$ y $P_-$ & LSB \\
+$P_{mol},\ P_{aer}$ & Potencias recibidas en los canales molecular y de aerosol & W \\
+$\mathit{prt}$ & Cociente $p^{+}/p^{-}$; variable controlada del lazo & --- \\
+$\mathit{prt}_{\mathrm{ref}}$ & Valor de referencia del cociente al cerrar el lazo & --- \\
+$q$ & Carga del electrón & C \\
+$r,\ R$ & Distancia al volumen de dispersión & m \\
+$R^2$ & Coeficiente de determinación del ajuste lineal & --- \\
+$\Re(r)$ & Razón de retrodispersión & --- \\
+$t_r$ & Tiempo de subida del fotodetector & s \\
+$t_{\mathrm{conv}}$ & Tiempo de conversión del ADC & s \\
+$T$ & Temperatura absoluta de la juntura & K \\
+$T(R)$ & Término de transmisión atmosférica & --- \\
+$T(k)$ & Punto de consigna de temperatura del calefactor en el ciclo $k$ & $^{\circ}$C \\
+$V_{\text{in}}$ & Tensión de pico de la señal de entrada al detector & V \\
+$V_O$ & Tensión de pico retenida a la salida del detector & V \\
+\end{longtable}
+
+\section*{Símbolos griegos}
+
+\begin{longtable}{@{}p{0.15\textwidth}p{0.63\textwidth}p{0.14\textwidth}@{}}
+\toprule
+\textbf{Símbolo} & \textbf{Descripción} & \textbf{Unidad} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Símbolo} & \textbf{Descripción} & \textbf{Unidad} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+$\alpha$ & Coeficiente de extinción atmosférico & m$^{-1}$ \\
+$\alpha_{mol,sca},\ \alpha_{mol,abs}$ & Extinción molecular por dispersión y por absorción & m$^{-1}$ \\
+$\alpha_{aer,sca},\ \alpha_{aer,abs},\ \alpha_{aer}$ & Extinción de aerosol por dispersión, por absorción y total & m$^{-1}$ \\
+$\beta$ & Coeficiente de retrodispersión atmosférico & m$^{-1}$sr$^{-1}$ \\
+$\beta_{mol},\ \beta_{aer}$ & Retrodispersión molecular y de aerosol & m$^{-1}$sr$^{-1}$ \\
+$\Delta_{\mathrm{heater}}$ & Incremento aplicado al punto de consigna del calefactor & $^{\circ}$C \\
+$\delta_f$ & Paso fino de temperatura del \emph{seeder} & $^{\circ}$C \\
+$\eta$ & Eficiencia óptica del receptor & --- \\
+$\lambda$ & Longitud de onda & nm \\
+$\tau$ & Duración del pulso láser & s \\
+$\tau$ & Constante de tiempo del circuito de retención & s \\
+\end{longtable}
+
+\section*{Siglas y acrónimos}
+
+\begin{longtable}{@{}p{0.17\textwidth}p{0.75\textwidth}@{}}
+\toprule
+\textbf{Sigla} & \textbf{Significado} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Sigla} & \textbf{Significado} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+ADC & \emph{Analog-to-Digital Converter}, conversor analógico-digital \\
+BNC & \emph{Bayonet Neill-Concelman}, conector coaxial \\
+BOM & \emph{Bill of Materials}, listado de materiales \\
+CDC & \emph{Communications Device Class}, clase de dispositivo USB \\
+CFA & \emph{Current Feedback Amplifier}, amplificador realimentado por corriente \\
+CMOS & \emph{Complementary Metal-Oxide-Semiconductor} \\
+CSV & \emph{Comma-Separated Values} \\
+DMA & \emph{Direct Memory Access}, acceso directo a memoria \\
+DRC & \emph{Design Rule Check}, comprobación de reglas de diseño \\
+FIFO & \emph{First In, First Out} \\
+FR-4 & Sustrato laminado de fibra de vidrio y resina epoxi \\
+GPIO & \emph{General Purpose Input/Output} \\
+HMI & \emph{Human-Machine Interface}, interfaz hombre-máquina \\
+HSR & \emph{High Spectral Resolution}, alta resolución espectral \\
+HSRL & \emph{High Spectral Resolution Lidar} \\
+ILRC & \emph{International Laser Radar Conference} \\
+IUV & Índice ultravioleta \\
+JICA & \emph{Japan International Cooperation Agency} \\
+JST & \emph{Japan Science and Technology Agency} \\
+lidar & \emph{Light Detection and Ranging} \\
+Nd:YAG & Granate de itrio y aluminio dopado con neodimio \\
+NIES & \emph{National Institute for Environmental Studies} \\
+PCB & \emph{Printed Circuit Board}, circuito impreso \\
+PIO & \emph{Programmable Input/Output} \\
+PPS & Práctica Profesional Supervisada \\
+PWM & \emph{Pulse Width Modulation} \\
+RISC-V & \emph{Reduced Instruction Set Computer}, versión V \\
+RS-232 & Norma de comunicación serie EIA/TIA-232 \\
+SAR & \emph{Successive Approximation Register}, aproximaciones sucesivas \\
+SATREPS & \emph{Science and Technology Research Partnership for Sustainable Development} \\
+SAVERNET & \emph{South American Environmental Risk Network} \\
+SCPI & \emph{Standard Commands for Programmable Instruments} \\
+SMD & \emph{Surface Mount Device}, montaje superficial \\
+SMN & Servicio Meteorológico Nacional \\
+SPI & \emph{Serial Peripheral Interface} \\
+SRAM & \emph{Static Random Access Memory} \\
+THD & \emph{Total Harmonic Distortion}, distorsión armónica total \\
+TIA & \emph{Transimpedance Amplifier}, amplificador de transimpedancia \\
+TTL & \emph{Transistor-Transistor Logic} \\
+UART & \emph{Universal Asynchronous Receiver-Transmitter} \\
+USB & \emph{Universal Serial Bus} \\
+VFA & \emph{Voltage Feedback Amplifier}, amplificador realimentado por tensión \\
+VISA & \emph{Virtual Instrument Software Architecture} \\
+\end{longtable}
+
 
 \cleardoublepage
