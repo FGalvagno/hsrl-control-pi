@@ -11,14 +11,14 @@
 \chapter{Firmware de control embebido}
 \label{cap:firmware}
 
-Tal como se explico en el Capítulo \ref{cap:introduccion}, el sistema de control de longitud de onda del \emph{seeder} del lidar HSRL fue originalmente implementado como un programa de PC, \texttt{wvcnt\_lec.cpp}, que adquiría las señales del detector a través de un osciloscopio Tektronix vinculado por USB-VISA y comandaba el seeder por un puerto serie.
+Tal como se explicó en el Capítulo \ref{cap:introduccion}, el sistema de control de longitud de onda del \emph{seeder} del lidar HSRL fue originalmente implementado como un programa de PC, \texttt{wvcnt\_lec.cpp}, que adquiría las señales del detector a través de un osciloscopio Tektronix vinculado por USB-VISA y comandaba el \emph{seeder} por un puerto serie.
 
-El firmware documentado en este capítulo, traslada la totalidad del lazo a un microcontrolador Raspberry Pi Pico 2 (RP2350). 
+El \emph{firmware} documentado en este capítulo, traslada la totalidad del lazo a un microcontrolador Raspberry Pi Pico 2 (RP2350). 
 
 \section{Alcance de la funcionalidad del Firmware}
 \label{sec:fw-alcance}
 
-El microcontrolador digitaliza las señales $P_+$ y $P_-$ directamente con su conversor analógico-digital interno, sincronizado por hardware con la señal de sincronismo del laser host, y escribe el punto de consigna de temperatura del \emph{heater} del seeder Continuum por una terminal serie asincrónica. La consola de operación se expone sobre USB en modo CDC, de forma que la interfaz gráfica descripta en el capítulo~\ref{cap:software_hmi} sea un observador y no parte del lazo de control. Así si la interfaz se cierra, el firmware continúa controlando el proceso.
+El microcontrolador digitaliza las señales $P_+$ y $P_-$ directamente con su conversor analógico-digital interno, sincronizado por hardware con la señal de sincronismo del láser \emph{host}, y escribe el \textit{setpoint} de temperatura del \emph{heater} del \emph{seeder} Continuum por una terminal serie asincrónica. La consola de operación se expone sobre USB en modo CDC, de forma que la interfaz gráfica descripta en el capítulo~\ref{cap:software_hmi} sea para monitoreo y cambio de modos, no así parte del lazo de control. Por lo tanto si la interfaz se cierra, el \emph{firmware} continúa controlando el proceso en el último estado en el que se encontraba.
 
 \section{Principio de funcionamiento del control}
 \label{sec:fw-principio}
@@ -26,20 +26,20 @@ El microcontrolador digitaliza las señales $P_+$ y $P_-$ directamente con su co
 El detector entrega dos señales, $P_+$ y $P_-$, tomadas a ambos lados de la línea de absorción. La variable controlada no es ninguna de ellas por separado sino su cociente
 
 \begin{equation}
-  \mathit{prt} \;=\; \frac{p^{+}}{p^{-}},
+  \mathit{prt} \;=\; \frac{P_+}{P_-},
   \label{eq:prt}
 \end{equation}
 
-\noindent que resulta monótono con la longitud de onda en el entorno del punto de trabajo. El uso del cociente en lugar de una amplitud absoluta cancela, en primer orden, las variaciones comunes a ambos canales: fluctuaciones de la energía por pulso del láser, deriva de ganancia del detector y cambios de transmisión del camino óptico. El lazo corrige entonces el punto de consigna de temperatura para mantener este cociente dentro de una banda determinada, utilizando un control por histéresis con banda muerta.
+\noindent que resulta monótono creciente con la longitud de onda en el entorno del punto de trabajo. El uso del cociente en lugar de una amplitud absoluta cancela, en primer orden, las variaciones comunes a ambos canales: fluctuaciones de la energía por pulso del láser, deriva de ganancia del detector y cambios de transmisión del camino óptico. El lazo corrige entonces el \emph{setpoint} de temperatura para mantener este cociente dentro de una banda determinada, utilizando un control por histéresis con banda muerta.
 
-El barrido inicial aprovecha que cada canal absorbe a una longitud de onda distinta: al barrer la temperatura,$P_+$ y $P_-$ atraviesan sus respectivos mínimos a temperaturas diferentes, y el punto de operación buscado es la temperatura media entre ambos. 
+El barrido inicial aprovecha que cada canal absorbe a una longitud de onda distinta: al barrer la temperatura, $P_+$ y $P_-$ atraviesan sus respectivos mínimos a temperaturas diferentes, y el punto de operación buscado es la temperatura media entre ambos. 
 
 \section{Arquitectura del sistema}
 \label{sec:fw-arquitectura}
 
-La Figura~\ref{fig:fw-arquitectura} muestra la disposición del hardware y los enlaces de señal. El generador de ondas que dispara el láser entrega también el trigger que sincroniza la digitalización. Las salidas del detector se acondicionan al rango de entrada del conversor del RP2350 y se conectan a dos canales analógicos. La comunicación con el seeder es RS-232 y requiere un conversor de niveles respecto de la lógica TTL del microcontrolador. La consola de operación viaja sobre USB en modo CDC.
+La Figura~\ref{fig:fw-arquitectura} muestra la disposición del hardware y los enlaces de señal. El generador de ondas que dispara el láser entrega también el trigger que sincroniza la digitalización. Las salidas del detector se acondicionan al rango de entrada del conversor del RP2350 mediante un divisor resistivo y se conectan a dos canales analógicos. La comunicación con el \emph{seeder} es RS-232 y requiere un conversor de niveles respecto de la lógica TTL del microcontrolador. La terminal de operación y monitoreo funciona sobre USB en modo CDC.
 
-\begin{figure}[h]
+\begin{figure}[htpb]
 \centering
 \resizebox{\textwidth}{!}{\input{diagramas/fw-arquitectura}}
 \caption[Arquitectura de hardware del sistema de control]%
@@ -60,17 +60,17 @@ El conexionado concreto se resume en la tabla~\ref{tab:fw-pines}. Todas las asig
   $P_-$       & 27 & ADC canal 1  & rango $0$--$3{,}3$\,V \\
   Seeder TX     & 0  & UART0 TX     & $57\,600$ baud, 8N1 \\
   Seeder RX     & 1  & UART0 RX     & sin control de flujo \\
-  LED de estado & --- & GPIO salida (\texttt{PICO\_DEFAULT\_} \texttt{LED\_PIN}) & señalización durante el arranque \\
+  LED de estado & --- & GPIO (\texttt{PICO\_DEFAULT\_} \texttt{LED\_PIN}) & señalización durante el arranque \\
   \bottomrule
   \end{tabular}
-  \caption{Asignación de pines del RP2350 para la aplicación en HSRL.}
+  \caption{Asignación de pines del RP2350 para la aplicación en HSRL (Fuente: elaboración propia).}
  \label{tab:fw-pines}
 \end{table}
 
 
 \subsection{Descomposición en módulos}
 
-El firmware se organiza en cuatro unidades de compilación más un encabezado de configuración, según se ilustra en la figura~\ref{fig:fw-modulos}. El criterio de partición es funcional puesto cada módulo encapsula una función determinada. El módulo \texttt{control} en particular no conoce ni el conversor ni el puerto serie: recibe dos valores en punto flotante y devuelve incrementos, lo que lo hace verificable de forma aislada.
+El \emph{firmware} se organiza en cuatro archivos más un encabezado de configuración, según se ilustra en la figura~\ref{fig:fw-modulos}. El criterio de partición es funcional puesto cada módulo encapsula una función determinada. El módulo \texttt{control} en particular no conoce ni el conversor ni el puerto serie: recibe dos valores en punto flotante y devuelve incrementos, lo que lo hace verificable de forma aislada.
 
 \begin{figure}[htbp]
 \centering
@@ -92,7 +92,7 @@ El firmware se organiza en cuatro unidades de compilación más un encabezado de
   \texttt{config.h} & Pines, parámetros por defecto y límites de seguridad. Único punto de configuración operativa del sistema. \\
   \bottomrule
   \end{tabular}
-  \caption{Responsabilidad de cada módulo.}
+  \caption{Responsabilidad de cada módulo (Fuente: elaboración propia).}
 \label{tab:fw-modulos}
 \end{table}
 
@@ -101,7 +101,7 @@ El firmware se organiza en cuatro unidades de compilación más un encabezado de
 
 \subsection{Sincronismo y detección de pico}
 
-La señal que entrega el detector es un pulso cuya amplitud de pico es la magnitud de interés. Como se describio anteriormente en el Capítulo \ref{cap:micro}, la estrategia de captura consiste en muestrear a la máxima velocidad posible durante la ventana en que el trigger permanece en nivel alto y conservar el máximo de las muestras obtenidas. El código~\ref{lst:fw-adc} reproduce el núcleo de la rutina.
+La señal que entrega el detector es un pulso cuya amplitud de pico es la magnitud de interés. Como se describió anteriormente en el Capítulo \ref{cap:micro}, la estrategia de captura consiste en muestrear a la máxima velocidad posible durante la ventana en que el trigger permanece en nivel alto y conservar el máximo de las muestras obtenidas. El código~\ref{lst:fw-adc} reproduce el núcleo de la rutina.
 
 \begin{lstlisting}[language=C,caption={Captura de pico sincronizada al trigger
   (\texttt{adc\_capture.c}).},label={lst:fw-adc},basicstyle=\ttfamily\footnotesize,
@@ -135,7 +135,7 @@ uint16_t adc_capturar_pico(uint canal) {
 }
 \end{lstlisting}
 
-En primer lugar, el conversor se configura sin divisor de reloj (\texttt{adc\_set\_clkdiv(0)}), lo que produce una tasa de conversión cercana a $500$\,kmuestras/s; con anchos de pulso del orden de la decena de microsegundos esto asegura varias muestras dentro de la ventana. En segundo lugar, la habilitación del FIFO desacopla la conversión de la lectura, de modo que una demora del lazo de software no pierde la muestra en curso. En tercer lugar, el retardo de $2$\,\textmu s posterior al flanco descarta el transitorio de establecimiento del multiplexor de entrada y el tiempo de encendido de laser, que de otro modo se computaría como una muestra incorrecta.
+En primer lugar, el conversor se configura sin divisor de reloj (\texttt{adc\_set\_clkdiv(0)}), lo que produce una tasa de conversión cercana a $500$\,kmuestras/s; con anchos de pulso del orden de la decena de microsegundos esto asegura varias muestras dentro de la ventana. En segundo lugar, la habilitación del FIFO desacopla la conversión de la lectura, de modo que una demora del lazo de software no pierde la muestra en curso. En tercer lugar, el retardo de $2$\,\textmu s posterior al flanco descarta el transitorio de establecimiento del multiplexor de entrada y el tiempo de encendido de láser, que de otro modo se computaría como una muestra incorrecta.
 
 La resolución del conversor es de 12 bits sobre una referencia de $3{,}3$\,V, lo que da un escalón de cuantificación de $3{,}3/4095 \approx 0{,}806$\,mV.
 
@@ -147,7 +147,7 @@ El sistema permite fijar en caliente el número $n$ de picos a promediar por can
 
 \subsection{Espera de estabilización}
 
-El calefactor de cavidad presenta una constante de tiempo térmica no despreciable frente al período del ciclo. El punto de consigna se escribe al final de un ciclo, pero la temperatura efectiva de la cavidad tarda en alcanzarlo. Medir inmediatamente después de la escritura equivaldría a muestrear sobre un transitorio, con el resultado de que el lazo reaccionaría a su propia dinámica de actuación en lugar de a la del proceso.
+El calentador de cavidad del laser \emph{seeder} presenta una constante de tiempo térmica no despreciable frente al período del ciclo. El \emph{setpoint} se escribe al final de un ciclo, pero la temperatura efectiva de la cavidad tarda en alcanzarlo. Medir inmediatamente después de la escritura equivaldría a muestrear sobre un transitorio, con el resultado de que el lazo reaccionaría a su propia dinámica de actuación en lugar de a la del proceso.
 
 Por ese motivo el ciclo comienza con una pausa configurable, \texttt{espera\_ms} (comando \texttt{E}), de valor por defecto $10$\,s y tope $600$\,s. Durante la pausa el segundo núcleo continúa atendiendo comandos, de modo que el propio parámetro puede modificarse sin esperar a que el ciclo concluya.
 
@@ -168,9 +168,9 @@ El controlador implementa cinco modos, que la figura~\ref{fig:fw-estados} presen
 
 \subsection{Ley de control del sistema}
 
-Al ingresar en el modo \textsc{lock} el controlador captura como referencia $\mathit{prt}_{\mathrm{ref}}$ el valor del cociente correspondiente a \emph{dos ciclos atrás}. El criterio tiene una justificación clara ya que el ciclo inmediatamente anterior pudo haberse medido mientras la temperatura todavía convergía hacia el último punto de consigna del barrido, mientras que el ciclo previo a ése corresponde a una condición ya estabilizada. Tomar la referencia del historial evita, además, introducir un ciclo adicional de espera al momento de la sintonización.
+Al ingresar en el modo \textsc{lock} el controlador captura como referencia $\mathit{prt}_{\mathrm{ref}}$ el valor del cociente correspondiente a \textbf{dos ciclos atrás}. El criterio tiene una justificación, ya que el ciclo inmediatamente anterior pudo haberse medido mientras la temperatura todavía convergía hacia el último punto de consigna del barrido, mientras que el ciclo previo a ése corresponde a una condición ya estabilizada. Tomar la referencia del historial evita, además, introducir un ciclo adicional de espera al momento de la sintonización.
 
-La ley de control es de tipo \emph{bang-bang} con zona muerta multiplicativa:
+La ley de control es de tipo histéresis \emph{bang-bang} con banda muerta multiplicativa:
 
 \begin{equation}
   \Delta_{\text{heater}} =
@@ -182,13 +182,13 @@ La ley de control es de tipo \emph{bang-bang} con zona muerta multiplicativa:
   \label{eq:lock}
 \end{equation}
 
-donde $\delta_{f}$ es el paso fino y $\mathrm{coe}=1{,}23$ el coeficiente de banda muerta. La figura~\ref{fig:fw-banda} representa gráficamente la ecuación~\ref{eq:lock}.
+donde $\delta_{f}$ es el paso fino de temperatura y $\mathrm{coe}=1{,}23$ el coeficiente de banda muerta. La figura~\ref{fig:fw-banda} representa gráficamente la ecuación~\ref{eq:lock}.
 
 \begin{figure}[htbp]
 \centering
 \resizebox{0.95\textwidth}{!}{\input{diagramas/fw-banda}}
-\caption[Banda muerta multiplicativa del modo de enganche]%
-{Banda muerta multiplicativa del modo de enganche. El ancho relativo de la banda es constante y no depende del valor absoluto de la referencia.}
+\caption[Banda muerta multiplicativa del modo de sintonía]%
+{Banda muerta multiplicativa del modo de sintonía. El ancho relativo de la banda es constante y no depende del valor absoluto de la referencia (Fuente: elaboración propia).}
 \label{fig:fw-banda}
 \end{figure}
 
@@ -196,13 +196,13 @@ La elección de una banda \emph{multiplicativa} es debido a que el cociente $\ma
 
 \subsection{Protección de rango}
 
-Antes de calcular el incremento, cada ciclo verifica que el punto de consigna permanezca dentro del intervalo $[h_{\min}, h_{\max}]$ declarado en \texttt{config.h} (por defecto $62{,}5$--$63{,}1$\,\textdegree C). Si lo excede, el controlador fuerza el modo de barrido opuesto y anula la bandera \texttt{lock\_activo}.
+Antes de calcular el incremento o decremento de temperatura de cavidad, cada ciclo verifica que el \emph{setpoint} permanezca dentro del intervalo $[h_{\min}, h_{\max}]$ declarado en \texttt{config.h} (por defecto $62{,}5$--$63{,}1$\,\textdegree C). Si lo excede, el controlador fuerza el modo de barrido en dirección opuesta al actual. Si el sistema esta sintonizado, anula la bandera \texttt{lock\_activo}, volviendo al modo de barrido.
 
 \subsection{Estructura del ciclo}
 
-La Figura \ref{fig:fw-ciclo} sintetiza el ciclo completo que ejecuta \texttt{core0}. Primero el sistema copia \texttt{n\_prom} y \texttt{espera\_ms} en sección critica, debido a que estas variables son escritas por el \texttt{core0} pero accedidas por el \texttt{core1}. El uso de una sección critica \cite{rpisdk} permite evitar los problemas típicos de recurrencia al acceder simultaneamente a la variable, como condicion de carrera o \textit{race\ condition}. Luego el ciclo espera el tiempo de estabilización (de ser necesario), captura los pulsos de SYNC, los normaliza y escala para posteriormente aplicar la ley de control y enviar los setpoints al seeder.
+La Figura \ref{fig:fw-ciclo} sintetiza el ciclo completo que ejecuta \texttt{core0}. Primero el sistema copia \texttt{n\_prom} y \texttt{espera\_ms} en sección crítica, debido a que estas variables son escritas por el \texttt{core1} pero accedidas por el \texttt{core0}. El uso de una sección crítica \cite{rpisdk} permite evitar los problemas típicos de concurrencia al acceder simultáneamente a una variable, como condición de carrera o \textit{race\ condition}. Luego el ciclo espera el tiempo de estabilización (de ser necesario), captura los pulsos del ADC ante una entrada de SYNC (señal de sincronismo del laser \emph{host}), los normaliza y escala para posteriormente aplicar la ley de control y enviar los \emph{setpoints} al \emph{seeder}.
 
-Finalmente, el microcontrolador confirma los valores escritos en el seeder y al terminar el ciclo escribe todas las variables consultadas anteriormente en la terminal, con la etiqueta \texttt{log}.
+Finalmente, el microcontrolador confirma los valores escritos en el \emph{seeder} y al terminar el ciclo envía todas las variables consultadas anteriormente en la terminal, con la etiqueta \texttt{log}.
 
 \begin{figure}[htpb]
 \centering
@@ -216,7 +216,7 @@ Finalmente, el microcontrolador confirma los valores escritos en el seeder y al 
 
 \subsection{Protocolo}
 
-El seeder Continuum expone un conjunto de comandos de texto de sintaxis similar a SCPI, terminados en \texttt{\textbackslash r\textbackslash n}, sobre una línea RS-232 configurada a $57\,600$ baudios, 8N1, sin control de flujo. La Tabla~\ref{tab:fw-scpi} enumera los comandos utilizados por el firmware.
+El \emph{seeder} Continuum expone un conjunto de comandos de texto de sintaxis similar a SCPI, terminados en \texttt{\textbackslash r\textbackslash n}, sobre una línea RS-232 configurada a $57\,600$ baudios, 8N1, sin control de flujo. La Tabla~\ref{tab:fw-scpi} enumera los comandos utilizados por el \emph{firmware}.
 
 \begin{table}[htbp]
 \centering
@@ -235,43 +235,41 @@ El seeder Continuum expone un conjunto de comandos de texto de sintaxis similar 
   \texttt{*CLS}                   & Limpiar la cola de errores. \\
   \bottomrule
   \end{tabular}
-  \caption{Comandos del seeder empleados por el firmware.}
+  \caption{Comandos del seeder empleados por el firmware (Fuente: adaptado de \cite{npphotonics_flm005}).}
 \label{tab:fw-scpi}
 \end{table}
 
 \subsection{Habilitación de los comandos protegidos}
 
-El seeder inicia siempre con los comandos de configuración protegidos. Esto quiere decir que sin habilitación previa, las escrituras de temperatura y de tensión del piezoeléctrico se descartan. El firmware envía la contraseña durante la inicialización, incluso antes de esperar a que se establezca la consola USB, y reintenta hasta \texttt{UNLOCK\_MAX\_INTENTOS} $=5$ veces con \texttt{UNLOCK\_REINTENTO\_MS} $=2000$\,ms de separación, porque el seeder puede encontrarse todavía en su propia secuencia de arranque cuando el microcontrolador ya está operativo.
+El \emph{seeder} inicia siempre con los comandos de configuración protegidos. Esto quiere decir que sin habilitación previa, las escrituras de temperatura y de tensión del piezoeléctrico se descartan. El \emph{firmware} envía la contraseña durante la inicialización del mismo, incluso antes de esperar a que se establezca la consola USB, y reintenta hasta \texttt{UNLOCK\_MAX\_INTENTOS} $=5$ veces con \texttt{UNLOCK\_REINTENTO\_MS} $=2000$\,ms de separación, porque el \emph{seeder} puede encontrarse todavía en su propia secuencia de arranque cuando el microcontrolador ya está operativo.
 
-Durante esta etapa no hay consola disponible, de modo que los mensajes de diagnóstico se perderían. Como única señal de vida se utiliza el LED de la placa, encendido de forma continua mientras se cursa un intento y parpadeando durante la espera entre intentos, lo que permite distinguir a simple vista un sistema trabajando de uno detenido. El resultado se almacena y se informa por consola una vez que ésta se establece.
+Durante esta etapa no hay consola disponible, de modo que los mensajes de diagnóstico se perderían. Como única señal de vida se utiliza el LED de la placa, encendido de forma continua mientras se cursa un intento y parpadeando durante la espera entre intentos, lo que permite distinguir a simple vista el estado actual de la placa. El resultado se almacena y se informa por consola una vez que ésta se establece conexión con la interfaz serie del \emph{seeder}.
 
-Un detalle de implementación merece mención por lo difícil que resultó de diagnosticar. La secuencia de habilitación comienza enviando \texttt{*CLS}, comando cuyo efecto útil es evitar que el seeder detecte como byte de datos algún flanco ocurrido al configurar el UART. Sin este comando, la habilitación de los comandos protegidos no fue posible.
+Un detalle de implementación merece mención por lo difícil que resultó de diagnosticar. La secuencia de habilitación del \emph{seeder} debe comenzar enviando \texttt{*CLS}, comando cuyo efecto útil es evitar que el \emph{seeder} detecte como byte de datos algún flanco ocurrido al configurar el UART. Sin este comando, la habilitación de los comandos protegidos no era posible.
 
 \subsection{Verificación de escrituras y diagnóstico}
 
-Dado que el protocolo no acusa recibo de las escrituras, el firmware implementa una verificación explícita mediante el comando \texttt{w}: lee el punto de consigna antes de escribir, escribe, y vuelve a leer. La comparación permite distinguir tres situaciones: aceptación, rechazo (el valor no se movió) y una condición anómala en la que el seeder adoptó un valor distinto del solicitado. Se lee el \emph{punto de consigna} (\texttt{:syst:tcon2:spo?}) y no la temperatura medida (\texttt{:syst:tmon2:temp?}) \cite{npphotonics_flm005} precisamente porque el primero cambia en cuanto el comando es aceptado, sin esperar a que el calefactor alcance físicamente el valor.
-
-El comando \texttt{d} complementa lo anterior consultando el estado de la protección y vaciando la cola de errores del seeder. Los códigos posibles son $-203$ (comando protegido), $-102$ (error de sintaxis), $-121$ (carácter inválido en un número) y $-222$ (dato fuera de rango). Su implementación se realizó con ayuda del manual de referencia \cite{npphotonics_flm005}.
+Dado que el protocolo no acusa recibo de las escrituras, el \emph{firmware} implementa una verificación explícita mediante el comando \texttt{w}: lee el \emph{setpoint} antes de escribirlo por terminal, lo escribe, y lo vuelve a leer. La comparación permite distinguir tres situaciones: aceptación, rechazo (el valor no se movió) y una condición anómala en la que el \emph{seeder} adoptó un valor distinto del solicitado. El comando \texttt{d} complementa lo anterior consultando el estado de la protección y vaciando la cola de errores del \emph{seeder}. Los códigos posibles son $-203$ (comando protegido), $-102$ (error de sintaxis), $-121$ (carácter inválido en un número) y $-222$ (dato fuera de rango). Su implementación se realizó con ayuda del manual de referencia \cite{npphotonics_flm005}, utilizando código de ejemplo del mismo.
 
 
 \subsection{Detección de segundo modo}
 
-Al cierre de cada ciclo el firmware consulta \texttt{:syst:smod:flag?}. El bit 0 en 1 indica que el seeder abandonó la operación en modo único o \textit{single mode}, condición bajo la cual la medición de ese ciclo no es representativa.
+Al cierre de cada ciclo el \emph{firmware} consulta \texttt{:syst:smod:flag?}. El bit 0 en 1 indica que el \emph{seeder} abandonó la operación en monomodo o \textit{single mode} hacia \emph{second mode}, condición bajo la cual la medición de ese ciclo no es representativa.
 
-El firmware informa la condición pero no actúa sobre ella: no descarta la medición ni suspende el lazo. Esta decisión es deliberada, debido a que podría enmascarar un problema con el dispositivo. Por este motivo es posible cambiar la tensión del piezoeléctrico del seeder. Al cambiar la tensión del piezoeléctrico podemos mover el laser de segundo modo a modo único.
+El \emph{firmware} informa la condición pero no actúa sobre ella: no descarta la medición ni suspende el lazo. Esta decisión es deliberada puesto que podría enmascarar un problema con el lidar. Por este motivo es posible cambiar la tensión del piezoeléctrico del \emph{seeder}. Al cambiar la tensión del piezoeléctrico podemos quitar al \emph{seeder} de la condición de \emph{second mode}.
 
-\section{Concurrencia: aprovechamiento de los dos núcleos}
+\section{Concurrencia y aprovechamiento de los dos núcleos}
 \label{sec:fw-concurrencia}
 
-El ciclo de medición es intrínsecamente bloqueante: la espera del trigger, la pausa de estabilización y las transacciones con el seeder inmovilizan el hilo de ejecución por intervalos que pueden alcanzar varios segundos. Atender la consola desde ese mismo hilo obligaría a realizar un \textit{polling} del puerto entre operaciones o utilizar interrupciones.
+El ciclo de medición es intrínsecamente bloqueante: la espera del trigger, la pausa de estabilización y las transacciones con el \emph{seeder} inmovilizan el hilo de ejecución por intervalos que pueden alcanzar varios segundos. Atender la consola desde ese mismo hilo obligaría a realizar un \textit{polling} del puerto entre operaciones o utilizar interrupciones.
 
-Puesto que el RP2350 dispone de dos núcleos, se dispone de una solución directa: \texttt{core0} ejecuta el lazo de medición y control, y \texttt{core1} atiende la consola en modo bloqueante. El diagrama de secuencias de la Figura \ref{fig:fw-secuencia} ilustra la interacción entre los dos nucleos y los recursos compartidos.
+Puesto que el RP2350 dispone de dos núcleos, se dispone de una solución directa: \texttt{core0} ejecuta el lazo de medición y control, y \texttt{core1} atiende la consola en modo bloqueante. El diagrama de secuencias de la Figura \ref{fig:fw-secuencia} ilustra la interacción entre los dos núcleos y los recursos compartidos.
 
 \begin{figure}[htbp]
 \centering
 \resizebox{\textwidth}{!}{\input{diagramas/fw-secuencia}}
 \caption[Concurrencia entre núcleos y arbitraje de recursos compartidos]%
-{Concurrencia entre núcleos y arbitraje de los dos recursos compartidos.}
+{Concurrencia entre núcleos y arbitraje de los dos recursos compartidos (Fuente: elaboración propia).}
 \label{fig:fw-secuencia}
 \end{figure}
 
@@ -280,7 +278,7 @@ Existen dos recursos compartidos, y cada uno recibe el mecanismo de exclusión q
 \begin{itemize}
 \item \textbf{Las estructuras de parámetros y estado} (\texttt{g\_params}, \texttt{g\_estado}) se protegen con una sección crítica (\texttt{critical\_section\_t}), que inhibe las interrupciones. Las regiones protegidas son deliberadamente breves (una asignación y una copia de la estructura) de modo que \texttt{core0} nunca queda esperando por una operación de salida.
 
-\item \textbf{El puerto UART hacia el seeder} se protege con un \emph{mutex} (\texttt{mutex\_t}). Aquí la elección es distinta porque una transacción completa ---envío del comando y lectura de la respuesta--- puede demorar cientos de milisegundos, y mantener las interrupciones inhibidas durante ese intervalo degradaría el resto del sistema. El envío y la lectura deben ejecutarse bajo el mismo bloqueo puesto que si se separaran, el otro núcleo podría enviar un comando diferente y leerían respuestas cruzadas en el puerto UART.
+\item \textbf{El puerto UART hacia el seeder} se protege con un \emph{mutex} (\texttt{mutex\_t}). Aquí la elección es distinta porque una transacción completa (envío del comando y lectura de la respuesta) puede demorar cientos de milisegundos, y mantener las interrupciones inhibidas durante ese intervalo degradaría el resto del sistema. El envío y la lectura deben ejecutarse bajo el mismo bloqueo puesto que si se separaran, el otro núcleo podría enviar un comando diferente y los núcleos leerían respuestas cruzadas en el puerto UART.
 \end{itemize}
 
 Adicionalmente, el valor de $n$ y el tiempo de espera se copian a variables locales al comienzo de cada ciclo, bajo la sección crítica. La copia rige para todo el ciclo, de modo que un cambio ordenado por el operador a mitad del promediado no altera el número de muestras que se están acumulando. Esto implica que el nuevo valor entra en vigor a partir del ciclo siguiente.
@@ -290,7 +288,7 @@ Adicionalmente, el valor de $n$ y el tiempo de espera se copian a variables loca
 
 \subsection{Consola de comandos}
 
-La consola distingue dos familias de comandos. Los de modo y consulta constan de un único carácter y se ejecutan de inmediato, sin requerir confirmación con retorno, lo que resulta apropiado para acciones que el operador puede necesitar con urgencia ---señaladamente, \texttt{s} para detener el control. Los comandos de parámetro constan de una letra seguida de un valor y se acumulan en un buffer hasta recibir el fin de línea. Los comandos posibles se encuentran detallados en la Tabla \ref{tab:fw-params}
+La consola distingue dos familias de comandos. Los de modo y consulta constan de un único carácter y se ejecutan de inmediato. Los comandos de parámetro constan de una letra seguida de un valor y se acumulan en un buffer hasta recibir el fin de línea. Los comandos posibles se encuentran detallados en la Tabla \ref{tab:fw-params}
 
 \begin{table}[htbp]
 \centering
@@ -310,16 +308,16 @@ La consola distingue dos familias de comandos. Los de modo y consulta constan de
   \texttt{E} & Espera de estabilización, s       & \texttt{E10}       & $10$ (máx. $600$) \\
   \bottomrule
   \end{tabular}
-  \caption{Comandos de parámetro y sus valores por defecto.}
+  \caption{Comandos de parámetro y sus valores por defecto (Fuente: elaboración propia).}
 \label{tab:fw-params}
 \end{table}
 
-Los comandos \texttt{A} y \texttt{E} son los únicos que aplican saturación sobre el valor recibido; el resto se acepta tal cual, delegando la validación de rango en el seeder, que responde con el código $-222$ ante un dato fuera de rango. Nótese que la tensión del piezoeléctrico se escribe pero su paso permanece en cero: en esta versión la totalidad de la sintonización se realiza por temperatura.
+Los comandos \texttt{A} y \texttt{E} son los únicos que aplican saturación sobre el valor recibido para limitar rangos; el resto se acepta tal cual, delegando la validación de rango en el \emph{seeder}, que responde con el código $-222$ ante un dato fuera de rango. Nótese que la tensión del piezoeléctrico se escribe pero su paso permanece en cero por que para esta versión del software la totalidad de la sintonización se realiza por temperatura.
 
 \subsection{Registro de variables del sistema}
 \label{sec:fw-log}
 
-La salida por consola cumple dos propósitos dificilmente compatibles entre sí. Durante la puesta a punto a un operador o al mismo desarrollador le interesa una traza legible, con una línea por operación y suficiente contexto para entender qué está haciendo el sistema. Para un HMI, en cambio, esa misma traza obliga al programa corriendo en la PC a reconstruir el estado del equipo juntando fragmentos dispersos en varias líneas de la terminal con diversos contextos.
+La salida por consola cumple dos propósitos difícilmente compatibles entre sí. Durante la puesta a punto a un operador o al mismo desarrollador le interesa una traza legible, con una línea por operación y suficiente contexto para entender qué está haciendo el sistema. Para una HMI, en cambio, esa misma traza obliga al programa corriendo en la PC a reconstruir el estado del equipo juntando fragmentos dispersos en varias líneas de la terminal con diversos contextos.
 
 La solución adoptada consiste en mantener la traza legible y agregar, al cierre de cada ciclo de medición, una única línea autocontenida en formato CSV:
 
@@ -338,23 +336,23 @@ Los nombres de las columnas no se codifican dentro de la línea de datos sino qu
           smod,segundo_modo
 \end{lstlisting}
 
-Esto permite que el software que recibe la información por puerto serie pueda construir el encabezado de su archivo de salida a partir de lo que el firmware declara, en lugar de mantener una copia de la lista. Si en el futuro se agregan columnas, el mismo software de PC las incorpora sin modificaciones. 
+Esto permite que el software que recibe la información por puerto serie pueda construir el encabezado de su archivo de salida a partir de lo que el \emph{firmware} declara, en lugar de mantener una copia de la lista. Si en el futuro se agregan columnas, el mismo software de PC las incorpora sin modificaciones. 
 
-El csv generado además posee tres reglas de interpretación:
+El csv generado además posee dos reglas de interpretación:
 
 \begin{enumerate}
-\item El separador es la coma y el separador decimal es el punto según formato de archivos csv tradicional.
+\item El separador es la coma y el separador decimal es el punto según formato de archivos \texttt{csv} tradicional.
 \item Un campo vacío significa que el dato no existe en ese ciclo, y no que valga cero.
 \end{enumerate}
 
-Esta ultima distinción permite diferenciar una situación de no respuesta del seeder (que sería causal de alarma para la interfaz), de un cero verdadero.
+Esta última distinción permite diferenciar una situación de no respuesta del \emph{seeder} (que sería causal de alarma para la interfaz), de un cero verdadero.
 
 \section{Configuración y compilación}
 \label{sec:fw-build}
 
 Toda la parametrización del sistema reside en \texttt{config.h}: pines, velocidades de comunicación, parámetros de reintento, valores por defecto del control y límites de seguridad. La regla de diseño es que ninguna constante significativa aparezca dispersa en el código.
 
-La compilación se realiza con CMake y Ninja sobre el SDK oficial de Raspberry Pi Pico en su versión 2.3.0, con la cadena de herramientas ARM 15\_2\_Rel1. La placa objetivo se declara como \texttt{PICO\_BOARD=pico2}. La salida estándar se dirige a USB y no a UART, ya que este último está dedicado por completo a la comunicación con el seeder:
+La compilación se realiza con CMake y Ninja sobre el SDK oficial de Raspberry Pi Pico en su versión 2.3.0, con la cadena de herramientas ARM 15\_2\_Rel1. La placa objetivo se declara como \texttt{PICO\_BOARD=pico2}. La salida estándar se dirige a USB y no a UART, ya que este último está dedicado por completo a la comunicación con el \emph{seeder}:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize,columns=fullflexible,
   frame=single,rulecolor=\color{black!30}]
