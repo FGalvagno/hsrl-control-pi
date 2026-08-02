@@ -7,33 +7,116 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{Resultados}
 
-. Se resumen a continuaci\'on los
-resultados alcanzados hasta el momento:
+El presente apartado recapitula, en relación con los objetivos específicos
+planteados en la Sección~\ref{sec:objetivos_especificos}, los resultados obtenidos a
+lo largo del desarrollo documentado en los capítulos precedentes, con particular
+referencia a la integración y los ensayos descritos en el
+Capítulo~\ref{cap:modelo_experimental}.
 
-\begin{itemize}
-  \item El circuito detector de picos dise\~nado (Cap\'itulo~\ref{cap:diseno_deteccion_picos})
-        fue simulado y validado experimentalmente, confirmando su
-        comportamiento lineal para tensiones de entrada superiores a
-        0.8~V y su correcta respuesta ante pulsos de 100~ns
-        \cite{informeEneFeb2026,informeAbril2026}.
-  \item Las oscilaciones observadas en el prototipo inicial, atribuidas
-        a capacidades par\'asitas, fueron resueltas mediante el
-        rediseño de la placa con t\'ecnicas de ruteo para se\~nales de
-        alta velocidad (Secci\'on~\ref{sec:mitigacion_parasitos})
-        \cite{informeMarzo2026,informeAbril2026}.
-  \item Se verific\'o la correcta comunicaci\'on entre la placa de
-        control y el l\'aser seeder mediante el enlace RS232/MAX3232
-        \cite{informeAbril2026}.
-  \item Se implement\'o un primer borrador del software HMI, con
-        comunicaci\'on funcional en sentido placa-PC
-        \cite{informeAbril2026}.
-  \item Avances parciales del proyecto fueron presentados en el ILRC32
-        \cite{galvagno2026ilrc}.
-\end{itemize}
+\section*{Circuito de detección de picos}
 
-PLACEHOLDER: completar este apartado con los resultados de la
-validaci\'on integral del sistema (firmware completo, comunicaci\'on
-bidireccional del HMI y mediciones sobre el canal HSR real), en
-relaci\'on con los objetivos espec\'ificos planteados en la
-Secci\'on~\ref{sec:objetivos_especificos}, una vez finalizada la etapa
-de desarrollo restante.
+El circuito detector de picos, desarrollado en el
+Capítulo~\ref{cap:diseno_deteccion_picos} sobre la base de dos amplificadores
+realimentados por corriente y un transistor bipolar como elemento detector, fue
+dimensionado para retener el valor de pico de pulsos de pocos nanosegundos durante
+el tiempo que demanda la conversión analógico-digital. La constante de tiempo
+adoptada, $\tau = R_3 C_1 = 27{,}06\,\mu\text{s}$, garantiza la aproximación lineal
+buscada.
+
+La simulación en NGSPICE, ejecutada con una captura real de la salida del fotodiodo
+como señal de excitación, confirmó un comportamiento lineal para tensiones de entrada
+superiores a $0{,}8$~V, límite impuesto por el piso de tensión del amplificador
+operando con fuente simple de $+12$~V.
+
+El primer prototipo, construido sobre placa de faz simple, presentó oscilaciones
+severas en el nodo de salida ante un pulso de prueba de $100$~ns a $20$~Hz, atribuidas
+a capacidades parásitas acopladas a los nodos de alta impedancia de los amplificadores.
+Este resultado negativo motivó el rediseño del circuito impreso descrito en el
+Capítulo~\ref{cap:placacontrol}.
+
+\section*{Placa de control}
+
+La placa definitiva se implementó en doble faz sobre sustrato FR-4 de
+$1{,}6\,\text{mm}$, con dimensiones de $100 \times 60\,\text{mm}$, aplicando recortes
+del plano de masa bajo los nodos sensibles, vías de costura para reducir la impedancia
+del camino de retorno y separación física entre la sección analógica y la digital
+(Sección~\ref{sec:mitigacion_parasitos}).
+
+Las oscilaciones desaparecieron por completo. Sobre la región de operación lineal,
+adoptada como $V_O \ge 2\,\text{V}$, el ajuste por mínimos cuadrados de la respuesta
+medida arrojó $V_{in} = 0{,}539\,V_O + 0{,}697$ con $R^2 = 0{,}9986$, frente a
+$V_{in} = 0{,}619\,V_O + 0{,}071$ y $R^2 = 0{,}99998$ obtenidos en simulación. La
+linealidad del circuito construido se conserva, con un desvío máximo de
+$86\,\text{mV}$ respecto del modelo.
+
+La placa integra en una única pieza los dos canales de detección, el módulo Raspberry
+Pi Pico~2, el transceptor MAX3232 con su conector DB9 y la adaptación de la señal de
+sincronismo, y se alimenta con una única fuente de $+12$~V.
+
+\section*{Adquisición y control embebido}
+
+El conversor analógico-digital interno del RP2350, de 12 bits y aproximaciones
+sucesivas, alcanza una frecuencia máxima de muestreo de $500\,\mathrm{kS/s}$ con un
+tiempo de conversión de $2\,\mu\mathrm{s}$, suficiente para digitalizar el valor
+retenido por el detector antes de que el capacitor se descargue de forma apreciable
+(Capítulo~\ref{cap:micro}).
+
+El \emph{firmware} desarrollado (Capítulo~\ref{cap:firmware}) traslada la totalidad
+del lazo al microcontrolador. Se organiza en archivos más un
+encabezado único de configuración, y distribuye el trabajo entre los dos núcleos: el
+lazo de medición y control sobre \texttt{core0} y el intérprete de comandos sobre
+\texttt{core1}, con sección crítica y \emph{mutex} para los dos recursos compartidos.
+La ley de control adoptada es de tipo \emph{bang-bang} con banda muerta
+multiplicativa de coeficiente $1{,}23$, y el punto de consigna permanece acotado por
+la protección de rango declarada en \texttt{config.h}.
+
+\section*{Comunicación con el láser \emph{seeder}}
+
+Se verificó el enlace serie con el sistema \emph{seeder} sobre RS-232 a $57\,600$
+baudios, 8N1, mediante el transceptor MAX3232. El \emph{firmware} habilita los
+comandos protegidos durante la inicialización, con reintentos y señalización por LED,
+y verifica cada escritura releyendo el punto de consigna, lo que permite distinguir
+aceptación, rechazo y adopción de un valor distinto del solicitado.
+
+\section*{Interfaz de supervisión}
+
+La interfaz de operación (Capítulo~\ref{cap:software_hmi}) se implementó en Python
+con Tkinter, organizada en siete módulos y con sólo dos dependencias externas. Adopta
+los lineamientos de la norma ISA-101 para la jerarquía de pantalla y la filosofía de
+color, y los de la ISA-18.2 para la gestión de las cinco condiciones anormales que
+supervisa, presentando únicamente la alarma de mayor prioridad.
+
+La interfaz incorpora además la secuencia de sintonización automática y el registro
+de sesión en dos archivos por ejecución, cuyo encabezado se construye a partir de los
+nombres de columna que el propio \emph{firmware} declara.
+
+\section*{Validación sobre el instrumento}
+
+El conjunto se instaló sobre el sistema HSRL del Observatorio Geofísico y
+Meteorológico de Pilar, montado sobre un panel de acrílico en el frente del equipo,
+sin modificar el camino óptico ni la electrónica de detección original.
+
+En operación a lazo abierto con temperatura fija, el sistema sostuvo el punto de
+consigna durante 13 horas sin intervención del operador. La variación de amplitud
+observada en $P_+$ y $P_-$ durante ese período se explica por el control ON/OFF de la
+temperatura de la celda de iodo y no compromete el desempeño del lazo.
+
+Los barridos sucesivos sobre el rango de $62{,}3$ \textcelsius\ a
+$63{,}1$ \textcelsius\ permitieron registrar los mínimos de ambos canales. Activada la
+sintonización automática, la interfaz fijó el punto de trabajo en
+$62{,}78$ \textcelsius\ y el controlador lo llevó por ajustes finos a
+$62{,}72$ \textcelsius\, conservando la relación entre $P_+$ y $P_-$ definida por los
+dos mínimos.
+
+Con el instrumento ya sintonizado se registraron mediciones de atmósfera en el canal
+elástico de $532$~nm y en el canal HSR. El contraste entre ambos canales resulta
+consistente con la teoría de retrodispersión: el canal HSR muestra una señal
+sensiblemente más débil en la capa de aerosoles de 0 a 4~km, y la señal molecular de
+mayor altitud se atenúa por efecto de esa misma capa. Durante el período registrado
+el lazo mantuvo la sintonización aun cuando el láser pasó a su modo de disparo
+intermitente, aplicando una única corrección del punto de trabajo.
+
+\section*{Difusión}
+
+Los avances preliminares del proyecto fueron presentados en la 32.\textsuperscript{a} Conferencia Internacional de Radar Láser (ILRC32)
+\cite{galvagno2026ilrc}.
