@@ -1,0 +1,133 @@
+% =============================================================
+% Lista de Simbolos
+% =============================================================
+% Se emplea un entorno de lista en lugar de una tabla: las listas
+% se reparten entre paginas sin necesidad de partir una caja de
+% alineacion, lo que evita los avisos de glue en el salto de pagina.
+% =============================================================
+
+\providecommand{\simbololabel}[1]{#1\hfill}
+
+\newenvironment{listasimbolos}[1]
+  {\begin{list}{}{%
+      \settowidth{\labelwidth}{#1}%
+      \setlength{\leftmargin}{\labelwidth}%
+      \addtolength{\leftmargin}{\labelsep}%
+      \setlength{\topsep}{0.5\baselineskip}%
+      \setlength{\itemsep}{0.25\baselineskip}%
+      \setlength{\parsep}{0pt}%
+      \let\makelabel\simbololabel}}
+  {\end{list}}
+
+\chapter*{Lista de Símbolos}
+\phantomsection
+\addcontentsline{toc}{chapter}{Lista de Símbolos}
+
+% -------------------------------------------------------------
+% Simbolos latinos
+% -------------------------------------------------------------
+\section*{Símbolos latinos}
+
+\begin{listasimbolos}{$K_{mol},\ K_{aer}$MM}
+\item[$A$] Área efectiva del receptor del telescopio [m$^2$]
+\item[$c$] Velocidad de la luz en el vacío [m/s]
+\item[$\mathrm{coe}$] Coeficiente de banda muerta multiplicativa del lazo de control
+\item[$G(R)$] Factor geométrico de la medición lidar
+\item[$h_{\min},\ h_{\max}$] Límites inferior y superior del rango de seguridad del calefactor [$^{\circ}$C]
+\item[$I_L$] Corriente fotogenerada [A]
+\item[$I_O$] Corriente de salida del fotodiodo [A]
+\item[$k$] Constante de Boltzmann [J/K]; 
+\item[$k_i$] Número de onda de la línea de absorción del iodo [cm$^{-1}$]
+\item[$K$] Constante de desempeño del sistema lidar
+\item[$K_{mol},\ K_{aer}$] Factores independientes del rango de los canales molecular y de aerosol
+\item[$n$] Número de picos promediados por canal
+\item[$O(r)$] Función de solapamiento
+\item[$P(r)$] Potencia óptica retrodispersada recibida [W]
+\item[$P_0$] haces centrales del lazo de sintonización
+\item[$P_+,\ P_-$] Haces desplazados $+260$~MHz y $-260$~MHz por los moduladores optoacústicos
+\item[$P_{mol},\ P_{aer}$] Potencias recibidas en los canales molecular y de aerosol [W]
+\item[$\mathit{prt}$] Cociente $p^{+}/p^{-}$; variable controlada del lazo
+\item[$\mathit{prt}_{\mathrm{ref}}$] Valor de referencia del cociente al cerrar el lazo
+\item[$q$] Carga del electrón [C]
+\item[$r,\ R$] Distancia al volumen de dispersión [m]
+\item[$R^2$] Coeficiente de determinación del ajuste lineal
+\item[$\Re(r)$] Razón de retrodispersión
+\item[$t_r$] Tiempo de subida del fotodetector [s]
+\item[$t_{\mathrm{conv}}$] Tiempo de conversión del ADC [s]
+\item[$T$] Temperatura absoluta de la juntura [K]
+\item[$T(R)$] Término de transmisión atmosférica
+\item[$T(k)$] Punto de consigna de temperatura del calefactor en el ciclo $k$ [$^{\circ}$C]
+\item[$V_{\mathrm{in}}$] Tensión de pico de la señal de entrada al detector [V]
+\item[$V_O$] Tensión de pico retenida a la salida del detector [V]
+\end{listasimbolos}
+
+% -------------------------------------------------------------
+% Simbolos griegos
+% -------------------------------------------------------------
+\section*{Símbolos griegos}
+
+\begin{listasimbolos}{$\alpha_{mol,sca},\ \alpha_{mol,abs}$MM}
+\item[$\alpha$] Coeficiente de extinción atmosférico [m$^{-1}$]
+\item[$\alpha_{mol,sca},\ \alpha_{mol,abs}$] Extinción molecular por dispersión y por absorción [m$^{-1}$]
+\item[$\alpha_{aer,sca},\ \alpha_{aer,abs}$] Extinción de aerosol por dispersión y por absorción [m$^{-1}$]
+\item[$\alpha_{aer}$] Extinción de aerosol total [m$^{-1}$]
+\item[$\beta$] Coeficiente de retrodispersión atmosférico [m$^{-1}$sr$^{-1}$]
+\item[$\beta_{mol},\ \beta_{aer}$] Retrodispersión molecular y de aerosol [m$^{-1}$sr$^{-1}$]
+\item[$\Delta_{\mathrm{heater}}$] Incremento aplicado al punto de consigna del calefactor [$^{\circ}$C]
+\item[$\delta_f$] Paso fino de temperatura del \emph{seeder} [$^{\circ}$C]
+\item[$\eta$] Eficiencia óptica del receptor
+\item[$\lambda$] Longitud de onda [nm]
+\item[$\tau$] Constante de tiempo del circuito de retención [s]
+\end{listasimbolos}
+
+% -------------------------------------------------------------
+% Siglas y acronimos
+% -------------------------------------------------------------
+\section*{Siglas y acrónimos}
+
+\begin{listasimbolos}{SAVERNETMM}
+\item[ADC] \emph{Analog-to-Digital Converter}, conversor analógico-digital
+\item[BNC] \emph{Bayonet Neill-Concelman}, conector coaxial
+\item[BOM] \emph{Bill of Materials}, listado de materiales
+\item[CDC] \emph{Communications Device Class}, clase de dispositivo USB
+\item[CFA] \emph{Current Feedback Amplifier}, amplificador realimentado por corriente
+\item[CMOS] \emph{Complementary Metal-Oxide-Semiconductor}
+\item[CSV] \emph{Comma-Separated Values}
+\item[DMA] \emph{Direct Memory Access}, acceso directo a memoria
+\item[DRC] \emph{Design Rule Check}, comprobación de reglas de diseño
+\item[FIFO] \emph{First In, First Out}
+\item[FR-4] Sustrato laminado de fibra de vidrio y resina epoxi
+\item[GPIO] \emph{General Purpose Input/Output}
+\item[HMI] \emph{Human-Machine Interface}, interfaz hombre-máquina
+\item[HSR] \emph{High Spectral Resolution}, alta resolución espectral
+\item[HSRL] \emph{High Spectral Resolution Lidar}
+\item[ILRC] \emph{International Laser Radar Conference}
+\item[IUV] Índice ultravioleta
+\item[JICA] \emph{Japan International Cooperation Agency}
+\item[JST] \emph{Japan Science and Technology Agency}
+\item[lidar] \emph{Light Detection and Ranging}
+\item[Nd:YAG] Granate de itrio y aluminio dopado con neodimio
+\item[NIES] \emph{National Institute for Environmental Studies}
+\item[PCB] \emph{Printed Circuit Board}, circuito impreso
+\item[PIO] \emph{Programmable Input/Output}
+\item[PPS] Práctica Profesional Supervisada
+\item[PWM] \emph{Pulse Width Modulation}
+\item[RISC-V] \emph{Reduced Instruction Set Computer}, versión V
+\item[RS-232] Norma de comunicación serie EIA/TIA-232
+\item[SAR] \emph{Successive Approximation Register}, aproximaciones sucesivas
+\item[SATREPS] \emph{Science and Technology Research Partnership for Sustainable Development}
+\item[SAVERNET] \emph{South American Environmental Risk Network}
+\item[SCPI] \emph{Standard Commands for Programmable Instruments}
+\item[SMD] \emph{Surface Mount Device}, montaje superficial
+\item[SMN] Servicio Meteorológico Nacional
+\item[SPI] \emph{Serial Peripheral Interface}
+\item[SRAM] \emph{Static Random Access Memory}
+\item[TIA] \emph{Transimpedance Amplifier}, amplificador de transimpedancia
+\item[TTL] \emph{Transistor-Transistor Logic}
+\item[UART] \emph{Universal Asynchronous Receiver-Transmitter}
+\item[USB] \emph{Universal Serial Bus}
+\item[VFA] \emph{Voltage Feedback Amplifier}, amplificador realimentado por tensión
+\item[VISA] \emph{Virtual Instrument Software Architecture}
+\end{listasimbolos}
+
+\cleardoublepage

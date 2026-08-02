@@ -6,12 +6,18 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{Resumo}
 
+O lidar de alta resolução espectral (HSRL) instalado no Observatório Geofísico e Meteorológico de Pilar, pertencente à rede SAVERNET e operado pelo Serviço Meteorológico Nacional da Argentina, é o instrumento primário para a caracterização de aerossóis atmosféricos na região central do país. Sua operação contínua dependia de uma malha de sintonia de comprimento de onda montada sobre um osciloscópio de quatro canais e um computador de mesa.
+
+Neste trabalho projetou-se, construiu-se e validou-se um sistema eletrônico embarcado que substitui integralmente essa arquitetura. O condicionamento analógico foi resolvido por um detector de picos baseado em amplificadores realimentados por corrente e um transistor bipolar como elemento detector, que retém o valor máximo de pulsos de aproximadamente 100 ns e permite digitalizá-lo com um conversor de velocidade moderada. A etapa digital foi implementada sobre um microcontrolador RP2350, cujo conversor analógico-digital interno amostra os canais P+ e P- sincronizado por hardware com o disparo do laser. O firmware adota como variável controlada a razão entre ambos os canais, o que cancela em primeira ordem as flutuações de energia por pulso e a deriva de ganho do detector, e corrige o ponto de ajuste de temperatura do laser semente por meio de uma lei de controle por histerese com banda morta multiplicativa, comunicando-se com o equipamento através de um enlace RS-232. A malha fecha-se inteiramente dentro do microcontrolador; uma interface homem-máquina desenvolvida em Python, segundo as diretrizes da norma ISA-101, atua como observador para a parametrização, o monitoramento e o registro de dados.
+
+O circuito detector e a placa de controle foram verificados em laboratório, e o conjunto foi integrado e ensaiado sobre o sistema HSRL de Pilar, contrastando seu desempenho com a configuração instrumental anterior. Os resultados confirmam a estabilidade da malha de sintonia e a eliminação da dependência de instrumentação comercial de alto custo, viabilizando campanhas de medição prolongadas, remotas e desassistidas.
+
 \vspace{1cm}
-\noindent\textbf{\'Area Tem\'atica:} Controle.
+\noindent\textbf{\'Area Tem\'atica:} Controle, Digital.
 
 \noindent\textbf{Assuntos:} Eletr\^onica Digital 3, S\'intese de Redes
 Ativas, Sistemas de Controle I.
 
-\noindent\textbf{Palavras Chaves:}
+\noindent\textbf{Palavras Chaves:} lidar de alta resolução espectral, aerossóis atmosféricos, sistema embarcado, detector de picos, interface homem-máquina.
 
 \cleardoublepage

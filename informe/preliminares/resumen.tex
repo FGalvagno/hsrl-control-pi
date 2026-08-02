@@ -5,13 +5,18 @@
 \chapter*{Resumen}
 \phantomsection
 \addcontentsline{toc}{chapter}{Resumen}
+El lidar de alta resolución espectral (HSRL) instalado en el Observatorio Geofísico y Meteorológico de Pilar, perteneciente a la red SAVERNET y operado por el Servicio Meteorológico Nacional, constituye el instrumento primario para la caracterización de aerosoles atmosféricos en el centro del país. Su operación continua dependía de un lazo de sintonización de longitud de onda montado sobre un osciloscopio de cuatro canales.
+
+En este trabajo se diseñó, construyó y validó un sistema electrónico embebido que reemplaza integralmente dicha arquitectura. El acondicionamiento analógico se resolvió mediante un detector de picos basado en amplificadores realimentados por corriente y un transistor bipolar como elemento detector, que retiene el valor máximo de pulsos de aproximadamente 100 ns y permite digitalizarlo con un conversor de velocidad moderada. La etapa digital se implementó sobre un microcontrolador RP2350, cuyo conversor analógico-digital interno muestrea los canales P+ y P- sincronizado por hardware con el disparo del láser. El firmware adopta como variable controlada el cociente entre ambos canales, lo que cancela en primer orden las fluctuaciones de energía por pulso y la deriva de ganancia del detector, y corrige el punto de trabajo de temperatura del láser semilla mediante una ley de control por histéresis con banda muerta multiplicativa, comunicándose con el equipo a través de un enlace RS-232. El lazo se cierra íntegramente dentro del microcontrolador; una interfaz hombre-máquina desarrollada en Python, siguiendo los lineamientos de la norma ISA-101, actúa como observador para la parametrización, el monitoreo y el registro de datos.
+
+El circuito detector y la placa de control fueron verificados en laboratorio, y el conjunto se integró y ensayó sobre el sistema HSRL de Pilar, contrastando su desempeño con la configuración instrumental previa. Los resultados confirman la estabilidad del lazo de sintonización y la eliminación de la dependencia de instrumental comercial de alto costo, habilitando campañas de medición prolongadas, remotas y desatendidas.
 
 \vspace{1cm}
-\noindent\textbf{\'Area Tem\'atica del Proyecto Integrador:} Control.
+\noindent\textbf{\'Area Tem\'atica del Proyecto Integrador:} Control, Digitales.
 
 \noindent\textbf{Asignaturas:} Electr\'onica Digital 3, S\'intesis de Redes
 Activas, Sistemas de Control I.
 
-\noindent\textbf{Palabras Clave:}
+\noindent\textbf{Palabras Clave:} lidar de alta resolución espectral, aerosoles atmosféricos, sistema embebido, detector de picos, interfaz hombre-máquina.
 
 \cleardoublepage

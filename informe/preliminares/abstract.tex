@@ -6,12 +6,18 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{Abstract}
 
+The high spectral resolution lidar (HSRL) installed at the Pilar Geophysical and Meteorological Observatory, part of the SAVERNET network and operated by the Argentine National Weather Service, is the primary instrument for characterising atmospheric aerosols in the central region of the country. Its continuous operation relied on a wavelength tuning loop built around a four-channel oscilloscope and a desktop computer.
+
+This work presents the design, construction and validation of an embedded electronic system that fully replaces that architecture. Analogue conditioning is carried out by a peak detector based on current feedback amplifiers and a bipolar transistor acting as the detecting element, which holds the maximum value of pulses of roughly 100 ns and allows it to be digitised with a moderate-speed converter. The digital stage is implemented on an RP2350 microcontroller, whose internal analogue-to-digital converter samples the P+ and P- channels under hardware synchronisation with the laser trigger. The firmware takes the ratio between both channels as the controlled variable, which cancels to first order the pulse-to-pulse energy fluctuations and the gain drift of the detector, and corrects the temperature setpoint of the seed laser through a hysteresis control law with a multiplicative dead band, communicating with the device over an RS-232 link. The loop is closed entirely within the microcontroller; a human-machine interface developed in Python, following the guidelines of the ISA-101 standard, acts as an observer for parameter setting, monitoring and data logging.
+
+The detector circuit and the control board were verified in the laboratory, and the assembly was integrated and tested on the Pilar HSRL system, with its performance contrasted against the previous instrumental setup. The results confirm the stability of the tuning loop and the removal of the dependence on expensive commercial instrumentation, enabling extended, remote and unattended measurement campaigns.
+
 \vspace{1cm}
-\noindent\textbf{Thematic Area:} Control.
+\noindent\textbf{Thematic Area:} Control, Digital Systems.
 
 \noindent\textbf{Subjects:} Digital Electronics 3, Active Network
 Synthesis, Control Systems I.
 
-\noindent\textbf{Key Words:}
+\noindent\textbf{Key Words:} high spectral resolution lidar, atmospheric aerosols, embedded system, peak detector, human-machine interface.
 
 \cleardoublepage
