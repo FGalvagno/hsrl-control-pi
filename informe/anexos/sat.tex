@@ -3,7 +3,20 @@
 % IMPORTANTE: retirar datos personales y firmas del Director,
 % Co-Director/es y Estudiante antes de incluir en el Informe Final.
 % =============================================================
-\section*{Solicitud de Aprobaci\'on de Tema}
-\label{sec:anexo_sat}
-\addcontentsline{toc}{section}{Solicitud de Aprobaci\'on de Tema}
-\includepdf[pages=-]{anexos/pdf/SAT.pdf}
+% \chapter* y \section* no actualizan \leftmark ni \rightmark, de modo que
+% el encabezado de las paginas incluidas conservaria las marcas del ultimo
+% capitulo numerado. Se fijan explicitamente en cada pagina.
+\newcommand{\marcasat}{%
+  \markboth{Anexo del Proyecto Integrador}{Solicitud de Aprobaci\'on de Tema}}
+
+% El titulo se emite dentro del pagecommand de la primera pagina incluida,
+% ya que \includepdf siempre abre pagina nueva y dejaria el encabezado
+% solo en la pagina anterior. Esa primera pagina se reduce y se desplaza
+% hacia abajo para dejar lugar al titulo.
+\includepdf[pages=1,scale=0.85,offset=0 -28pt,
+  pagecommand={\pagestyle{fancy}\marcasat%
+    \section*{Solicitud de Aprobaci\'on de Tema}%
+    \label{sec:anexo_sat}%
+    \addcontentsline{toc}{section}{Solicitud de Aprobaci\'on de Tema}}]%
+  {anexos/pdf/SAT.pdf}
+\includepdf[pages=2-,scale=0.90,offset=0 10pt,pagecommand={\pagestyle{fancy}\marcasat}]{anexos/pdf/SAT.pdf}
