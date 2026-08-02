@@ -1,8 +1,8 @@
 % Figura: fw-arquitectura -- requiere \input{diagramas/estilos-diagramas} en el preambulo
 \begin{tikzpicture}[x=1cm,y=1cm]
 
-\node[bloqueg,text width=25mm] (gen) at (0,3.2) {Generador\\de ondas};
-\node[bloqueg,text width=25mm] (det) at (0,1.0) {Detector HSRL\\canales $p^{+}$ / $p^{-}$};
+\node[bloqueg,text width=25mm] (gen) at (0,3.2) {Laser\\host};
+\node[bloqueg,text width=25mm] (det) at (0,1.0) {Detector HSRL\\canales $P_+$ / $P_-$};
 \node[bloqueg,text width=25mm] (aco) at (0,-0.6) {Acondicionamiento\\$0$--$3{,}3$\,V};
 
 \node[bloque,text width=28mm] (c0) at (5.6,2.7) {\textbf{core0}\\lazo de medición\\y control};
@@ -14,7 +14,7 @@
 
 \node[bloquea,text width=26mm] (pc)   at (11.0,3.9) {PC del operador\\HMI};
 \node[bloquea,text width=26mm] (seed) at (11.0,2.0) {Seeder Continuum\\heater + piezo};
-\node[bloqueg,text width=26mm] (lvl)  at (11.0,0.3) {Conversor\\TTL\,/\,RS-232};
+\node[bloqueg,text width=26mm] (lvl)  at (11.0,0.3) {Conversor\\3,3V\,/\,RS-232};
 
 % trigger
 \draw[flecha] (gen.east) -- ++(0.7,0) |- (c0.163)

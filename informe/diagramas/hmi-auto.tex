@@ -8,7 +8,7 @@
   {\textbf{SINTONIZAR AUTO}\\[1pt]\scriptsize el operador presiona el botón};
 \node[decision,text width=24mm] (a2) at (0,-1.8) {¿puerto\\abierto?};
 \node[bloque,text width=48mm]  (a3) at (0,-3.6)
-  {$t \leftarrow \dfrac{t_{\min p^{+}} + t_{\min p^{-}}}{2}$};
+  {$t \leftarrow \dfrac{t_{\min P_{+}} + t_{\min P_{-}}}{2}$};
 \node[decision,text width=26mm] (a4) at (0,-5.5) {¿hay mínimos\\registrados?};
 \node[decision,text width=26mm] (a5) at (0,-7.5) {$t\in[h_{\min},h_{\max}]$?};
 \node[bloque,text width=48mm]  (a6) at (0,-9.4)
@@ -51,7 +51,7 @@
 \node[bloque,text width=54mm] (b5) at (9.2,-9.6)
   {Enviar \texttt{g}\\[1pt]\scriptsize el lock toma como referencia el $\mathit{prt}$ de dos ciclos atrás, ya estabilizado};
 \node[bloquea,text width=44mm] (b6) at (9.2,-11.5)
-  {\textbf{ENGANCHADO}};
+  {\textbf{SINTONIZADO}};
 
 \draw[flecha] (cb) -- (b1);
 \draw[flecha] (b1) -- (b2);
@@ -70,10 +70,6 @@
 \node[nota,text width=62mm,anchor=north west] at (3.6,-12.6)
  {\textbf{Cancelación.} En cualquier punto, un comando de \texttt{INTERRUPTING\_COMMANDS}
   (\texttt{s}, \texttt{f}, \texttt{b}, \texttt{g}, \texttt{e}, \texttt{T}), un botón de
-  modo o la caída del puerto cancelan la secuencia. No se revierte lo ya enviado:
-  el Pico queda en el último modo que recibió.};
-
-\node[et,anchor=north west,align=left] at (-9.7,-9.2)
- {\scriptsize En las tres salidas de rechazo\\no se envía ningún comando al firmware.};
+  modo o la caída del puerto cancelan la secuencia.};
 
 \end{tikzpicture}

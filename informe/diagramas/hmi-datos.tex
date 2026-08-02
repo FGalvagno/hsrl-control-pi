@@ -7,10 +7,10 @@
 
 % ---------------- bandas ----------------
 \begin{scope}[on background layer]
-  \fill[banda] (-9.6,-9.4) rectangle (11.0,2.3);
-  \fill[banda] (-9.6,-33.4) rectangle (11.0,-12.4);
+  \fill[banda] (-9.6,-9.4) rectangle (11.0,2.9);
+  \fill[banda] (-9.6,-35.2) rectangle (11.0,-12.4);
 \end{scope}
-\node[tit,anchor=north west] at (-9.5,2.2)   {hilo lector \textemdash\ \texttt{serie.py}, continuo};
+\node[tit,anchor=north west] at (-9.5,2.8)   {hilo lector \textemdash\ \texttt{serie.py}, continuo};
 \node[tit,anchor=north west] at (-9.5,-12.5) {hilo principal de Tk \textemdash\ \texttt{hmi.py}};
 
 % ---------------- hilo lector ----------------
@@ -27,9 +27,9 @@
 \draw[flecha] (a2) -- (a3);
 \draw[flecha] (a3) -- node[et,right]{sí} (a4);
 \draw[flecha] (a1.east) -- node[et,above]{no} (aw.west);
-\draw[canal] (aw.north) -- (6.4,0.9) -- (0,0.9);
-\draw[canal] (a3.west) -- node[et,above,pos=0.25]{no} (-9.1,-4.8) -- (-9.1,0.9) -- (0,0.9);
-\draw[flecha] (0,0.9) -- (a1.north);
+\draw[canal] (aw.north) -- (6.4,1.6) -- (0,1.6);
+\draw[canal] (a3.west) -- node[et,above,pos=0.25]{no} (-9.1,-4.8) -- (-9.1,1.6) -- (0,1.6);
+\draw[flecha] (0,1.6) -- (a1.north);
 \draw[flecha] (a4.east) -- (9.6,-7.4) -- (9.6,-4.8) -- (a3.east);
 \draw[flechag] (a2.west) -- node[et,above]{excepción} (ae.east);
 
@@ -49,10 +49,10 @@
 \node[paso,text width=58mm] (b5) at (0,-26.4)
   {\texttt{track\_minima()}, punto al gráfico, fila al CSV y paso de la sintonización automática};
 \node[dec]  (b6) at (0,-29.0) {¿\texttt{connection}\\\texttt{\_lost}?};
-\node[dec]  (b7) at (0,-31.2) {¿hubo\\novedades?};
+\node[dec]  (b7) at (0,-32.2) {¿hubo\\novedades?};
 
 \node[bloquer,text width=34mm] (bd) at (6.6,-29.0) {Avisar y cerrar el puerto};
-\node[bloque,text width=34mm]  (br) at (6.6,-31.2) {\texttt{\_refresh\_display()}};
+\node[bloque,text width=34mm]  (br) at (6.6,-32.2) {\texttt{\_refresh\_display()}};
 
 \draw[flecha] (b0) -- (b1);
 \draw[flecha] (b1) -- (b2);
@@ -67,9 +67,9 @@
 \draw[flecha] (b6) -- node[et,left]{no} (b7);
 \draw[flecha] (b6.east) -- node[et,above]{sí} (bd.west);
 \draw[flecha] (b7.east) -- node[et,above]{sí} (br.west);
-\draw[flechag] (bd.south) -- (6.6,-30.1) -- (0,-30.1);
-\draw[flechag] (br.south) -- (6.6,-32.5) -- (0,-32.5);
-\draw[flecha] (b7.south) -- node[et,left,pos=0.4]{no} (0,-32.5) -- (10.3,-32.5)
+\draw[flechag] (bd.south) -- (6.6,-30.6) -- (0,-30.6);
+\draw[flechag] (br.south) -- (6.6,-34.2) -- (0,-34.2);
+\draw[flecha] (b7.south) -- node[et,left,pos=0.45]{no} (0,-34.2) -- (10.3,-34.2)
       -- node[et,pos=0.55,right,rotate=90]{\texttt{root.after(100\,ms)}} (10.3,-13.8) -- (b0.east);
 
 \end{tikzpicture}
