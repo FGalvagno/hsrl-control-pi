@@ -1,35 +1,184 @@
 \chapter{Diseño y validación de PCB}
 \label{cap:placacontrol}
 
-El diseño del PCB fue necesario para llegar terminar de validar el detección de picos y comunicación con el seeder, puesto que la mayoría de los componentes utilizados son circuitos integrados de montaje superficial. Para el diseño del mismo, siguiendo la línea del presente PI de utilizar software libre, KiCad V9.0.
+El diseño del PCB resultó necesario para completar la validación del circuito de detección de picos y de la comunicación con el \emph{seeder}, puesto que la mayoría de los componentes utilizados son circuitos integrados de montaje superficial. Para su desarrollo se empleó KiCad~9.0, en línea con el criterio adoptado en el presente Proyecto Integrador de utilizar software libre.
+
 
 \section{Circuito esquemático}
 \label{sec:esquematico}
 
-El circuito esquemático final integra los circuitos discutidos en el Capítulo \ref{cap:diseno_deteccion_picos} y \ref{cap:micro}. El esquemático desarrollado se divide en dos partes, el circuito analógico de detección y el circuito digital de comunicación y detección de trigger. Se omitió incluir en la placa elementos como reguladores de tensión, indicadores LED o pulsadores, debido a que para un primer prototipo se buscaba la simplificación y la validación de la sección analógica y de comunciación con el seeder. Una versión completa del circuito esquemático se encuentra en el Anexo \ref{anexo:esquematico}.
+El circuito esquemático final integra los circuitos discutidos en el Capítulo \ref{cap:diseno_deteccion_picos} y \ref{cap:micro}. El esquemático desarrollado se divide en dos partes, el circuito analógico de detección y el circuito digital de comunicación y detección de trigger. Se omitió incluir en la placa elementos como reguladores de tensión, indicadores LED o pulsadores, debido a que para un primer prototipo se buscaba la simplificación y la validación de la sección analógica y de comunicación con el \emph{seeder}. Una versión completa del circuito esquemático se encuentra en el Anexo \ref{anexo:esquematico}.
 
-\section{Criterios de Diseño del PCB}
+\subsection{Detector de Picos}
 
-La placa se desarrolló tomando en cuenta buenas prácticas de ruteo y diseño electrónico, tales como
+El circuito analógico detector de picos se diseñó a partir de lo desarrollado previamente en el Capítulo \ref{cap:diseno_deteccion_picos}. Se agregaron capacitores de tantalio y cerámicos de desacople en los pines de alimentación de los amplificadores operacionales según la hoja de datos \cite{ad8004_ds}.
+
+Los dos canales tienen el mismo circuito, por lo cual la topología se encuentra replicada una vez por canal.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_esquematicodeteccion.png}
+    \caption{Circuito de detección correspondiente al canal $P_+$ (imagen superior) y $P_-$ (imagen inferior) (Fuente: elaboración propia).}
+    \label{fig:deteccionkicad}
+\end{figure}
+
+La placa se alimenta mediante una bornera doble, donde deben ingresar 12~V y GND. Para esta aplicación, no se discriminó entre masa analógica y masa digital, por lo cual se conectan ambas masas en la bornera de alimentación. 
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_alimentaciónanalogica.png}
+    \caption{Alimentación analógica de la placa (Fuente: elaboración propia).}
+    \label{fig:alimentacionanalogica}
+\end{figure}
+
+La selección de los conectores BNC para la entrada analógica se realizó por su facilidad de conexión y por ser un estándar en instrumentación.
 
 
-\begin{itemize}
-  \item Mantenimiento de planos de masa con recortes (\emph{cutouts}) debajo de los pines de entrada y de la red de realimentación.
-  \item Ubicación de los componentes de la red de realimentación lo más cerca posible del amplificador, las resistencias de realimentación $R_f$ conectadas directamente entre el pin de salida y el pin $-IN$ sin vías intermedias.
-  \item Colocación de capacitores de desacople en los pines de alimentación, con vía directa al plano de masa. Particularmente capacitores de tantalio, según hoja de datos \cite{ad8004_ds}
-  \item Separación de las pistas de entrada respecto de líneas de alta frecuencia o señales ruidosas adyacentes.
-  \item Reducción del encapsulado de las resistencias SMD de 1206 a 0603, disminuyendo además su tolerancia de 5\,\% a 1\,\%.
-  \item Interconexión de plano de masa de capa superior e inferior mediante vias, para evitar caminos de retorno largos.
-\end{itemize}
+\subsection{Circuito de microcontrolador y RS-232}
+
+Para el circuito digital, se decidió usar el microcontrolador RP2350 ya montado en la placa de desarrollo, debido a la facilidad de programación, disponibilidad en el mercado y bajo costo. Para el acople hacia la placa de control, se usaron conectores hembra de 2x20 pines, que permiten fácil reemplazo de ser necesario.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_rpico.png}
+    \caption{Circuito de microcontrolador visualizado en el esquemático (Fuente: elaboración propia).}
+    \label{fig:esquematicomicro}
+\end{figure}
+
+Otra de las ventajas de montar la placa de desarrollo directamente sobre la placa de control es que permite el uso del regulador de tensión integrado de 3,3~V para la alimentación de otros periféricos, como en este caso, el transceptor RS-232 MAX3232. Se añadieron conectores macho de 1x14 pines para el agregado de más entradas y salidas, como en este caso, la entrada de SYNC proveniente del láser \emph{host}.
 
 
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_rs232.png}
+    \caption{Circuito de comunicación RS-232 con el integrado MAX3232 y su respectivo conector de salida (Fuente: elaboración propia).}
+    \label{fig:esquematicors232}
+\end{figure}
 
-Ante esta problemática, previo a continuar con los ensayos en laboratorio, se decidió diseñar un nuevo circuito impreso (PCB) multicapa optimizado para aplicaciones de alta frecuencia. En esta fase integradora se incorporaron también el microcontrolador de control del sistema (desarrollado en la Sección \ref{sec:rp2350}) y los transceptores para la interfaz de comunicación serie con el sistema \emph{seeder} (Sección \ref{sec:rs232_uart}).
 
-\subsection{Mitigación de efectos parásitos}
+El integrado MAX3232 se alimentó directamente del regulador de 3,3~V del microcontrolador, y se conectó a los pines de UART del mismo, para la comunicación con el sistema \emph{seeder}. Los capacitores se seleccionaron según la hoja de datos \cite{ti_max3232} y se colocaron lo más cerca posible del integrado. Además, a la salida del mismo se colocó un conector macho DB9.
+
+\subsection{Diseño de circuito impreso (PCB)}
 \label{sec:mitigacion_parasitos}
 
-Para erradicar la inestabilidad observada, el rediseño de la placa de circuito impreso incorporó buenas prácticas de ruteo de señales de alta velocidad:
+El diseño del circuito impreso se orientó a mitigar los efectos parásitos que provocaron las oscilaciones observadas en el primer prototipo (Sección \ref{sec:prototipado_validacion}). La placa se implementó en una configuración de doble faz sobre sustrato FR-4 de $1{,}6\,\text{mm}$, con dimensiones finales de $100 \times 60\,\text{mm}$, empleando ambas capas de cobre ($F.Cu$ y $B.Cu$) mayoritariamente como planos de masa.
 
+Se definieron dos clases de red (\emph{netclasses}) con el objeto de diferenciar las exigencias de conducción de cada grupo de señales, cuyos parámetros se resumen en la Tabla \ref{tab:reglas_diseno}. La clase \texttt{Vcc} agrupa la red de alimentación de $+12\,\text{V}$, para la cual se adoptó un ancho de pista mayor a fin de reducir la caída resistiva y la inductancia serie del camino de alimentación hacia los amplificadores.
+
+\begin{table}[htpb]
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+    \textbf{Parámetro} & \textbf{Clase \texttt{Default}} & \textbf{Clase \texttt{Vcc}} \\
+    \midrule
+    Ancho de pista            & $0{,}508\,\text{mm}$ & $0{,}762\,\text{mm}$ \\
+    Aislación (\emph{clearance}) & $0{,}381\,\text{mm}$ & $0{,}381\,\text{mm}$ \\
+    Diámetro de vía           & $0{,}400\,\text{mm}$ & $0{,}400\,\text{mm}$ \\
+    Perforación de vía        & $0{,}200\,\text{mm}$ & $0{,}200\,\text{mm}$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Reglas de diseño adoptadas para el ruteo del circuito impreso (Fuente: elaboración propia).}
+  \label{tab:reglas_diseno}
+\end{table}
+
+La estrategia de trazado se organizó en torno a tres criterios principales.
+
+En primer lugar, la mitigación de la capacidad parásita en los nodos sensibles. Los amplificadores realimentados por corriente presentan una alta sensibilidad a la capacidad presente en el nodo inversor: una capacidad parásita $C_p$ en dicho nodo introduce un polo adicional en el lazo de realimentación que reduce el margen de fase y favorece la aparición de oscilaciones como las registradas en la Figura \ref{fig:oscilaciones}. Por este motivo se practicaron recortes (\emph{cutouts}) del plano de masa en ambas capas por debajo de los pines de entrada y de la red de realimentación de cada amplificador, y las resistencias $R_f$ de realimentación se ubicaron directamente entre el pin de salida y el pin $-IN$, sin vías intermedias que agreguen inductancia y capacidad al lazo.
+
+En segundo lugar, la reducción de la impedancia del camino de retorno \cite{power}. Ambas capas se rellenaron con planos de masa vinculados entre sí mediante vías de costura (\emph{stitching}) distribuidas a lo largo de la placa, de manera de ofrecer un camino de retorno de baja inductancia inmediatamente por debajo de cada pista de señal y evitar así lazos de corriente.\cite{power}
+
+En tercer lugar, el desacople de la alimentación. Se dispusieron capacitores cerámicos de $100\,\text{nF}$ en encapsulado 1206 adyacentes a los pines de alimentación de cada integrado, con vía directa al plano de masa, acompañados de capacitores de tantalio de mayor valor para el desacople de baja frecuencia,
+según lo recomendado en la hoja de datos del AD8004 \cite{ad8004_ds}.
+
+Adicionalmente, la sección analógica de detección y la sección digital (microcontrolador y transceptor RS-232) se ubicaron en extremos opuestos de la placa, con el fin de alejar las líneas conmutadas del microcontrolador y del
+MAX3232 de las entradas de alta impedancia del detector. Los conectores BNC de entrada se emplazaron sobre el borde de la placa contiguo a los amplificadores, minimizando la longitud de la pista de entrada \cite{power}.
+
+La Figura \ref{fig:ruteo} muestra la vista del ruteo de la placa donde se aplicaron estas estrategias. En rojo se encuentra la capa superior de cobre, mientras que en azul se observa la capa inferior.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_ruteo.png}
+    \caption{Vista del ruteo de la placa de control en KiCad (Fuente: elaboración propia).}
+    \label{fig:ruteo}
+\end{figure}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_render3d.png}
+    \caption{Modelo tridimensional de la placa de control generado en KiCad (Fuente: elaboración propia).}
+    \label{fig:render3d}
+\end{figure}
+
+Finalizado el trazado, se verificó el diseño mediante la herramienta de comprobación de reglas de diseño (DRC) de KiCad, contrastando además las restricciones de fabricación con las capacidades del proveedor seleccionado. Los
+archivos Gerber y de perforado se generaron a partir del proyecto verificado. En el Anexo \ref{anexo:pcb} se incluyen las vistas completas de ambas capas de cobre, la serigrafía y el esquematico correspondiente.
+
+\section{Validación experimental de la placa}
+\label{sec:validacion_placa}
+
+Una vez recibida y montada la placa, se realizaron ensayos orientados a verificar tanto la desaparición de las oscilaciones observadas en el prototipo inicial como el correcto funcionamiento de la etapa de comunicación con el sistema \emph{seeder}.
+
+Previo a la energización se controló la continuidad de las redes de alimentación y la ausencia de cortocircuitos entre $V_{CC}$, $+3{,}3\,\text{V}$ y masa.
+
+\subsection{Respuesta ante pulsos de prueba}
+
+Se repitió el ensayo descrito en la Sección \ref{sec:prototipado_validacion}, excitando la entrada de cada canal con un pulso de $100\,\text{ns}$ de ancho a una frecuencia de repetición de $20\,\text{Hz}$, y registrando simultáneamente la señal de entrada y la tensión retenida sobre $C_1$.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_respuestapulso.png}
+    \caption{Respuesta de la placa de control ante un pulso de prueba de $100\,\text{ns}$ (Fuente: elaboración propia).}
+    \label{fig:respuestapulso}
+\end{figure}
+
+Al excitar el detector con un pulso proveniente del fotodetector, se comprueba el funcionamiento correcto de la etapa de detección de picos.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_respuestapico.png}
+    \caption{Respuesta de la placa de control ante un pico proveniente del fotodetector (Fuente: elaboración propia).}
+    \label{fig:respuestapico}
+\end{figure}
+
+Se observa en la Figura \ref{fig:respuestapico} que el pico obtenido tiene una ganancia. Esto es esperable, puesto que en la entrada del detector de picos se encuentra un amplificador operacional con gananacia de $G_1 = 2$.
+
+\subsection{Linealidad del detector}
+
+Para caracterizar la linealidad se realizó un barrido de amplitud de la señal de entrada, registrando en cada punto la tensión retenida a los $5\,\mu\text{s}$ posteriores al pico, criterio adoptado en la simulación de la
+Sección \ref{sec:simulacion_circuito_detector}.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_linealidadmedida.png}
+    \caption{Tensión retenida en medición en función de la amplitud del pulso de entrada (Fuente: elaboración propia).}
+    \label{fig:linealidadmedida}
+\end{figure}
+
+La Figura \ref{fig:comparacionlinealidad} superpone la característica medida con la obtenida en la simulación de la Sección \ref{sec:simulacion_circuito_detector}. Sobre la región de operación lineal, adoptada como $V_O \ge 2\,\text{V}$, el ajuste por mínimos cuadrados (realizado en Python \ref{lst:ajuste-linealidad}) de la respuesta medida permite obtener $V_{in} = 0{,}539\,V_O + 0{,}697$ con $R^2 = 0{,}9986$, frente a $V_{in} = 0{,}619\,V_O + 0{,}071$ y $R^2 = 0{,}99998$ para la simulación. Por lo tanto, la linealidad del circuito construido se conserva, con un desvío máximo de $86\,\text{mV}$.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/6_comparacionlinealidad.png}
+    \caption{Comparación entre la linealidad medida y la simulada (Fuente: elaboración propia).}
+    \label{fig:comparacionlinealidad}
+\end{figure}
+
+\begin{lstlisting}[language=Python,basicstyle=\ttfamily\footnotesize,
+  columns=fullflexible,breaklines=true,frame=single,rulecolor=\color{black!30},
+  caption={Ajuste lineal de ambas mediciones usando Python},label={lst:ajuste-linealidad}]
+def ajuste_lineal(archivo, V_MIN):
+    datos = np.loadtxt(archivo, delimiter=',', skiprows=1)
+    vo = datos[:, 0]
+    vin = datos[:, 1]
+ 
+    # Regresion lineal sobre los puntos de la zona lineal.
+    zona = vo >= V_MIN
+    pendiente, ordenada = np.polyfit(vo[zona], vin[zona], 1)
+    residuos = vin[zona] - (pendiente * vo[zona] + ordenada)
+    r2 = 1 - residuos.var() / vin[zona].var()
+\end{lstlisting}
+
+\subsection{Validación de la comunicación con el seeder}
+
+Finalmente se verificó el enlace serie con el sistema \emph{seeder}. Se comprobaron los niveles de tensión a la salida del transceptor MAX3232 sobre el conector DB9 y se ejecutó un intercambio de comandos según el protocolo descrito por \cite{npphotonics_flm005}, confirmando la correcta recepción de las respuestas del equipo.
 
 
