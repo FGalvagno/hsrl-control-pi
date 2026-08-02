@@ -40,6 +40,29 @@
 %----------- Inclusión de anexos ---------
 \usepackage{pdfpages}
 
+% Algunos anexos (esquemático y PCB) provienen de láminas apaisadas. El
+% entorno siguiente conmuta el tamaño físico de hoja a A4 horizontal y lo
+% restituye al salir, de modo que esas láminas se lean sin rotar el
+% informe impreso. Se cambia primero la caja de texto con \newgeometry
+% (layoutsize describe la hoja girada) y recién después \paperwidth y
+% \paperheight, porque \newgeometry reescribe esas dos longitudes con el
+% tamaño declarado en el preámbulo. pdfpages lee \paperwidth para centrar
+% cada lámina y fancyhdr usa \headwidth para el ancho del encabezado.
+\newenvironment{hojaapaisada}{%
+  \clearpage
+  \newgeometry{layoutsize={297mm,210mm},layoutoffset={0pt,0pt},%
+    left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm}%
+  \setlength{\paperwidth}{297mm}\setlength{\paperheight}{210mm}%
+  \setlength{\pdfpagewidth}{297mm}\setlength{\pdfpageheight}{210mm}%
+  \setlength{\headwidth}{\textwidth}%
+}{%
+  \clearpage
+  \restoregeometry
+  \setlength{\paperwidth}{210mm}\setlength{\paperheight}{297mm}%
+  \setlength{\pdfpagewidth}{210mm}\setlength{\pdfpageheight}{297mm}%
+  \setlength{\headwidth}{\textwidth}%
+}
+
 %----------- Estilo de Tikz -----------
 \input{diagramas/estilos-diagramas}
 
@@ -56,6 +79,7 @@
 \usepackage{longtable}
 \usepackage{rotating} % hojas apaisadas para diagramas grandes
 \usepackage{tabularx}
+\usepackage{array}
 % Figuras y tablas se separan del texto con 3 espacios (manual de
 % estilo); formato de leyenda "Figura N: Descripcion (Fuente: ...)".
 % Figuras y tablas: leyenda "Figura N: Descripcion (Fuente: ...)" sin negrita,
@@ -97,6 +121,11 @@
   {\normalfont\fontsize{12}{14}\selectfont}{\thesubsection}{1em}{}
 \titlespacing*{\subsection}{0pt}{1\baselineskip}{0.5\baselineskip}
 
+% Rotulo de las entradas de anexo en el indice: en lugar del numero solo
+% ("I", "II", ...) se compone "Anexo I: Titulo". Se activa mas abajo, al
+% entrar en \appendix, sustituyendo \numberline dentro del propio .toc.
+\newcommand{\anexonumberline}[1]{Anexo~#1:\hspace{0.5em}}
+
 % ---------- Bibliografia y referencias ----------
 % Numeracion continua entre Bibliografia (solo libros con ISBN) y Referencias
 % (todo lo demas: links, hojas de datos, apuntes, IA, etc.)
@@ -129,7 +158,7 @@
 \fancyhead[LE,RO]{\thepage}
 \fancyhead[RE]{\nouppercase{\leftmark}}
 \fancyhead[LO]{\nouppercase{\rightmark}}
-\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\headrulewidth}{1pt}
 \fancypagestyle{plain}{
   \fancyhf{} % Limpia el pie de página
   \renewcommand{\headrulewidth}{0pt} % Quita la regla superior en estas páginas
@@ -152,8 +181,7 @@
 % -------------------------------------------------------------
 \pagenumbering{roman}
 % El manual de estilo pide numeros romanos en minuscula lisa (i, ii,
-% iii...); babel-spanish los tipografia por defecto en versalitas
-% (\es@scroman), por lo que se neutraliza ese formato.
+% iii...)
 \makeatletter
 \renewcommand{\es@scroman}[1]{#1}
 \makeatother
@@ -175,8 +203,8 @@
 \listoffigures
 \addcontentsline{toc}{chapter}{\listfigurename}
 
-\cleardoublepage
-\input{preliminares/lista_simbolos}
+
+\input{preliminares/lista_simbolos_v2}
 
 % -------------------------------------------------------------
 % CUERPO DEL INFORME (numeracion arabiga desde Capitulo 1)
@@ -196,7 +224,7 @@
 \input{capitulos/cap06_placa_control}
 \input{capitulos/cap07_firmware}
 \input{capitulos/cap08_software_hmi}
-
+\input{capitulos/cap09_modeloexp}
 
 \part{Resultados y Conclusiones}
 \input{resultados}
@@ -205,25 +233,47 @@
 % -------------------------------------------------------------
 % BIBLIOGRAFIA Y REFERENCIAS (numeracion continua)
 % -------------------------------------------------------------
+% El titulo se compone con \chapter*, igual que Resultados y Conclusiones, de
+% modo que herede el formato de titulo definido con titlesec. Por eso ambos
+% \printbibliography se declaran con heading=none.
 \cleardoublepage
+\chapter*{Bibliografía}
 \phantomsection
 \addcontentsline{toc}{chapter}{Bibliografía}
-\printbibliography[type=book,title={Bibliografía},heading=none]
+\printbibliography[type=book,heading=none]
 
 \cleardoublepage
+\chapter*{Referencias}
 \phantomsection
 \addcontentsline{toc}{chapter}{Referencias}
-\printbibliography[nottype=book,title={Referencias},heading=none]
+\printbibliography[nottype=book,heading=none]
 
 % -------------------------------------------------------------
 % ANEXOS
 % -------------------------------------------------------------
 \appendix
 
-\input{anexos/anexoI_hojas_datos}
-\input{anexos/anexoII_manual_seeder}
-\input{anexos/anexoIII_codigo}
-\input{anexos/anexoIV_ilrc32}
+% Los anexos se numeran en romanos y se rotulan "Anexo" (no "Capitulo"),
+% segun el manual de estilo. \appendix asigna letras por defecto.
+\renewcommand{\thechapter}{\Roman{chapter}}
+\titleformat{\chapter}[block]
+  {\normalfont\bfseries\fontsize{14}{17}\selectfont}
+  {Anexo \thechapter}{1em}{}
+
+% En el indice, la entrada de capitulo se compone con \numberline{\thechapter},
+% que para los anexos produce solo "I", "II", etc. Se redefine \numberline
+% dentro del propio archivo .toc a partir de este punto, de modo que las
+% entradas restantes queden rotuladas como "Anexo I: Titulo".
+\renewcommand{\appendixname}{Anexo}
+\addtocontents{toc}{\protect\let\protect\numberline\protect\anexonumberline}
+
+% Orden segun aparicion en el cuerpo del informe.
+\input{anexos/anexo1_codigo_nies}
+\input{anexos/anexo2_esquematico}
+\input{anexos/anexo3_pcb}
+\input{anexos/anexo4_hojas_datos}
+\input{anexos/anexo5_codigo}
+\input{anexos/anexo6_ilrc32}
 
 % -------------------------------------------------------------
 % ANEXO DE LA CATEDRA PI 
