@@ -2,10 +2,24 @@
 % Informes Mensuales de Avance
 % Ordenados por fecha. IMPORTANTE: retirar todo dato personal y firmas.
 % =============================================================
-\section*{Informes Mensuales}
-\label{sec:anexo_informes_mensuales}
-\addcontentsline{toc}{section}{Informes Mensuales}
-\includepdf[pages=-,scale=0.75,offset=0 10pt,pagecommand={\thispagestyle{plain}}]{anexos/pdf/Informe de Avance Mensual Enero-Febrero 2026.docx.pdf}
-\includepdf[pages=-]{anexos/pdf/Informe de Avance Mensual Marzo 2026.docx.pdf}
-\includepdf[pages=-]{anexos/pdf/Informe de Avance Mensual Abril 2026.docx.pdf}
-\includepdf[pages=-]{anexos/pdf/Informe de Avance Mensual Julio.docx.pdf}
+% \chapter* y \section* no actualizan \leftmark ni \rightmark, de modo que
+% el encabezado de las paginas incluidas conservaria las marcas del ultimo
+% capitulo numerado. Se fijan explicitamente en cada pagina.
+\newcommand{\marcainformes}{%
+  \markboth{Anexo del Proyecto Integrador}{Informes Mensuales}}
+
+
+% El titulo se emite dentro del pagecommand de la primera pagina incluida,
+% ya que \includepdf siempre abre pagina nueva y dejaria el encabezado
+% solo en la pagina anterior. Esa primera pagina se reduce y se desplaza
+% hacia abajo para dejar lugar al titulo.
+\includepdf[pages=1,scale=0.85,offset=0 -28pt,
+  pagecommand={\pagestyle{fancy}\marcainformes%
+    \section*{Informes Mensuales}%
+    \label{sec:anexo_informes_mensuales}%
+    \addcontentsline{toc}{section}{Informes Mensuales}}]%
+  {anexos/pdf/Informe de Avance Mensual Enero-Febrero 2026.docx.pdf}
+\includepdf[pages=2-,scale=0.90,offset=0 10pt,pagecommand={\pagestyle{fancy}\marcainformes}]{anexos/pdf/Informe de Avance Mensual Enero-Febrero 2026.docx.pdf}
+\includepdf[pages=-,scale=0.90,offset=0 10pt,pagecommand={\pagestyle{fancy}\marcainformes}]{anexos/pdf/Informe de Avance Mensual Marzo 2026.docx.pdf}
+\includepdf[pages=-,scale=0.90,offset=0 10pt,pagecommand={\pagestyle{fancy}\marcainformes}]{anexos/pdf/Informe de Avance Mensual Abril 2026.docx.pdf}
+\includepdf[pages=-,scale=0.90,offset=0 10pt,pagecommand={\pagestyle{fancy}\marcainformes}]{anexos/pdf/Informe de Avance Mensual Julio.docx.pdf}
