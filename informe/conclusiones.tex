@@ -8,32 +8,89 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{Conclusiones}
 
-\section*{Resultados obtenidos en relaci\'on a la Solicitud de Aprobaci\'on de Tema}
+\section*{Resultados obtenidos en relación a los objetivos específicos}
 
-De los ocho objetivos espec\'ificos planteados en la Solicitud de
-Aprobaci\'on de Tema (Secci\'on~\ref{sec:objetivos_especificos}), el
-dise\~no, la implementaci\'on y la validaci\'on del circuito de
-detecci\'on (primer y segundo objetivos) se encuentran completos
-\cite{informeEneFeb2026,informeAbril2026}. La selecci\'on del conjunto
-ADC/microcontrolador (tercer objetivo) tambi\'en se encuentra completa
-\cite{informeEneFeb2026}.
+Los ocho objetivos específicos planteados en la Sección~\ref{sec:objetivos_especificos}
+(Sección~\ref{sec:objetivos_especificos}) se encuentran cumplidos.
 
-PLACEHOLDER: completar esta secci\'on con el estado final de los
-objetivos restantes (programaci\'on del microcontrolador, comunicaci\'on
-con el seeder, software de decisi\'on, HMI en Python y validaci\'on con
-mediciones del sistema LiDAR) una vez finalizado el proyecto.
+El circuito de acondicionamiento para señales pulsadas de alta velocidad fue diseñado,
+construido y validado experimentalmente, primero en simulación y luego sobre la placa
+definitiva, verificando su linealidad frente a las señales del lazo de control
+(primer y segundo objetivos). La selección del conversor analógico-digital y del
+microcontrolador recayó sobre el ADC interno del RP2350, cuya velocidad de conversión
+resultó suficiente para digitalizar el valor retenido por el detector de picos
+(tercer objetivo).
 
-\section*{Conclusi\'on general}
+El microcontrolador fue programado para efectuar esa digitalización sincronizada con
+el disparo del láser (cuarto objetivo), y se implementó y validó la comunicación
+RS-232 con el láser \emph{seeder}, incluidas la habilitación de los comandos
+protegidos y la verificación de cada escritura (quinto objetivo). Sobre esa base se
+desarrolló el \emph{firmware} de decisión, que calcula el cociente entre canales y
+corrige el punto de consigna de temperatura mediante una ley de control por
+histéresis con banda muerta multiplicativa (sexto objetivo).
 
-PLACEHOLDER: redactar la conclusi\'on general del trabajo una vez
-finalizada la etapa de integraci\'on y validaci\'on descrita en el
-Cap\'itulo~\ref{cap:modelo_experimental}.
+La interfaz hombre-máquina se programó en Python siguiendo los lineamientos de las
+normas ISA-101 e ISA-18.2, e incorpora la supervisión del proceso, la gestión de
+alarmas, el registro de sesión y la secuencia de sintonización automática (séptimo
+objetivo). Finalmente, el sistema fue validado sobre el HSRL del Observatorio de
+Pilar, verificando la sintonización automática del instrumento y obteniendo
+mediciones consistentes en el canal elástico y en el canal de alta resolución
+espectral (octavo objetivo).
 
-\section*{Aporte a la ingenier\'ia}
+Corresponde señalar que esta última validación se realizó sobre una campaña de corta
+duración. Los ensayos son suficientes para acreditar el correcto funcionamiento del
+lazo y la capacidad del sistema de sostener la sintonización, pero no equivalen a una
+verificación del régimen de operación continua y prolongada para el que el
+instrumento fue concebido.
 
-PLACEHOLDER: como se se\~nala en la Secci\'on~\ref{sec:antecedentes}, no
-se registran antecedentes de proyectos integradores de la FCEFyN
-vinculados al desarrollo de sistemas de control para lazos de alta
-resoluci\'on espectral de instrumentos LiDAR \cite{sat2026}; esta
-secci\'on debe completarse explicitando el aporte concreto del sistema
-desarrollado a este campo una vez finalizado el proyecto.
+\section*{Conclusión general}
+
+El trabajo demuestra que el lazo de sintonización en longitud de onda de un lidar de
+alta resolución espectral puede resolverse íntegramente con electrónica embebida
+dedicada, sustituyendo un arreglo compuesto por un osciloscopio de cuatro canales,
+una computadora de escritorio y un programa de control heredado.
+
+La consecuencia de mayor peso no es el ahorro de equipamiento sino el cambio en la
+topología de fallas del instrumento. En la configuración anterior, el lazo se cerraba
+a través de tres dispositivos encadenados, de modo que la indisponibilidad de
+cualquiera de ellos interrumpía la sintonización. En la solución desarrollada el lazo
+reside por completo dentro del microcontrolador, y la interfaz de supervisión actúa
+como observador: puede cerrarse, reabrirse o perder la conexión sin que el control se
+detenga. Esa propiedad es la que habilita la operación remota y desatendida planteada
+como problema de partida.
+
+La decisión de detectar el valor de pico en el dominio analógico, en lugar de
+digitalizar la forma de onda completa, resultó acertada. Permitió emplear el
+conversor interno del microcontrolador en vez de un ADC rápido externo, con la
+consiguiente reducción de costo, de superficie de placa y de volumen de datos a
+procesar. El costo de esa decisión ---la dependencia de la linealidad del circuito
+detector--- fue acotado mediante el rediseño del circuito impreso, que llevó el
+desvío máximo respecto del modelo simulado a $86\,\text{mV}$ sobre la zona de
+operación.
+
+En cuanto a la continuidad del trabajo, se identifican dos líneas. La primera es el
+control de temperatura de la celda de iodo, que hoy opera por histéresis y obliga a
+adoptar una banda muerta del orden del 20~\% para no corregir sobre su propia
+oscilación; un control más fino de esa temperatura permitiría estrechar la banda y
+mejorar la estabilidad del punto de trabajo. La segunda es la validación del sistema con mediciones a largo plazo, que debería hacerse en conjunto con el análisis de las señales lidar para verificar si existen desviaciones o futuros ajustes que se deban realizar sobre el sistema.
+
+\section*{Aporte a la ingeniería y el estudio de la atmósfera}
+
+El aporte principal del trabajo consiste en mostrar que instrumental de laboratorio
+de propósito general puede sustituirse por electrónica dedicada de bajo costo en un
+lazo de control con requerimientos temporales exigentes, sin degradar el desempeño de
+la medición. 
+
+En el plano operativo, el sistema contribuye a la continuidad de la red SAVERNET. El
+nodo de Pilar es el más expuesto de la red a la irrupción de aerosoles provenientes
+de la quema de biomasa regional, y su instrumento primario para caracterizarlos es
+precisamente el HSRL. Habilitar campañas de medición ininterrumpidas en ese nodo
+incide de manera directa sobre la calidad de las series de datos que sustentan los
+estudios climáticos y de gestión de riesgo ambiental de la red.
+
+Finalmente, el desarrollo se realizó en su totalidad con herramientas de software
+libre (KiCad para el diseño electrónico, el SDK oficial de Raspberry Pi Pico para
+el \emph{firmware} y Python para la interfaz) y la documentación de diseño, el
+código fuente y los diagramas quedan disponibles en el repositorio del proyecto. Esta
+decisión responde a que el sistema pueda replicarse, auditarse y mantenerse en otros nodos de la red sin
+depender de licencias ni de la continuidad comercial de un proveedor.
