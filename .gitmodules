@@ -1,0 +1,9 @@
+[submodule "rpico2"]
+	path = rpico2
+	url = https://github.com/FGalvagno/hsrl-control-rpico2
+[submodule "hmi"]
+	path = hmi
+	url = https://github.com/FGalvagno/hsrl-control-hmi
+[submodule "pcb"]
+	path = pcb
+	url = https://github.com/FGalvagno/hsrl-control-board
