@@ -60,6 +60,14 @@
   isbn = {978-1-945541-00-1}
 }
 
+@book{power,
+  author = {Bogatin, Eric},
+  publisher = {Pearson Education},
+  title = {Signal and Power Integrity Simplified Second Edition},
+  year = {2010},
+  isbn = {978-0-13-234979-6}
+}
+
 % ---------------------------------------------------------------
 % REFERENCIAS (informes internos, hojas de datos, notas de aplicacion,
 % presentaciones y demas material sin ISBN)
@@ -204,7 +212,7 @@ generados.},
   note      = {Paper S1P-19}
 }
 
-@datasheet{sureliteii,
+@manual{sureliteii,
   title       = {Surelite I, II, III Nd:YAG Lasers},
   author      = {Amplitude Laser},
   year        = {2024},
@@ -263,4 +271,62 @@ generados.},
   title        = {Raspberry Pi C/C++ SDK: Development with C/C++ on RP2040 and RP2350},
   organization = {Raspberry Pi Ltd},
   year         = {2024}
+}
+
+@misc{quicklook,
+  author       = {Galvagno, F.},
+  title        = {Software quicklook},
+  year         = {2026},
+  publisher    = {GitHub},
+  howpublished = {\url{https://github.com/FGalvagno/quicklook}}
+}
+
+@misc{repo,
+  author       = {Galvagno, F.},
+  title        = {Repositorio General del Proyecto de Control HSRL},
+  year         = {2026},
+  publisher    = {GitHub},
+  howpublished = {\url{https://github.com/FGalvagno/hsrl-control-pi}}
+}
+
+@misc{sitiosaver,
+  author       = {SAVERNET},
+  title        = {Sitio web oficial},
+  year         = {2015},
+  howpublished = {\url{http://www.savernet-satreps.org/es/}}
+}
+% Herramienta de inteligencia artificial empleada en el procesamiento de una
+% figura (identificacion exigida por el manual de estilo de la Catedra PI).
+@online{nanobananapro,
+  author       = {{Google}},
+  title        = {Nano Banana Pro},
+  year         = {2025},
+  organization = {Google LLC},
+  url          = {https://gemini.google/overview/image-generation/},
+  note         = {Modelo de inteligencia artificial para generaci\'on y edici\'on
+                  de im\'agenes. Empleado para reducir el ruido de fondo de la
+                  Figura~\ref{fig:oscilaciones}, capturada con una configuraci\'on
+                  err\'onea del buffer del osciloscopio. Consigna utilizada:
+                  ``reduce el ruido de fondo de esta imagen preservando fielmente
+                  la forma de la onda y los valores capturados''.
+                  Accedido: julio de 2026}
+}
+
+@online{claudeopus47,
+  author       = {{Anthropic}},
+  title        = {Claude Opus 4.7},
+  year         = {2026},
+  organization = {Anthropic PBC},
+  url          = {https://www.anthropic.com/claude},
+  note         = {Modelo de lenguaje de inteligencia artificial. Empleado para
+                  generar la versi\'on inicial de los m\'odulos \texttt{hmi.py},
+                  \texttt{serie.py} y \texttt{telemetria.py} de la interfaz de
+                  operaci\'on (Secci\'on~\ref{sec:hmi-arquitectura}),
+                  posteriormente modificados y adaptados por el autor. Consigna
+                  utilizada: ``crear HMI a partir de la imagen de borrador
+                  proporcionado. Cada comando de la recepci\'on mediante pySerial
+                  debe interactuar con el firmware proporcionado con sus
+                  respectivos botones y campos de E/S y debes de loggear el estado
+                  del equipo a trav\'es de las l\'ineas de diagn\'ostico del
+                  mismo''. Accedido: julio de 2026}
 }
