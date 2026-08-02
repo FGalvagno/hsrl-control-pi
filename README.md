@@ -1,5 +1,10 @@
 # hsrl-control-pi
 
+<p align="center">
+  <img src="informe/figuras/9_tandem.png" alt="Montaje del sistema sobre el instrumento" width="46%">
+  <img src="informe/figuras/6_render3d.png" alt="Render 3D de la placa de control" width="46%">
+</p>
+
 Sistema automatizado de control de longitud de onda para un lidar de alta
 resolución espectral (HSRL). Proyecto Integrador — Ingeniería Electrónica,
 FCEFyN, Universidad Nacional de Córdoba.
