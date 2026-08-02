@@ -233,9 +233,9 @@
 % -------------------------------------------------------------
 % BIBLIOGRAFIA Y REFERENCIAS (numeracion continua)
 % -------------------------------------------------------------
-% El titulo se compone con \chapter*, igual que Resultados y Conclusiones, de
-% modo que herede el formato de titulo definido con titlesec. Por eso ambos
-% \printbibliography se declaran con heading=none.
+% El titulo se compone con \chapter*, igual que Resultados y Conclusiones, para
+% que herede el formato definido con titlesec. Por eso ambos \printbibliography
+% van con heading=none: la opcion title no tiene efecto en ese caso.
 \cleardoublepage
 \chapter*{Bibliografía}
 \phantomsection
@@ -283,7 +283,7 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{Anexo del Proyecto Integrador}
 \chapter*{Anexo del Proyecto Integrador}
-
+  En el presente anexo se incluyen la Solicitud de Aprobación de Tema y los informes mensuales de avance del proyecto, presentados a la Cátedra de Proyecto Integrador durante el desarrollo del mismo.
 \input{anexos/sat}
 \input{anexos/informes_mensuales}
 
