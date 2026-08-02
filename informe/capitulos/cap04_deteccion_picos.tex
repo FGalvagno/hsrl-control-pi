@@ -11,7 +11,7 @@ Para determinar el valor máximo de la señal de salida del fotodiodo correspond
   \item Retener el valor máximo de la señal analógica mediante un circuito detector de picos y digitalizar dicho valor con un ADC de menor velocidad.
 \end{itemize}
 
-Por razones de costo e implementación, se adoptó la segunda alternativa, ya que permite emplear un ADC de menor velocidad de muestreo y costo reducido, disminuyendo simultáneamente el volumen de datos a procesar por la unidad microcontroladora.
+Por razones de costo e implementación, se adoptó la segunda alternativa, ya que permite emplear un ADC de menor velocidad de muestreo y costo reducido, disminuyendo simultáneamente el volumen de datos a procesar por el microcontrolador.
 
 \section{Modelado del circuito de detección}
 \label{sec:modelado_simulacion}
@@ -23,7 +23,7 @@ En la Figura \ref{fig:detector} se ilustra el esquema eléctrico del detector pr
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\textwidth]{figuras/4_detectordepicos.png}
-  \caption{Circuito detector de picos para el canal $P_+$ (Fuente: Elaboración propia).}
+  \caption{Circuito detector de picos para el canal $P_+$ (Fuente: elaboración propia).}
   \label{fig:detector}
 \end{figure}
 
@@ -47,7 +47,7 @@ Partiendo de la ecuación diferencial de carga de un circuito $RC$,
 
 \section{Selección de componentes activos}
 
-El amplificador realimentado por corriente AD8004 fue seleccionado debido a su elevado \emph{slew rate} (resumido en la Tabla \ref{tab:caracteristicas_ad8004}) y su bajo costo. La integración de cuatro amplificadores operacionales en un mismo encapsulado permite reducir la superficie de la placa y garantizar que ambos canales experimenten la misma deriva térmica (\emph{thermal drift}).
+El amplificador realimentado por corriente AD8004 fue seleccionado debido a su elevado \emph{slew rate} (resumido en la Tabla \ref{tab:caracteristicas_ad8004}) y su bajo costo. La integración de cuatro amplificadores operacionales en un mismo encapsulado permite reducir la superficie de la placa y garantizar que ambos canales experimenten la misma deriva térmica.
 
 \begin{table}[h]
   \centering
@@ -57,35 +57,30 @@ El amplificador realimentado por corriente AD8004 fue seleccionado debido a su e
     \midrule
     \multicolumn{3}{l}{\textit{Desempeño dinámico}} \\
     Ancho de banda ($-3$~dB)            & 250~MHz             & $G = +1$          \\
-    Ancho de banda (planitud 0.1~dB)    & 30~MHz              & $G = +2$          \\
+    Ancho de banda (planitud 0,1~dB)    & 30~MHz              & $G = +2$          \\
     Slew rate                           & 3000~V/\textmu s   & $V_S = \pm5$~V    \\
     Slew rate                           & 1100~V/\textmu s   & $V_S = +5$~V      \\
-    Tiempo de establecimiento (0.1\,\%) & 21~ns               &                   \\
-    Tiempo de subida (escalón de 2~V)   & 1.8~ns              &                   \\
-    \midrule
-    \multicolumn{3}{l}{\textit{Ruido y distorsión}} \\
-    Distorsión armónica total (THD)     & $-78$~dBc                    & $f = 5$~MHz  \\
-    Ruido de tensión de entrada         & 1.5~nV/$\sqrt{\text{Hz}}$    & $f = 10$~kHz \\
-    Ruido de corriente de entrada       & 38~pA/$\sqrt{\text{Hz}}$     & $f = 10$~kHz \\
+    Tiempo de establecimiento (0,1\,\%) & 21~ns               &                   \\
+    Tiempo de subida (escalón de 2~V)   & 1,8~ns              &                   \\
     \midrule
     \multicolumn{3}{l}{\textit{Desempeño DC y características de entrada}} \\
-    Tensión de \emph{offset} de entrada     & 1.0~mV (típ.); 3.5~mV (máx.) &                \\
+    Tensión de \emph{offset} de entrada     & 1,0~mV (típ.); 3,5~mV (máx.) &                \\
     Corriente de polarización de entrada    & $\pm40$~\textmu A (típ.)      &                \\
     Transresistencia en lazo abierto        & 290~k$\Omega$                & $V_O = \pm2.5$~V \\
     Resistencia de entrada (no inversora)   & 2~M$\Omega$                  &                \\
-    Rango de tensión de entrada (modo común)& 3.2~V                        &                \\
+    Rango de tensión de entrada (modo común)& 3,2~V                        &                \\
     \midrule
     \multicolumn{3}{l}{\textit{Salida y alimentación}} \\
     Corriente de salida                     & 50~mA               &                        \\
-    Corriente de alimentación por amplif.   & 3.5~mA (35~mW)      &                        \\
+    Corriente de alimentación por amplif.   & 3,5~mA (35~mW)      &                        \\
     Rango de alimentación (simple)          & +4 a +12~V          &                        \\
     Rango de alimentación (dual)            & $\pm2$ a $\pm6$~V   &                        \\
-    Tensión de alimentación máxima          & 12.6~V              & Valor máximo absoluto  \\
+    Tensión de alimentación máxima          & 12,6~V              & Valor máximo absoluto  \\
     Rango de temperatura de operación       & $-40$ a $+85$~$^{\circ}$C & Grado A          \\
     Encapsulado                             & SOIC de 14 pines    &                        \\
     \bottomrule
   \end{tabular}
-  \caption{Características principales del amplificador realimentado por corriente AD8004 \cite{ad8004_ds}.}
+  \caption{Características principales del amplificador realimentado por corriente AD8004 (Fuente: adaptado de \cite{ad8004_ds}).}
   \label{tab:caracteristicas_ad8004}
 \end{table}
 
@@ -107,18 +102,16 @@ Como elemento detector se empleó un transistor bipolar NPN BC817, cuya alta cap
     \midrule
     \multicolumn{3}{l}{\textit{Características eléctricas}} \\
     Ganancia de corriente DC ($h_{FE}$)      & 160 a 400            & $V_{CE}=1$~V, $I_C=100$~mA \\
-    Tensión de saturación C-E ($V_{CE(\text{sat})}$)& 0.7~V (máx.)         & $I_C=500$~mA, $I_B=50$~mA  \\
-    Tensión de saturación B-E ($V_{BE(\text{sat})}$)& 1.2~V (máx.)         & $I_C=500$~mA, $I_B=50$~mA  \\
+    Tensión de saturación C-E ($V_{CE(\text{sat})}$)& 0,7~V (máx.)         & $I_C=500$~mA, $I_B=50$~mA  \\
+    Tensión de saturación B-E ($V_{BE(\text{sat})}$)& 1,2~V (máx.)         & $I_C=500$~mA, $I_B=50$~mA  \\
     Frecuencia de transición ($f_T$)         & 100~MHz (mín.)       & $V_{CE}=5$~V, $I_C=10$~mA  \\
-    Corriente de fuga de colector ($I_{CBO}$)& 0.1~\textmu A (máx.) & $V_{CB}=45$~V              \\
-    Corriente de fuga de emisor ($I_{EBO}$)  & 0.1~\textmu A (máx.) & $V_{EB}=4$~V               \\
     \midrule
     \multicolumn{3}{l}{\textit{Datos generales}} \\
     Tipo        & NPN de silicio, propósito general & \\
     Encapsulado & SOT-23                            & \\
     \bottomrule
   \end{tabular}
-  \caption{Características principales del transistor bipolar NPN BC817 \cite{bc817_ds}.}
+  \caption{Características principales del transistor bipolar NPN BC817 (Fuente: adaptado de \cite{bc817_ds}).}
   \label{tab:caracteristicas_bc817}
 \end{table}
 
@@ -136,17 +129,17 @@ Para el dimensionamiento de los componentes pasivos del circuito se consideraron
 
 A partir de las caracterizaciones experimentales de la señal emitida por los fotodetectores, se determinó un tiempo de subida de pulso de aproximadamente $20\,\text{ns}$. Para cumplir con la condición $t \ll R_3 C_1$, se fijó un valor objetivo $\tau = R_3 C_1 \approx 20\,\mu\text{s}$.
 
-La resistencia $R_3$ limita la corriente pico impulsiva provista por el transistor. Considerando una corriente máxima admisible $I_{C,\text{pico}} = 1\,\text{A}$ ante pulsos ultra-cortos, se tiene:
+La resistencia $R_3$ limita la corriente pico impulsiva provista por el transistor. Considerando una corriente máxima admisible $I_{C,\text{pico}} = 1\,\text{A}$ ante pulsos cortos, se tiene:
 
 \begin{equation}
-  R_3 = \frac{V_{O,\text{U1A}} - V_{BE}}{I_{C,\text{pico}}} = \frac{12\,\text{V} - 1.2\,\text{V}}{1\,\text{A}} = 10.8\,\Omega
+  R_3 = \frac{V_{O,\text{U1A}} - V_{BE}}{I_{C,\text{pico}}} = \frac{12\,\text{V} - 1{,}2\,\text{V}}{1\,\text{A}} = 10{,}8\,\Omega
   \label{eq:valor_r3_calc}
 \end{equation}
 
-Seleccionando un valor comercial E24 estándar de $R_3 = 8.2\,\Omega$ junto con un capacitor $C_1 = 3.3\,\text{nF}$, se obtiene una constante de tiempo efectiva de:
+Seleccionando un valor comercial E24 estándar de $R_3 = 8{,}2\,\Omega$ junto con un capacitor $C_1 = 3{,}3\,\text{nF}$, se obtiene una constante de tiempo efectiva de:
 
 \begin{equation}
-  \tau = R_3 C_1 = 8.2\,\Omega \times 3.3\,\text{nF} = 27.06\,\mu\text{s}
+  \tau = R_3 C_1 = 8{,}2\,\Omega \times 3{,}3\,\text{nF} = 27{,}06\,\mu\text{s}
   \label{eq:tau_final}
 \end{equation}
 
@@ -161,7 +154,7 @@ Dado que la etapa no cuenta con excursión \emph{rail-to-rail}, en ausencia de s
 La corriente de reposo de emisor resulta:
 
 \begin{equation}
-  I_E = \frac{V_{O,\text{U1A}} - V_{BE}}{R_4} = \frac{1\,\text{V} - 0.58\,\text{V}}{82\,\text{k}\Omega} = 5.12\,\mu\text{A}
+  I_E = \frac{V_{O,\text{U1A}} - V_{BE}}{R_4} = \frac{1\,\text{V} - 0{,}58\,\text{V}}{82\,\text{k}\Omega} = 5{,}12\,\mu\text{A}
   \label{eq:transistor_ie}
 \end{equation}
 
@@ -175,13 +168,13 @@ Esta pequeña corriente de polarización mantiene al transistor en el límite de
     \midrule
     $R_1$ & $50\,\Omega$ & $\pm 1\%$ & SMD 0603 & Adaptación de impedancia de entrada \\
     $R_2$ & $1\,\text{k}\Omega$ & $\pm 1\%$ & SMD 0603 & Red de realimentación U1A ($G=+2$) \\
-    $R_3$ & $8.2\,\Omega$ & $\pm 1\%$ & SMD 0603 & Limitador de corriente de carga del capacitor \\
+    $R_3$ & $8{,}2\,\Omega$ & $\pm 1\%$ & SMD 0603 & Limitador de corriente de carga del capacitor \\
     $R_4$ & $82\,\text{k}\Omega$ & $\pm 1\%$ & SMD 0603 & Polarización de reposo de emisor ($Q_1$) \\
     $R_f$ & $1\,\text{k}\Omega$ & $\pm 1\%$ & SMD 0603 & Resistencia de lazo CFA (estabilidad U1A/U1B) \\
-    $C_1$ & $3.3\,\text{nF}$ & $\pm 5\%$ & SMD 0603 (NP0/C0G) & Capacitor de retención de tensión de pico \\
+    $C_1$ & $3{,}3\,\text{nF}$ & $\pm 5\%$ & SMD 0603 (NP0/C0G) & Capacitor de retención de tensión de pico \\
     \bottomrule
   \end{tabular}
-  \caption{Componentes pasivos seleccionados para el circuito detector de picos.}
+  \caption{Componentes pasivos seleccionados para el circuito detector de picos (Fuente: elaboración propia).}
   \label{tab:componentes_pasivos}
 \end{table}
 
@@ -192,33 +185,33 @@ La simulación del circuito se ejecutó tomando como señal de excitación una c
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{figuras/4_señalpulso.png}
-  \caption{Señal pulsada $P_+$ capturada mediante osciloscopio Tektronix (Fuente: Elaboración propia).}
+  \includegraphics[width=0.6\textwidth]{figuras/4_señalpulso.png}
+  \caption{Señal pulsada $P_+$ capturada mediante osciloscopio Tektronix (Fuente: elaboración propia).}
   \label{fig:pulso}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{figuras/4_simulacion.png}
-  \caption{Esquema del circuito detector implementado en QUCS-S (Fuente: Elaboración propia).}
+  \includegraphics[width=1\textwidth]{figuras/4_simulacion.png}
+  \caption{Esquema del circuito detector implementado en QUCS-S (Fuente: elaboración propia).}
   \label{fig:sim}
 \end{figure}
 
-Se ejecutó un análisis de barrido paramétrico (\emph{DC/Transient sweep}) compuesto por 25 corridas para distintos valores de tensión de entrada $V_{\text{in}}$ (Figura \ref{fig:barrido}). Los resultados confirman una respuesta lineal para tensiones de entrada $V_{\text{in}} \ge 0.8\,\text{V}$ (Figura \ref{fig:linealidad}), límite impuesto por el piso de tensión del amplificador operando bajo fuente simple de $+12\,\text{V}$.
+Se ejecutó un análisis de barrido paramétrico (\emph{DC/Transient sweep}) de 25 valores de tensión de entrada $V_{\text{in}}$ (Figura \ref{fig:barrido}). Los resultados confirman una respuesta lineal para tensiones de entrada $V_{\text{in}} \ge 0{,}8\,\text{V}$ (Figura \ref{fig:linealidad}), límite impuesto por el piso de tensión del amplificador operando bajo fuente simple de $+12\,\text{V}$.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{figuras/4_simbarrido.png}
-  \caption{Barridos temporales de la tensión de salida para distintos niveles de $V_{\text{in}}$ (Fuente: Elaboración propia).}
+  \includegraphics[width=0.7\textwidth]{figuras/4_simbarrido.png}
+  \caption{Barridos temporales de la tensión de salida para distintos niveles de $V_{\text{in}}$ (Fuente: elaboración propia).}
   \label{fig:barrido}
 \end{figure}
 
-La tensión retenida por el detector fue evaluada a los $5\,\mu\text{s}$ posteriores al pico de entrada. Este intervalo responde al tiempo necesario para que un ADC comercial de costo moderado (con tasa de muestreo de $500\,\text{ksps}$) realice el ciclo de muestreo y retención (\emph{Sample \& Hold}) sin introducir errores de apertura.
+La tensión retenida por el detector fue evaluada a los $5\,\mu\text{s}$ posteriores al pico de entrada. Este intervalo responde al tiempo necesario para que un ADC comercial de costo moderado (con tasa de muestreo de $500\,\text{ksps}$) realice el ciclo de muestreo y retención (\emph{Sample \& Hold}) sin introducir errores temporales.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{figuras/4_simlinealidad.png}
-  \caption{Tensión de salida $V_O$ medida a $t = 5\,\mu\text{s}$ en función de la tensión de pico de entrada $V_{\text{in}}$ (Fuente: Elaboración propia).}
+  \includegraphics[width=0.7\textwidth]{figuras/4_simlinealidad.png}
+  \caption{Tensión de salida $V_O$ medida a $t = 5\,\mu\text{s}$ en función de la tensión de pico de entrada $V_{\text{in}}$ (Fuente: elaboración propia).}
   \label{fig:linealidad}
 \end{figure}
 
@@ -232,11 +225,9 @@ Al someter el circuito a un pulso de prueba de $100\,\text{ns}$ de ancho a una f
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\textwidth]{figuras/4_oscilacion.png}
-  \caption{Respuesta del prototipo ante un pulso de $100\,\text{ns}$ ($20\,\text{Hz}$), evidenciando oscilaciones de alta frecuencia derivadas de parásitos del trazado\protect\footnotemark[1] (Fuente: Elaboración propia).}
+  \caption{Respuesta del prototipo ante un pulso de $100\,\text{ns}$ ($20\,\text{Hz}$), evidenciando oscilaciones de alta frecuencia derivadas de parásitos del trazado (Fuente: elaboración propia; imagen procesada con inteligencia artificial \cite{nanobananapro}).}
   \label{fig:oscilaciones}
 \end{figure}
-
-\footnotetext[1]{Debido a un error en la configuración del buffer de captura del osciloscopio, la nitidez de la Figura \ref{fig:oscilaciones} fue mejorada computacionalmente mediante algoritmos de inteligencia artificial, usando el modelo de Google Nano Banana Pro y como prompt "reduce el ruido de fondo de esta imagen preservando fielmente la forma de la onda y los valores capturados".}
 
 Ante esta problemática, previo a continuar con los ensayos en laboratorio, se decidió diseñar un nuevo circuito impreso (PCB) multicapa optimizado para aplicaciones de alta frecuencia. En esta fase integradora se incorporaron también el microcontrolador de control del sistema (desarrollado en la Sección \ref{sec:rp2350}) y los transceptores para la interfaz de comunicación serie con el sistema \emph{seeder} (Sección \ref{sec:rs232_uart}).
 
