@@ -62,7 +62,7 @@ retenido por el detector antes de que el capacitor se descargue de forma aprecia
 (Capítulo~\ref{cap:micro}).
 
 El \emph{firmware} desarrollado (Capítulo~\ref{cap:firmware}) traslada la totalidad
-del lazo al microcontrolador. Se organiza en archivos más un
+del lazo al microcontrolador. Se organiza en cuatro archivos más un
 encabezado único de configuración, y distribuye el trabajo entre los dos núcleos: el
 lazo de medición y control sobre \texttt{core0} y el intérprete de comandos sobre
 \texttt{core1}, con sección crítica y \emph{mutex} para los dos recursos compartidos.

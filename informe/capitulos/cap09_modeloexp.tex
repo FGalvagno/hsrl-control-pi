@@ -9,7 +9,7 @@ En los capítulos precedentes se desarrollaron por separado el circuito de detec
 \section{Integración del sistema}
 \label{sec:me-integracion}
 
-El modelo experimental está constituido por tres elementos que operan de forma solidaria: la placa de control descrita en el Capítulo~\ref{cap:placacontrol}, el \emph{firmware} residente en el microcontrolador desarrollado en el Capítulo~\ref{cap:firmware}) y la interfaz de supervisión del Capítulo~\ref{cap:software_hmi} ejecutada en la computadora del nodo.
+El modelo experimental está constituido por tres elementos que operan de forma solidaria: la placa de control descrita en el Capítulo~\ref{cap:placacontrol}, el \emph{firmware} residente en el microcontrolador desarrollado en el Capítulo~\ref{cap:firmware} y la interfaz de supervisión del Capítulo~\ref{cap:software_hmi} ejecutada en la computadora del nodo.
 
 \begin{figure}[htpb]
       \centering
@@ -42,7 +42,7 @@ El sistema cumple, sobre el instrumento montado, las funciones que se enuncian a
   \item Los modos de barrido en lazo abierto recorren el rango útil de temperatura mientras la interfaz registra los mínimos de cada canal, lo que permite localizar el punto de operación.
   \item La secuencia descrita en la Sección~\ref{sec:hmi-auto} encadena cuatro pasos individuales: la detención del barrido, la escritura del punto medio entre los mínimos, la espera de estabilización térmica y el cierre del lazo o sintonización, sin intervención directa del operador.
   \item El \emph{setpoint} se mantiene acotado al intervalo $[h_{\min}, h_{\max}]$ declarado en el \emph{firmware}; si el barrido lo excede, el controlador invierte el sentido y anula la sintonía del \emph{seeder}.
-  \item La interfaz presenta el estado del enlace, el estado de las escrituras protegidas, la condición de \emph{second mode} del \emph{seeder} y las amplitudes medidas en función de la temperatura visualizado en la Figura~\ref{fig:tandem}, junto con la banda de alarmas jerarquizada de la Sección~\ref{sec:hmi-alarmas}, si es que existen alarmas activas.
+  \item La interfaz presenta el estado del enlace, el estado de las escrituras protegidas, la condición de \emph{second mode} del \emph{seeder} y las amplitudes medidas en función de la temperatura, visualizadas en la Figura~\ref{fig:tandem}, junto con la banda de alarmas jerarquizada de la Sección~\ref{sec:hmi-alarmas}, si es que existen alarmas activas.
   \item Cada sesión genera un archivo completo de operación y un archivo CSV con una fila por ciclo de control, según el contrato de columnas establecido en la Sección~\ref{sec:fw-log}.
 \end{itemize}
 
@@ -81,7 +81,7 @@ Sección~\ref{sec:isa101}.
         función de la temperatura, con una línea vertical que marca la temperatura
         media entre los mínimos. El botón \textbf{Limpiar} descarta los puntos
         acumulados.
-       \item El \textbf{panel de control} reúne los cinco botones de modo, los campos de parámetro con su botón \textbf{Fijar} y la fila de comandos dirigidos al \emph{seeder}. Debajo, el \textbf{MONITOR SERIE} reproduce la terminal la sesión y admite el envío de comandos sueltos.
+       \item El \textbf{panel de control} reúne los cinco botones de modo, los campos de parámetro con su botón \textbf{Fijar} y la fila de comandos dirigidos al \emph{seeder}. Debajo, el \textbf{MONITOR SERIE} reproduce la terminal de la sesión y admite el envío de comandos sueltos.
 \end{itemize}
 
 La correspondencia entre cada control y la acción que ejecuta se resume en la
@@ -116,7 +116,7 @@ realizarse también desde el monitor serie si la interfaz no estuviera disponibl
   \textbf{Bloquear} (\texttt{l})      & Vuelve a proteger los comandos de escritura. \\
   \midrule
   \multicolumn{2}{@{}l}{\textit{Monitor serie}} \\
-  \textbf{Estado} (\texttt{?})        & Solicita el envio completo de parámetros y la lista de columnas del registro. \\
+  \textbf{Estado} (\texttt{?})        & Solicita el envío completo de parámetros y la lista de columnas del registro. \\
   \textbf{Limpiar}                    & Vacía la consola en pantalla, sin afectar los archivos de registro. \\
   \bottomrule
   \end{tabular}
@@ -158,7 +158,7 @@ barrido por sí solo.
 
 \subsection{Sintonización}
 
-Habiendo realizado múltiples barridos, se disponen de dos opciones de sintonización.
+Habiendo realizado múltiples barridos, se dispone de dos opciones de sintonización.
 
 El procedimiento automático consiste en pulsar \textbf{SINTONIZAR AUTO}. La interfaz detiene el barrido,
 escribe la temperatura media como punto de consigna, fuerza su escritura, aguarda la
@@ -174,7 +174,7 @@ con \textbf{Fijar}; pulsar \textbf{Escribir SP} para forzar la escritura sin esp
 a que concluya el ciclo en curso; esperar a que \textbf{PV} coincida con el valor de
 \textbf{SP} en el bloque \textbf{TEMPERATURA HEATER}; y finalmente pulsar
 \textbf{SINTONIZAR}. Conviene esta vía cuando se desea fijar un punto de trabajo
-distinto del punto medio, por ejemplo para comprobar el correcto desplazamiento de las lineas de absorción o el camino óptico de los haces.
+distinto del punto medio, por ejemplo para comprobar el correcto desplazamiento de las líneas de absorción o el camino óptico de los haces.
 
 En ambos casos, el cierre correcto del lazo se reconoce porque \textbf{ESTADO DE
 CONTROL} indica el modo de sintonización.
@@ -245,9 +245,9 @@ Luego de verificar la correcta operación para selección de temperatura a lazo 
 
 \subsection{Ensayos de estabilidad}
 
-Se realizaron una serie de mediciones de corto plazo para verificar la estabilidad del sistema. Primero se utilizó el instrumento en operación continua, esto es, con el laser disparando a su frecuencia total de $10Hz$. Las condiciones atmosféricas variaron desde un dia despejado hacia un día parcialmente nublado. Para el análisis de la señal lidar se utilizó el código Python almacenado en el repositorio \emph{quicklook} \cite{quicklook}.
+Se realizaron una serie de mediciones de corto plazo para verificar la estabilidad del sistema. Primero se utilizó el instrumento en operación continua, esto es, con el láser disparando a su frecuencia total de $10$~Hz. Las condiciones atmosféricas variaron desde un día despejado hacia un día parcialmente nublado. Para el análisis de la señal lidar se utilizó el código Python almacenado en el repositorio \emph{quicklook} \cite{quicklook}.
 
-La correcta sintonización del instrumento en modo automático se puede visualizar en la Figura~\ref{fig:sintonia}. Para la sintonización, se comando al equipo a realizar barridos durante un período de 2 horas. Luego de 2 horas, se accionó el comando automático de la HMI. La HMI colocó el punto de trabajo en 62,78\,\textcelsius, definiendo una relación determinada entre $P_+$ y $P_-$. El controlador mediante ajustes finos llevó la temperatura del \emph{seeder} a 62,72\,\textcelsius\ manteniendo la relación entre $P_+$ y $P_-$, \texttt{coe} en el valor definido por la temperatura. 
+La correcta sintonización del instrumento en modo automático se puede visualizar en la Figura~\ref{fig:sintonia}. Para la sintonización, se comandó al equipo a realizar barridos durante un período de 2 horas. Luego de 2 horas, se accionó el comando automático de la HMI. La HMI colocó el punto de trabajo en 62,78\,\textcelsius, definiendo una relación determinada entre $P_+$ y $P_-$. El controlador mediante ajustes finos llevó la temperatura del \emph{seeder} a 62,72\,\textcelsius\ manteniendo la relación entre $P_+$ y $P_-$, \texttt{coe} en el valor definido por la temperatura. 
 
 \begin{figure}[htpb]
       \centering
@@ -256,7 +256,6 @@ La correcta sintonización del instrumento en modo automático se puede visualiz
       \label{fig:sintonia}
 \end{figure}
 
-Luego de tener el sistema sintonizado, se realizaron mediciones de la atmósfera. La Figura~\ref{fig:autocontinuo} muestra las mediciones realizadas en el canal elástico a 532~nm y en el canal HSR. 
 
 \begin{figure}[htpb]
       \centering
@@ -265,13 +264,13 @@ Luego de tener el sistema sintonizado, se realizaron mediciones de la atmósfera
       \label{fig:autocontinuo}
 \end{figure}
 
-En la Figura~\ref{fig:autocontinuo} el diagrama de color superior muestra la señal del canal elástico a 532~nm, mientras que el diagrama de color inferior muestra la señal del canal HSR. La diferencia principal entre ambos canales radica en la sensibilidad a la señal retrodispersada por aerosoles. 
+Luego de tener el sistema sintonizado, se realizaron mediciones de la atmósfera. En la Figura~\ref{fig:autocontinuo} el diagrama de color superior muestra la señal del canal elástico a 532~nm, mientras que el diagrama de color inferior muestra la señal del canal HSR. La diferencia principal entre ambos canales radica en la sensibilidad a la señal retrodispersada por aerosoles. 
 
 Se observan dos evidencias principales que permiten inferir el correcto funcionamiento del canal HSR. La primera es que, ante una fuerte presencia de aerosoles en el rango de 0 a 4 km, el canal HSR muestra una señal mucho más débil que el canal elástico, lo cual es consistente con la teoría de retrodispersión (ya que el canal HSR filtra la componente de los aerosoles). La segunda es que la señal retrodispersada por moléculas a mayor altitud (6 a 10 km) disminuye; esto se debe a la atenuación (extinción) que sufre el haz de luz al atravesar la capa de aerosoles ubicada en los niveles inferiores.
 
 A partir de las 3:00 AM (UTC) el día 01/08/2026, el modo de operación del láser cambia a automático. En este modo, diseñado para preservar la vida útil de la lámpara del láser, el mismo dispara durante 3 minutos cada 15 minutos. Esto se observa en la Figura~\ref{fig:autocontinuo} como franjas horizontales de señal de menor resolución. A pesar de este cambio, el canal HSR sigue mostrando un comportamiento consistente con la teoría de retrodispersión, lo que indica que el lazo de control mantiene la sintonización del láser en la línea de absorción del iodo.
 
-En los últimos dos gráficos de la Figura~\ref{fig:autocontinuo} se observa como se mantiene la sintonización del instrumento, realizando un único cambio el día 01/08/2026 a las 2:00 AM (UTC). Esto indica que el lazo de control mantiene la sintonización del láser en la línea de absorción del iodo, incluso cuando el modo de operación del láser cambia a automático. Si bien este análisis se realizó con mediciones cortas, es suficiente para mostrar la correcta sintonización del lazo en modo automático.
+En los últimos dos gráficos de la Figura~\ref{fig:autocontinuo} se observa cómo se mantiene la sintonización del instrumento, realizando un único cambio el día 01/08/2026 a las 2:00 AM (UTC). Esto indica que el lazo de control mantiene la sintonización del láser en la línea de absorción del iodo, incluso cuando el modo de operación del láser cambia a automático. Si bien este análisis se realizó con mediciones cortas, es suficiente para mostrar la correcta sintonización del lazo en modo automático.
 
 \section{Limitaciones conocidas del prototipo}
 \label{sec:me-limitaciones}

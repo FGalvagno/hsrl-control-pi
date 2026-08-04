@@ -17,7 +17,7 @@ La potencia recibida por el sistema puede expresarse, en su forma más simple, c
 \end{equation}
 
 \noindent donde $K$ resume la eficiencia del sistema, $G(R)$ describe la geometría de medición en función de la distancia $R$, $\beta(R)$ es el coeficiente de retrodispersión atmosférico y $T(R)$ el
-término de transmisión, que describe la atenuación de la señal en su trayecto de ida y vuelta \cite{weitkamp2005}. Una forma más detallada de la ecuación del lidar, que explícita el área del
+término de transmisión, que describe la atenuación de la señal en su trayecto de ida y vuelta \cite{weitkamp2005}. Una forma más detallada de la ecuación del lidar, que explicita el área del
 receptor $A$, la eficiencia del receptor $\eta$, la duración del pulso $\tau$ y la función de solapamiento $O(r)$, es
 
 \begin{equation}
@@ -75,7 +75,7 @@ propia ecuación de lidar \cite{weitkamp2005,liu1999hsrl},
   \label{eq:paer}
 \end{align}
 
-\noindent donde $K_{mol}$ y $K_{aer}$ reúnen los factores independientes del rango. Como la función de solapamiento $O(r)$ y el término de extinción $\exp[-2\int_0^{r}\alpha\,dr']$ son idénticos en ambos canales, al dividir las Ecuaciones~\ref{eq:pmol} y \ref{eq:paer} se cancelan, quedando directamente la razón de retrodispersión \cite{weitkamp2005}
+\noindent donde $K_{mol}$ y $K_{aer}$ reúnen los factores independientes del rango. Como la función de solapamiento $O(r)$ y el término de extinción $\exp[-2\int_0^{r}\alpha\,dr']$ son idénticos en ambos canales, siempre que el diseño de recepción respete la igualdad de caminos en ambos, al dividir las Ecuaciones~\ref{eq:pmol} y \ref{eq:paer} se cancelan, quedando directamente la razón de retrodispersión \cite{weitkamp2005}
 
 \begin{equation}
   \Re(r) = \frac{\beta_{aer}(r)}{\beta_{mol}(r)}
@@ -94,7 +94,7 @@ recupera además $\alpha_{aer}$ de forma independiente, de modo que el HSRL mide
       \label{fig:principio_canales}
 \end{figure}
 
-La Figura~\ref{fig:principio_canales} sintetiza el principio de medición del HSRL mediante la comparación de dos canales de recepción. El haz láser se emite hacia la atmósfera, donde es dispersado tanto por las moléculas del aire como por las partículas (nubes o aerosoles); el telescopio colecta la luz retrodispersada, que contiene la contribución conjunta de ambos tipos de dispersores. El canal elástico (centro) registra la señal total, suma de la dispersión de partículas y de moléculas. El canal de alta resolción espectral HSR (derecha), en cambio, incorpora un filtro de absorción que suprime la componente de partículas y deja pasar esencialmente la señal molecular.
+La Figura~\ref{fig:principio_canales} sintetiza el principio de medición del HSRL mediante la comparación de dos canales de recepción. El haz láser se emite hacia la atmósfera, donde es dispersado tanto por las moléculas del aire como por las partículas (nubes o aerosoles); el telescopio colecta la luz retrodispersada, que contiene la contribución conjunta de ambos tipos de dispersores. El canal elástico (centro) registra la señal total, suma de la dispersión de partículas y de moléculas. El canal de alta resolución espectral HSR (derecha), en cambio, incorpora un filtro de absorción que suprime la componente de partículas y deja pasar esencialmente la señal molecular.
 
 \section{Absorción molecular de iodo como filtro de referencia}
 \label{sec:absorcion_iodo}

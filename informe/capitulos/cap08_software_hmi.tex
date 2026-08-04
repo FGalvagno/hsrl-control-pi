@@ -16,7 +16,7 @@ Para garantizar la operabilidad, confiabilidad y seguridad del sistema, se estab
 
 \begin{itemize}
     \item Visualización continua del estado operativo de sintonización (sintonizando, bloqueado en longitud de onda, fuera de rango o error), así como el despliegue gráfico de las señales adquiridas por los detectores de pico ($P_+$ y $P_-$) y el valor de salida del actuador de temperatura $T(k)$.
-    \item Permitir al usuario modificar dinámicamente los parámetros del lazo de control , enviar (\emph{setpoints}), seleccionar modos de operación (Manual / Automático) y enviar comandos de control a la placa de control.
+    \item Permitir al usuario modificar dinámicamente los parámetros del lazo de control, enviar \emph{setpoints}, seleccionar modos de operación (Manual / Automático) y enviar comandos de control a la placa de control.
     \item Notificación inmediata y clara ante desvíos de los parámetros de sintonización, pérdidas de señal pulsada, fallas de comunicación o sobrepasos de umbrales en los fotodetectores.
     \item Almacenamiento periódico de la telemetría del sistema y eventos en archivos de registro (\emph{log files}) para su posterior análisis y diagnóstico.
 \end{itemize}
@@ -26,7 +26,7 @@ Si bien no es requisito utilizar una norma puntual, se considera como una buena 
 \section{Principios de la norma ISA-101}
 \label{sec:isa101}
 
-La norma ANSI/ISA-101.01-2015 (\emph{Human Machine Interfaces for Process Automation Systems}) establece directrices de diseño orientadas a maximizar la conciencia situacional (\emph{situation awareness}) del operador, reducir el tiempo de respuesta ante eventos anómalos y minimizar la fatiga visual. Para la implementación de la HMI del sistema HSRL se adoptaron los siguientes principios fundamentales de la norma \cite{isa101}
+La norma ANSI/ISA-101.01-2015 (\emph{Human Machine Interfaces for Process Automation Systems}) establece directrices de diseño orientadas a maximizar la conciencia situacional (\emph{situation awareness}) del operador, reducir el tiempo de respuesta ante eventos anómalos y minimizar la fatiga visual. Para la implementación de la HMI del sistema HSRL se adoptaron los siguientes principios fundamentales de la norma \cite{isa101}:
 
 \begin{enumerate}
     \item \textbf{Filosofía de color simplificada y funcional:} se emplean fondos neutros en tonos de gris claro para los paneles y ventanas principales, evitando contrastes elevados que generen cansancio visual durante jornadas prolongadas de medición. El uso de colores vivos se reserva exclusivamente para la representación de estados de alarma o advertencias (rojo para fallas críticas, amarillo/ámbar para advertencias y verde o gris neutro para estados normales de operación).
@@ -41,7 +41,7 @@ La norma ANSI/ISA-101.01-2015 (\emph{Human Machine Interfaces for Process Automa
 \section{Alarmas del sistema}
 \label{sec:alarmas}
 
-La gestión de alarmas se diseñó siguiendo los principios de la norma ANSI/ISA-18.2 (\emph{Management of Alarm Systems for the Process Industries}). El objetivo es garantizar que cada alarma presentada al operador responda a una condición anómala real que requiera una acción o toma de decisión consciente, evitando el fenómeno de desensibilización por saturación de alarmas (\emph{alarm flooding}). \cite{isa182}
+La gestión de alarmas se diseñó siguiendo los principios de la norma ANSI/ISA-18.2 (\emph{Management of Alarm Systems for the Process Industries}). El objetivo es garantizar que cada alarma presentada al operador responda a una condición anómala real que requiera una acción o toma de decisión consciente, evitando el fenómeno de desensibilización por saturación de alarmas (\emph{alarm flooding}) \cite{isa182}.
 
 Las alarmas de la HMI se categorizan en dos niveles de prioridad:
 
@@ -75,7 +75,7 @@ Se implementó la HMI en Python, con Tkinter para la interfaz gráfica. El códi
     \label{fig:hmiopus}
 \end{figure}
 
-La base de los módulos \texttt{hmi.py}, \texttt{serie.py} y \texttt{telemetria.py} fueron creados a partir del uso del modelo de IA Claude Opus 4.7 \cite{claudeopus47}, con la consigna ``crear HMI a partir de la imagen de borrador proporcionado. Cada comando de la recepción mediante pySerial debe interactuar con el \emph{firmware} proporcionado con sus respectivos botones y campos de E/S y debes de loggear el estado del equipo a través de las líneas de diagnóstico del mismo''. Luego fueron modificados y adaptados según la necesidad del proyecto. Los archivos proporcionados de referencia para el modelo fueron el borrador de la Figura \ref{fig:inks} y los archivos \emph{hsrl-control.c} y \emph{config.h}, junto con el registro de la terminal durante 40 ciclos de adquisición.
+La base de los módulos \texttt{hmi.py}, \texttt{serie.py} y \texttt{telemetria.py} fue creada a partir del uso del modelo de IA Claude Opus 4.7 \cite{claudeopus47}, con la consigna ``crear HMI a partir de la imagen de borrador proporcionado. Cada comando de la recepción mediante pySerial debe interactuar con el \emph{firmware} proporcionado con sus respectivos botones y campos de E/S y debes de loggear el estado del equipo a través de las líneas de diagnóstico del mismo''. Luego fueron modificados y adaptados según la necesidad del proyecto. Los archivos proporcionados de referencia para el modelo fueron el borrador de la Figura \ref{fig:inks} y los archivos \emph{hsrl-control.c} y \emph{config.h}, junto con el registro de la terminal durante 40 ciclos de adquisición.
 
 \begin{figure}[htbp]
 \centering
@@ -108,7 +108,7 @@ Para centralizar los datos del proceso se utiliza la clase \texttt{ProcessData}.
 \section{Puerto serie y concurrencia}
 \label{sec:hmi-concurrencia}
 
-Tkinter impone que todo acceso a los componentes gráficos deben ocurrir desde el hilo que ejecuta el bucle de eventos (invocado por \texttt{hmi.py}). Al mismo tiempo, la lectura del puerto serie debe ser continua para no perder datos. La estructura adoptada, ilustrada en la Figura~\ref{fig:hmi-datos}, resuelve ambas restricciones.
+Tkinter impone que todo acceso a los componentes gráficos debe ocurrir desde el hilo que ejecuta el bucle de eventos (invocado por \texttt{hmi.py}). Al mismo tiempo, la lectura del puerto serie debe ser continua para no perder datos. La estructura adoptada, ilustrada en la Figura~\ref{fig:hmi-datos}, resuelve ambas restricciones.
 
 \begin{figure}[htbp]
 \centering
@@ -124,7 +124,7 @@ Tkinter impone que todo acceso a los componentes gráficos deben ocurrir desde e
 \end{itemize}
 
 
-Cuando no hay bytes disponibles, el hilo secundario duerme $5$\,ms y cuando directamente no hay puerto abierto, la pausa sube a $50$\,ms. Esta implementación es para evitar consumir recursos innecesariamente cuando no existan datos por leer. Las fallas de \texttt{pyserial} se traducen dentro de \texttt{serie.py} a una excepción propia, \texttt{SerialLinkError} 
+Cuando no hay bytes disponibles, el hilo secundario duerme $5$\,ms y cuando directamente no hay puerto abierto, la pausa sube a $50$\,ms. Esta implementación es para evitar consumir recursos innecesariamente cuando no existan datos por leer. Las fallas de \texttt{pyserial} se traducen dentro de \texttt{serie.py} a una excepción propia, \texttt{SerialLinkError}.
 
 \section{Lectura de datos del proceso}
 \label{sec:hmi-telemetria}
@@ -149,9 +149,9 @@ data.heater_measured = _to_float(fields.get("heater_real", ""), data.heater_meas
 data.lock_active     = _to_bool(fields.get("lock_activo", ""), data.lock_active)
 \end{lstlisting}
 
-La separación en dos etapas hace que el resto de la función no dependa del orden de las columnas, y de ahí se consigue que el \emph{firmware} puede agregar columnas sin romper la interfaz.
+La separación en dos etapas hace que el resto de la función no dependa del orden de las columnas, y de ahí se consigue que el \emph{firmware} pueda agregar columnas sin romper la interfaz.
 
-Las respuestas a comandos puntuales tales como consulta al \emph{seeder}, diagnóstico, bloqueo y desbloqueo, verificación de escritura o ecos de \texttt{A} y \texttt{E} no forman parte del ciclo del ciclo de medición y llegan como texto libre. La función \texttt{parse\_line()} las resuelve como condiciones excluyentes, cada una con su retorno inmediato:
+Las respuestas a comandos puntuales tales como consulta al \emph{seeder}, diagnóstico, bloqueo y desbloqueo, verificación de escritura o ecos de \texttt{A} y \texttt{E} no forman parte del ciclo de medición y llegan como texto libre. La función \texttt{parse\_line()} las resuelve como condiciones excluyentes, cada una con su retorno inmediato:
 
 \newpage
 \begin{lstlisting}[language=Python,basicstyle=\ttfamily\footnotesize,
@@ -189,7 +189,7 @@ if self.min_p_plus == 0.0 or self.p_plus < self.min_p_plus:
 
 Sólo se consideran los valores obtenidos en ciclos de barrido.
 
-El segundo es \texttt{clear\_seeder\_state()}, que vuelve la interfaz a los valores de inicio y la misma se llama al cerrar el puerto serie. Sin puerto conectado, no existe certeza sobre la condición está del \emph{seeder}, por lo que mostrar valores antiguos podría inducir a error al operador.
+El segundo es \texttt{clear\_seeder\_state()}, que vuelve la interfaz a los valores de inicio y la misma se llama al cerrar el puerto serie. Sin puerto conectado, no existe certeza sobre la condición actual del \emph{seeder}, por lo que mostrar valores antiguos podría inducir a error al operador.
 
 
 \subsection{Representación gráfica de valores medidos}
@@ -198,7 +198,7 @@ El gráfico central de puntos de dispersión presenta $P_+$ y $P_-$ en función 
 
 Ambos ejes tienen límites fijos. El eje de ordenadas cubre el rango completo del conversor del microcontrolador, de $0$ a $3{,}3$\,V y el de abscisas cubre el rango de seguridad del calentador, $[h_{\min}, h_{\max}]$.
 
-El costo de esta decisión es que los puntos fuera del rango de seguridad no se dibujan. Esta condición se consideró aceptable puesto que el \emph{firmware} no permite que el punto de consigna permanezca fuera de ese rango: la protección descripta en la Sección~\ref{sec:fw-control} lo devuelve al un valor seguro, de modo que un dato fuera del eje corresponde a una condición transitoria que la banda de alarmas señala.
+El costo de esta decisión es que los puntos fuera del rango de seguridad no se dibujan. Esta condición se consideró aceptable puesto que el \emph{firmware} no permite que el punto de consigna permanezca fuera de ese rango: la protección descripta en la Sección~\ref{sec:fw-control} lo devuelve a un valor seguro, de modo que un dato fuera del eje corresponde a una condición transitoria que la banda de alarmas señala.
 
 \section{Gestión de alarmas}
 \label{sec:hmi-alarmas}
@@ -240,7 +240,7 @@ Además de la banda, la barra superior presenta cuatro indicadores permanentes (
 
 \subsection{Fundamento}
 
-La búsqueda del punto de operación descripta en la Sección~\ref{sec:fw-principio} es un procedimiento de varios pasos que el operador puede ejecutar a mano. Automatizarlo reduce el tiempo de puesta en marcha y elimina una fuente de error, pero plantea la cuestión de donde realizar la implementación.
+La búsqueda del punto de operación descripta en la Sección~\ref{sec:fw-principio} es un procedimiento de varios pasos que el operador puede ejecutar a mano. Automatizarlo reduce el tiempo de puesta en marcha y elimina una fuente de error, pero plantea la cuestión de dónde realizar la implementación.
 
 La decisión fue implementarlo en la interfaz y no en el \emph{firmware}, por dos razones. La primera es que la secuencia es una \emph{política} y no un \emph{mecanismo}: depende de criterios que pueden ajustarse con la experiencia de operación, y modificarla no debería requerir recompilar y reprogramar el microcontrolador. La segunda es que la secuencia se construye enteramente con comandos que el \emph{firmware} ya expone, de modo que su implementación en la interfaz no agrega superficie de falla al componente crítico.
 
@@ -276,4 +276,4 @@ Cada ejecución genera dos archivos en el directorio \texttt{logs/}, ambos nombr
 \item \texttt{hsrl-AAAA-MM-DD\_hh-mm-ss.csv}: \textit{logging de proceso} una fila por ciclo de control. Su destino es realizar análisis de los datos.
 \end{itemize}
 
-El archivo CSV se construye anteponiendo la marca temporal y escribiendo a continuación el contenido de la línea \texttt{[log]} tal como llegó sin reformatear. El encabezado se toma de los nombres que el \emph{firmware} anunció en \texttt{[logcols]}. El archivo CSV se crea recién con la primera fila, de manera que abrir la interfaz sin conectar no deja archivos vacíos acumulándose en el directorio. Además cada fila se escribe en memoria de la PC inmediatamente después de ser registrada, por lo tanto si el programa se interrumpe no se pierden los ciclos ya registrados.
+El archivo CSV se construye anteponiendo la marca temporal y escribiendo a continuación el contenido de la línea \texttt{[log]} tal como llegó sin reformatear. El encabezado se toma de los nombres que el \emph{firmware} anunció en \texttt{[logcols]}. El archivo CSV se crea recién con la primera fila, de manera que abrir la interfaz sin conectar no deja archivos vacíos acumulándose en el directorio. Además cada fila se vuelca a disco inmediatamente después de ser registrada, por lo tanto si el programa se interrumpe no se pierden los ciclos ya registrados.

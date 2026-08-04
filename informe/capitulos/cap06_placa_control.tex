@@ -7,7 +7,7 @@ El diseño del PCB resultó necesario para completar la validación del circuito
 \section{Circuito esquemático}
 \label{sec:esquematico}
 
-El circuito esquemático final integra los circuitos discutidos en el Capítulo \ref{cap:diseno_deteccion_picos} y \ref{cap:micro}. El esquemático desarrollado se divide en dos partes, el circuito analógico de detección y el circuito digital de comunicación y detección de trigger. Se omitió incluir en la placa elementos como reguladores de tensión, indicadores LED o pulsadores, debido a que para un primer prototipo se buscaba la simplificación y la validación de la sección analógica y de comunicación con el \emph{seeder}. Una versión completa del circuito esquemático se encuentra en el Anexo \ref{anexo:esquematico}.
+El circuito esquemático final integra los circuitos discutidos en los Capítulos \ref{cap:diseno_deteccion_picos} y \ref{cap:micro}. El esquemático desarrollado se divide en dos partes, el circuito analógico de detección y el circuito digital de comunicación y detección de trigger. Se omitió incluir en la placa elementos como reguladores de tensión, indicadores LED o pulsadores, debido a que para un primer prototipo se buscaba la simplificación y la validación de la sección analógica y de comunicación con el \emph{seeder}. Una versión completa del circuito esquemático se encuentra en el Anexo \ref{anexo:esquematico}.
 
 \subsection{Detector de Picos}
 
@@ -85,7 +85,7 @@ La estrategia de trazado se organizó en torno a tres criterios principales.
 
 En primer lugar, la mitigación de la capacidad parásita en los nodos sensibles. Los amplificadores realimentados por corriente presentan una alta sensibilidad a la capacidad presente en el nodo inversor: una capacidad parásita $C_p$ en dicho nodo introduce un polo adicional en el lazo de realimentación que reduce el margen de fase y favorece la aparición de oscilaciones como las registradas en la Figura \ref{fig:oscilaciones}. Por este motivo se practicaron recortes (\emph{cutouts}) del plano de masa en ambas capas por debajo de los pines de entrada y de la red de realimentación de cada amplificador, y las resistencias $R_f$ de realimentación se ubicaron directamente entre el pin de salida y el pin $-IN$, sin vías intermedias que agreguen inductancia y capacidad al lazo.
 
-En segundo lugar, la reducción de la impedancia del camino de retorno \cite{power}. Ambas capas se rellenaron con planos de masa vinculados entre sí mediante vías de costura (\emph{stitching}) distribuidas a lo largo de la placa, de manera de ofrecer un camino de retorno de baja inductancia inmediatamente por debajo de cada pista de señal y evitar así lazos de corriente.\cite{power}
+En segundo lugar, la reducción de la impedancia del camino de retorno \cite{power}. Ambas capas se rellenaron con planos de masa vinculados entre sí mediante vías de costura (\emph{stitching}) distribuidas a lo largo de la placa, de manera de ofrecer un camino de retorno de baja inductancia inmediatamente por debajo de cada pista de señal y evitar así lazos de corriente \cite{power}.
 
 En tercer lugar, el desacople de la alimentación. Se dispusieron capacitores cerámicos de $100\,\text{nF}$ en encapsulado 1206 adyacentes a los pines de alimentación de cada integrado, con vía directa al plano de masa, acompañados de capacitores de tantalio de mayor valor para el desacople de baja frecuencia,
 según lo recomendado en la hoja de datos del AD8004 \cite{ad8004_ds}.
@@ -110,7 +110,7 @@ La Figura \ref{fig:ruteo} muestra la vista del ruteo de la placa donde se aplica
 \end{figure}
 
 Finalizado el trazado, se verificó el diseño mediante la herramienta de comprobación de reglas de diseño (DRC) de KiCad, contrastando además las restricciones de fabricación con las capacidades del proveedor seleccionado. Los
-archivos Gerber y de perforado se generaron a partir del proyecto verificado. En el Anexo \ref{anexo:pcb} se incluyen las vistas completas de ambas capas de cobre, la serigrafía y el esquematico correspondiente.
+archivos Gerber y de perforado se generaron a partir del proyecto verificado. En el Anexo \ref{anexo:pcb} se incluyen las vistas completas de ambas capas de cobre, la serigrafía y el esquemático correspondiente.
 
 \section{Validación experimental de la placa}
 \label{sec:validacion_placa}
@@ -139,7 +139,7 @@ Al excitar el detector con un pulso proveniente del fotodetector, se comprueba e
     \label{fig:respuestapico}
 \end{figure}
 
-Se observa en la Figura \ref{fig:respuestapico} que el pico obtenido tiene una ganancia. Esto es esperable, puesto que en la entrada del detector de picos se encuentra un amplificador operacional con gananacia de $G_1 = 2$.
+Se observa en la Figura \ref{fig:respuestapico} que el pico obtenido tiene una ganancia. Esto es esperable, puesto que en la entrada del detector de picos se encuentra un amplificador operacional con ganancia de $G_1 = 2$.
 
 \subsection{Linealidad del detector}
 

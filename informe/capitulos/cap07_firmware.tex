@@ -13,7 +13,7 @@
 
 Tal como se explicó en el Capítulo \ref{cap:introduccion}, el sistema de control de longitud de onda del \emph{seeder} del lidar HSRL fue originalmente implementado como un programa de PC, \texttt{wvcnt\_lec.cpp}, que adquiría las señales del detector a través de un osciloscopio Tektronix vinculado por USB-VISA y comandaba el \emph{seeder} por un puerto serie.
 
-El \emph{firmware} documentado en este capítulo, traslada la totalidad del lazo a un microcontrolador Raspberry Pi Pico 2 (RP2350). 
+El \emph{firmware} documentado en este capítulo traslada la totalidad del lazo a un microcontrolador Raspberry Pi Pico 2 (RP2350). 
 
 \section{Alcance de la funcionalidad del Firmware}
 \label{sec:fw-alcance}
@@ -70,7 +70,7 @@ El conexionado concreto se resume en la tabla~\ref{tab:fw-pines}. Todas las asig
 
 \subsection{Descomposición en módulos}
 
-El \emph{firmware} se organiza en cuatro archivos más un encabezado de configuración, según se ilustra en la figura~\ref{fig:fw-modulos}. El criterio de partición es funcional puesto cada módulo encapsula una función determinada. El módulo \texttt{control} en particular no conoce ni el conversor ni el puerto serie: recibe dos valores en punto flotante y devuelve incrementos, lo que lo hace verificable de forma aislada.
+El \emph{firmware} se organiza en cuatro archivos más un encabezado de configuración, según se ilustra en la figura~\ref{fig:fw-modulos}. El criterio de partición es funcional puesto que cada módulo encapsula una función determinada. El módulo \texttt{control} en particular no conoce ni el conversor ni el puerto serie: recibe dos valores en punto flotante y devuelve incrementos, lo que lo hace verificable de forma aislada.
 
 \begin{figure}[htbp]
 \centering
@@ -147,7 +147,7 @@ El sistema permite fijar en caliente el número $n$ de picos a promediar por can
 
 \subsection{Espera de estabilización}
 
-El calentador de cavidad del laser \emph{seeder} presenta una constante de tiempo térmica no despreciable frente al período del ciclo. El \emph{setpoint} se escribe al final de un ciclo, pero la temperatura efectiva de la cavidad tarda en alcanzarlo. Medir inmediatamente después de la escritura equivaldría a muestrear sobre un transitorio, con el resultado de que el lazo reaccionaría a su propia dinámica de actuación en lugar de a la del proceso.
+El calentador de cavidad del láser \emph{seeder} presenta una constante de tiempo térmica no despreciable frente al período del ciclo. El \emph{setpoint} se escribe al final de un ciclo, pero la temperatura efectiva de la cavidad tarda en alcanzarlo. Medir inmediatamente después de la escritura equivaldría a muestrear sobre un transitorio, con el resultado de que el lazo reaccionaría a su propia dinámica de actuación en lugar de a la del proceso.
 
 Por ese motivo el ciclo comienza con una pausa configurable, \texttt{espera\_ms} (comando \texttt{E}), de valor por defecto $10$\,s y tope $600$\,s. Durante la pausa el segundo núcleo continúa atendiendo comandos, de modo que el propio parámetro puede modificarse sin esperar a que el ciclo concluya.
 
@@ -196,11 +196,11 @@ La elección de una banda \emph{multiplicativa} es debido a que el cociente $\ma
 
 \subsection{Protección de rango}
 
-Antes de calcular el incremento o decremento de temperatura de cavidad, cada ciclo verifica que el \emph{setpoint} permanezca dentro del intervalo $[h_{\min}, h_{\max}]$ declarado en \texttt{config.h} (por defecto $62{,}5$--$63{,}1$\,\textdegree C). Si lo excede, el controlador fuerza el modo de barrido en dirección opuesta al actual. Si el sistema esta sintonizado, anula la bandera \texttt{lock\_activo}, volviendo al modo de barrido.
+Antes de calcular el incremento o decremento de temperatura de cavidad, cada ciclo verifica que el \emph{setpoint} permanezca dentro del intervalo $[h_{\min}, h_{\max}]$ declarado en \texttt{config.h} (por defecto $62{,}5$--$63{,}1$\,\textdegree C). Si lo excede, el controlador fuerza el modo de barrido en dirección opuesta al actual. Si el sistema está sintonizado, anula la bandera \texttt{lock\_activo}, volviendo al modo de barrido.
 
 \subsection{Estructura del ciclo}
 
-La Figura \ref{fig:fw-ciclo} sintetiza el ciclo completo que ejecuta \texttt{core0}. Primero el sistema copia \texttt{n\_prom} y \texttt{espera\_ms} en sección crítica, debido a que estas variables son escritas por el \texttt{core1} pero accedidas por el \texttt{core0}. El uso de una sección crítica \cite{rpisdk} permite evitar los problemas típicos de concurrencia al acceder simultáneamente a una variable, como condición de carrera o \textit{race\ condition}. Luego el ciclo espera el tiempo de estabilización (de ser necesario), captura los pulsos del ADC ante una entrada de SYNC (señal de sincronismo del laser \emph{host}), los normaliza y escala para posteriormente aplicar la ley de control y enviar los \emph{setpoints} al \emph{seeder}.
+La Figura \ref{fig:fw-ciclo} sintetiza el ciclo completo que ejecuta \texttt{core0}. Primero el sistema copia \texttt{n\_prom} y \texttt{espera\_ms} en sección crítica, debido a que estas variables son escritas por el \texttt{core1} pero accedidas por el \texttt{core0}. El uso de una sección crítica \cite{rpisdk} permite evitar los problemas típicos de concurrencia al acceder simultáneamente a una variable, como condición de carrera o \textit{race\ condition}. Luego el ciclo espera el tiempo de estabilización (de ser necesario), captura los pulsos del ADC ante una entrada de SYNC (señal de sincronismo del láser \emph{host}), los normaliza y escala para posteriormente aplicar la ley de control y enviar los \emph{setpoints} al \emph{seeder}.
 
 Finalmente, el microcontrolador confirma los valores escritos en el \emph{seeder} y al terminar el ciclo envía todas las variables consultadas anteriormente en la terminal, con la etiqueta \texttt{log}.
 
@@ -243,7 +243,7 @@ El \emph{seeder} Continuum expone un conjunto de comandos de texto de sintaxis s
 
 El \emph{seeder} inicia siempre con los comandos de configuración protegidos. Esto quiere decir que sin habilitación previa, las escrituras de temperatura y de tensión del piezoeléctrico se descartan. El \emph{firmware} envía la contraseña durante la inicialización del mismo, incluso antes de esperar a que se establezca la consola USB, y reintenta hasta \texttt{UNLOCK\_MAX\_INTENTOS} $=5$ veces con \texttt{UNLOCK\_REINTENTO\_MS} $=2000$\,ms de separación, porque el \emph{seeder} puede encontrarse todavía en su propia secuencia de arranque cuando el microcontrolador ya está operativo.
 
-Durante esta etapa no hay consola disponible, de modo que los mensajes de diagnóstico se perderían. Como única señal de vida se utiliza el LED de la placa, encendido de forma continua mientras se cursa un intento y parpadeando durante la espera entre intentos, lo que permite distinguir a simple vista el estado actual de la placa. El resultado se almacena y se informa por consola una vez que ésta se establece conexión con la interfaz serie del \emph{seeder}.
+Durante esta etapa no hay consola disponible, de modo que los mensajes de diagnóstico se perderían. Como única señal de vida se utiliza el LED de la placa, encendido de forma continua mientras se cursa un intento y parpadeando durante la espera entre intentos, lo que permite distinguir a simple vista el estado actual de la placa. El resultado se almacena y se informa por consola una vez que se establece conexión con la interfaz serie del \emph{seeder}.
 
 Un detalle de implementación merece mención por lo difícil que resultó de diagnosticar. La secuencia de habilitación del \emph{seeder} debe comenzar enviando \texttt{*CLS}, comando cuyo efecto útil es evitar que el \emph{seeder} detecte como byte de datos algún flanco ocurrido al configurar el UART. Sin este comando, la habilitación de los comandos protegidos no era posible.
 
@@ -288,7 +288,7 @@ Adicionalmente, el valor de $n$ y el tiempo de espera se copian a variables loca
 
 \subsection{Consola de comandos}
 
-La consola distingue dos familias de comandos. Los de modo y consulta constan de un único carácter y se ejecutan de inmediato. Los comandos de parámetro constan de una letra seguida de un valor y se acumulan en un buffer hasta recibir el fin de línea. Los comandos posibles se encuentran detallados en la Tabla \ref{tab:fw-params}
+La consola distingue dos familias de comandos. Los de modo y consulta constan de un único carácter y se ejecutan de inmediato. Los comandos de parámetro constan de una letra seguida de un valor y se acumulan en un buffer hasta recibir el fin de línea. Los comandos posibles se encuentran detallados en la Tabla \ref{tab:fw-params}.
 
 \begin{table}[htbp]
 \centering
@@ -312,7 +312,7 @@ La consola distingue dos familias de comandos. Los de modo y consulta constan de
 \label{tab:fw-params}
 \end{table}
 
-Los comandos \texttt{A} y \texttt{E} son los únicos que aplican saturación sobre el valor recibido para limitar rangos; el resto se acepta tal cual, delegando la validación de rango en el \emph{seeder}, que responde con el código $-222$ ante un dato fuera de rango. Nótese que la tensión del piezoeléctrico se escribe pero su paso permanece en cero por que para esta versión del software la totalidad de la sintonización se realiza por temperatura.
+Los comandos \texttt{A} y \texttt{E} son los únicos que aplican saturación sobre el valor recibido para limitar rangos; el resto se acepta tal cual, delegando la validación de rango en el \emph{seeder}, que responde con el código $-222$ ante un dato fuera de rango. Nótese que la tensión del piezoeléctrico se escribe pero su paso permanece en cero porque para esta versión del software la totalidad de la sintonización se realiza por temperatura.
 
 \subsection{Registro de variables del sistema}
 \label{sec:fw-log}
